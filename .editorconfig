@@ -155,3 +155,6 @@ dotnet_diagnostic.IDE0058.severity = none
 
 [tests/**/*.cs]
 dotnet_diagnostic.CA1515.severity = none
+
+[**/ViewModels/*.cs]
+dotnet_diagnostic.CA1822.severity = none

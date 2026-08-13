@@ -3,16 +3,21 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
+using Alfred.App.Preferences;
 
 namespace Alfred.App.ViewModels;
 
 public sealed class ShellViewModel : Observable
 {
     private readonly ObservableCollection<SidebarItem> _items = [];
+    private readonly UserPreferences _preferences;
     private SidebarItem _selectedItem;
 
-    public ShellViewModel()
+    public ShellViewModel(UserPreferences preferences)
     {
+        _preferences = preferences;
+        Settings = new SettingsViewModel(preferences);
+
         Add("overview", "Today", "TodayIcon", 3);
         Add("overview", "Upcoming", "UpcomingIcon", 5);
 
@@ -37,10 +42,40 @@ public sealed class ShellViewModel : Observable
 
     public ICollectionView Items { get; }
 
+    public SettingsViewModel Settings { get; }
+
     public SidebarItem SelectedItem
     {
         get => _selectedItem;
-        set => Set(ref _selectedItem, value);
+        set
+        {
+            if (Set(ref _selectedItem, value))
+            {
+                IsSettingsOpen = false;
+            }
+        }
+    }
+
+    public bool IsSettingsOpen
+    {
+        get;
+        set => Set(ref field, value);
+    }
+
+    public bool IsSidebarExpanded
+    {
+        get => _preferences.IsSidebarExpanded;
+        set
+        {
+            if (_preferences.IsSidebarExpanded == value)
+            {
+                return;
+            }
+
+            _preferences.IsSidebarExpanded = value;
+            PreferencesStore.Save(_preferences);
+            Raise();
+        }
     }
 
     private void Add(string group, string title, string iconKey, int count)
@@ -49,3 +84,4 @@ public sealed class ShellViewModel : Observable
         _items.Add(new SidebarItem(group, title, icon) { Count = count });
     }
 }
+

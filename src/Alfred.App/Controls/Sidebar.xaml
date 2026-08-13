@@ -1,13 +1,50 @@
 <UserControl x:Class="Alfred.App.Controls.Sidebar"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <ListBox Style="{StaticResource SidebarList}"
-           ItemsSource="{Binding Items}"
-           SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-           ItemTemplate="{StaticResource SidebarRowContent}"
-           Margin="{StaticResource SidebarInset}">
-    <ListBox.GroupStyle>
-      <GroupStyle ContainerStyle="{StaticResource SidebarGroup}" />
-    </ListBox.GroupStyle>
-  </ListBox>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <ListBox Grid.Row="0"
+             Style="{StaticResource SidebarList}"
+             ItemsSource="{Binding Items}"
+             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+             ItemTemplate="{StaticResource SidebarRowContent}"
+             Margin="{StaticResource SidebarInset}">
+      <ListBox.GroupStyle>
+        <GroupStyle ContainerStyle="{StaticResource SidebarGroup}" />
+      </ListBox.GroupStyle>
+    </ListBox>
+
+    <Button Grid.Row="1"
+            Style="{StaticResource SidebarFooterRow}"
+            Margin="8,0,8,10"
+            Click="OnSettingsClick">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Path Grid.Column="0"
+              Data="{StaticResource SettingsGlyph}"
+              Fill="{DynamicResource ChromeGlyph}"
+              Width="18"
+              Height="18"
+              Stretch="Uniform"
+              Margin="8,0,0,0"
+              VerticalAlignment="Center" />
+        <TextBlock Grid.Column="1"
+                   Text="Settings"
+                   Margin="10,0,8,0"
+                   VerticalAlignment="Center"
+                   FontFamily="{StaticResource AppFont}"
+                   FontSize="{StaticResource BodyFontSize}"
+                   FontWeight="SemiBold"
+                   Foreground="{DynamicResource SidebarText}" />
+      </Grid>
+    </Button>
+
+  </Grid>
 </UserControl>

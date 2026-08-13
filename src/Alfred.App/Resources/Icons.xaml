@@ -4,6 +4,65 @@
                     xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
                     mc:Ignorable="po">
 
+  <GeometryGroup x:Key="SidebarGlyph" FillRule="Nonzero" po:Freeze="True">
+    <CombinedGeometry GeometryCombineMode="Exclude">
+      <CombinedGeometry.Geometry1>
+        <RectangleGeometry Rect="2.6,4.6,18.8,14.8" RadiusX="3.4" RadiusY="3.4" />
+      </CombinedGeometry.Geometry1>
+      <CombinedGeometry.Geometry2>
+        <RectangleGeometry Rect="4.2,6.2,15.6,11.6" RadiusX="2.1" RadiusY="2.1" />
+      </CombinedGeometry.Geometry2>
+    </CombinedGeometry>
+    <RectangleGeometry Rect="4.2,6.2,4.4,11.6" RadiusX="1.6" RadiusY="1.6" />
+  </GeometryGroup>
+
+  <CombinedGeometry x:Key="SettingsGlyph" GeometryCombineMode="Exclude" po:Freeze="True">
+    <CombinedGeometry.Geometry1>
+      <GeometryGroup FillRule="Nonzero">
+        <EllipseGeometry Center="12,12" RadiusX="7.1" RadiusY="7.1" />
+        <RectangleGeometry Rect="10.4,3.9,3.2,3.6" RadiusX="1.1" RadiusY="1.1" />
+        <RectangleGeometry Rect="10.4,3.9,3.2,3.6" RadiusX="1.1" RadiusY="1.1">
+          <RectangleGeometry.Transform>
+            <RotateTransform Angle="45" CenterX="12" CenterY="12" />
+          </RectangleGeometry.Transform>
+        </RectangleGeometry>
+        <RectangleGeometry Rect="10.4,3.9,3.2,3.6" RadiusX="1.1" RadiusY="1.1">
+          <RectangleGeometry.Transform>
+            <RotateTransform Angle="90" CenterX="12" CenterY="12" />
+          </RectangleGeometry.Transform>
+        </RectangleGeometry>
+        <RectangleGeometry Rect="10.4,3.9,3.2,3.6" RadiusX="1.1" RadiusY="1.1">
+          <RectangleGeometry.Transform>
+            <RotateTransform Angle="135" CenterX="12" CenterY="12" />
+          </RectangleGeometry.Transform>
+        </RectangleGeometry>
+        <RectangleGeometry Rect="10.4,3.9,3.2,3.6" RadiusX="1.1" RadiusY="1.1">
+          <RectangleGeometry.Transform>
+            <RotateTransform Angle="180" CenterX="12" CenterY="12" />
+          </RectangleGeometry.Transform>
+        </RectangleGeometry>
+        <RectangleGeometry Rect="10.4,3.9,3.2,3.6" RadiusX="1.1" RadiusY="1.1">
+          <RectangleGeometry.Transform>
+            <RotateTransform Angle="225" CenterX="12" CenterY="12" />
+          </RectangleGeometry.Transform>
+        </RectangleGeometry>
+        <RectangleGeometry Rect="10.4,3.9,3.2,3.6" RadiusX="1.1" RadiusY="1.1">
+          <RectangleGeometry.Transform>
+            <RotateTransform Angle="270" CenterX="12" CenterY="12" />
+          </RectangleGeometry.Transform>
+        </RectangleGeometry>
+        <RectangleGeometry Rect="10.4,3.9,3.2,3.6" RadiusX="1.1" RadiusY="1.1">
+          <RectangleGeometry.Transform>
+            <RotateTransform Angle="315" CenterX="12" CenterY="12" />
+          </RectangleGeometry.Transform>
+        </RectangleGeometry>
+      </GeometryGroup>
+    </CombinedGeometry.Geometry1>
+    <CombinedGeometry.Geometry2>
+      <EllipseGeometry Center="12,12" RadiusX="2.9" RadiusY="2.9" />
+    </CombinedGeometry.Geometry2>
+  </CombinedGeometry>
+
   <DrawingImage x:Key="TodayIcon" po:Freeze="True">
     <DrawingImage.Drawing>
       <DrawingGroup>

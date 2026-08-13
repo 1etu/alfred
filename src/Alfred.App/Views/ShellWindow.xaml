@@ -29,37 +29,118 @@
                         UseAeroCaptionButtons="False" />
   </shell:WindowChrome.WindowChrome>
 
+  <Window.Resources>
+    <DataTemplate x:Key="PlaceholderTemplate">
+      <views:PlaceholderView />
+    </DataTemplate>
+    <DataTemplate x:Key="SettingsTemplate">
+      <views:SettingsView />
+    </DataTemplate>
+  </Window.Resources>
+
   <Grid>
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto" />
       <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
 
-    <Border Grid.Column="0"
-            Width="{StaticResource SidebarWidth}"
-            Background="{DynamicResource SidebarBackground}">
-      <Grid>
+    <Border Grid.Column="0" ClipToBounds="True">
+      <Border.Style>
+        <Style TargetType="Border">
+          <Setter Property="Width" Value="{StaticResource SidebarWidth}" />
+          <Setter Property="Background" Value="{DynamicResource SidebarBackground}" />
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding Settings.IsGlassEnabled}" Value="True">
+              <Setter Property="Background" Value="{DynamicResource SidebarBackgroundGlass}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsSidebarExpanded}" Value="False">
+              <DataTrigger.EnterActions>
+                <BeginStoryboard>
+                  <Storyboard>
+                    <DoubleAnimation Storyboard.TargetProperty="Width" To="0" Duration="0:0:0.16">
+                      <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut" /></DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                  </Storyboard>
+                </BeginStoryboard>
+              </DataTrigger.EnterActions>
+              <DataTrigger.ExitActions>
+                <BeginStoryboard>
+                  <Storyboard>
+                    <DoubleAnimation Storyboard.TargetProperty="Width"
+                                     To="{StaticResource SidebarWidth}"
+                                     Duration="0:0:0.16">
+                      <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut" /></DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                  </Storyboard>
+                </BeginStoryboard>
+              </DataTrigger.ExitActions>
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </Border.Style>
+
+      <Grid Width="{StaticResource SidebarWidth}" HorizontalAlignment="Left">
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />
           <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
-        <Border Grid.Row="0" Height="{StaticResource TitleBarHeight}">
-          <controls:WindowButtons HorizontalAlignment="Left"
-                                  VerticalAlignment="Center"
-                                  Margin="20,0,0,0" />
-        </Border>
-
+        <Border Grid.Row="0" Height="{StaticResource TitleBarHeight}" />
         <controls:Sidebar Grid.Row="1" />
       </Grid>
     </Border>
 
     <Border Grid.Column="1"
-            Background="{DynamicResource ShellBackground}"
             BorderBrush="{DynamicResource Hairline}"
             BorderThickness="1,0,0,0">
-      <views:PlaceholderView />
+      <Border.Style>
+        <Style TargetType="Border">
+          <Setter Property="Background" Value="{DynamicResource ShellBackground}" />
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding Settings.IsGlassEnabled}" Value="True">
+              <Setter Property="Background" Value="{DynamicResource ShellBackgroundGlass}" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </Border.Style>
+
+      <ContentControl Content="{Binding}" Margin="0,44,0,0">
+        <ContentControl.Style>
+          <Style TargetType="ContentControl">
+            <Setter Property="ContentTemplate" Value="{StaticResource PlaceholderTemplate}" />
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding IsSettingsOpen}" Value="True">
+                <Setter Property="ContentTemplate" Value="{StaticResource SettingsTemplate}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </ContentControl.Style>
+      </ContentControl>
     </Border>
+
+    <StackPanel Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Orientation="Horizontal"
+                Height="{StaticResource TitleBarHeight}"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                Margin="20,0,0,0">
+
+      <controls:WindowButtons VerticalAlignment="Center" />
+
+      <Button Style="{StaticResource ChromeButton}"
+              Margin="18,0,0,0"
+              VerticalAlignment="Center"
+              ToolTip="Toggle sidebar"
+              shell:WindowChrome.IsHitTestVisibleInChrome="True"
+              Click="OnToggleSidebarClick">
+        <Path Data="{StaticResource SidebarGlyph}"
+              Fill="{DynamicResource ChromeGlyph}"
+              Width="17"
+              Height="17"
+              Stretch="Uniform" />
+      </Button>
+
+    </StackPanel>
 
   </Grid>
 </Window>

@@ -78,11 +78,38 @@
       <DataTrigger Binding="{Binding Count}" Value="0">
         <Setter TargetName="Badge" Property="Visibility" Value="Collapsed" />
       </DataTrigger>
+      <DataTrigger Binding="{Binding DataContext.Settings.ShowCounts, RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
+        <Setter TargetName="Badge" Property="Visibility" Value="Collapsed" />
+      </DataTrigger>
       <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
         <Setter TargetName="Badge" Property="Foreground" Value="{DynamicResource SidebarBadgeSelected}" />
       </DataTrigger>
     </DataTemplate.Triggers>
   </DataTemplate>
+
+  <Style x:Key="SidebarFooterRow" TargetType="Button">
+    <Setter Property="Height" Value="{StaticResource SidebarRowHeight}" />
+    <Setter Property="Focusable" Value="False" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="SnapsToDevicePixels" Value="True" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Border x:Name="Pill" Background="Transparent" CornerRadius="7" SnapsToDevicePixels="True">
+            <ContentPresenter VerticalAlignment="Center" />
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="Pill" Property="Background" Value="{DynamicResource SidebarRowHover}" />
+            </Trigger>
+            <DataTrigger Binding="{Binding IsSettingsOpen}" Value="True">
+              <Setter TargetName="Pill" Property="Background" Value="{DynamicResource SidebarRowSelected}" />
+            </DataTrigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
 
   <Style x:Key="SidebarGroup" TargetType="GroupItem">
     <Setter Property="Template">

@@ -18,6 +18,19 @@
   <SolidColorBrush x:Key="SidebarRowHover" Color="#0DFFFFFF" po:Freeze="True" />
   <SolidColorBrush x:Key="SidebarRowSelected" Color="#1AFFFFFF" po:Freeze="True" />
 
+  <SolidColorBrush x:Key="ShellBackgroundGlass" Color="#B821201E" po:Freeze="True" />
+  <SolidColorBrush x:Key="SidebarBackgroundGlass" Color="#8C1A1918" po:Freeze="True" />
+
+  <SolidColorBrush x:Key="CardBackground" Color="#282725" po:Freeze="True" />
+  <SolidColorBrush x:Key="ChromeGlyph" Color="#9A958E" po:Freeze="True" />
+
+  <SolidColorBrush x:Key="SwitchTrackOff" Color="#3D3B37" po:Freeze="True" />
+  <SolidColorBrush x:Key="SwitchTrackOn" Color="#30D158" po:Freeze="True" />
+  <SolidColorBrush x:Key="SwitchKnob" Color="#FFFFFF" po:Freeze="True" />
+
+  <SolidColorBrush x:Key="SegmentTrack" Color="#2B2A27" po:Freeze="True" />
+  <SolidColorBrush x:Key="SegmentSelected" Color="#403E3A" po:Freeze="True" />
+
   <SolidColorBrush x:Key="WindowButtonClose" Color="#FF5F57" po:Freeze="True" />
   <SolidColorBrush x:Key="WindowButtonMinimize" Color="#FEBC2E" po:Freeze="True" />
   <SolidColorBrush x:Key="WindowButtonZoom" Color="#28C840" po:Freeze="True" />

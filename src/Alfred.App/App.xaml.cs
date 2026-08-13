@@ -1,4 +1,5 @@
 using System.Windows;
+using Alfred.App.Preferences;
 using Alfred.App.Theming;
 using Alfred.App.ViewModels;
 using Alfred.App.Views;
@@ -10,11 +11,13 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
-        Theme.Apply(ThemeVariant.System);
+
+        UserPreferences preferences = PreferencesStore.Load();
+        Theme.Apply(Enum.TryParse(preferences.Theme, out ThemeVariant variant) ? variant : ThemeVariant.System);
 
         ShellWindow shell = new()
         {
-            DataContext = new ShellViewModel(),
+            DataContext = new ShellViewModel(preferences),
         };
 
         shell.Show();
