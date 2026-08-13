@@ -52,7 +52,7 @@ public sealed class BoardViewModel : Observable
 
     internal void Remove(BoardCard card)
     {
-        _vault.Data.Cards.Remove(card);
+        Recycler.Delete(_vault.Data, card);
         _vault.Save();
         Refresh();
     }

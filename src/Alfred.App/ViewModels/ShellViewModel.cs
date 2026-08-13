@@ -26,7 +26,7 @@ public sealed class ShellViewModel : Observable
         _preferences = preferences;
         Vault = vault;
         Shortcuts = shortcuts;
-        Settings = new SettingsViewModel(preferences);
+        Settings = new SettingsViewModel(preferences, shortcuts, vault);
 
         _factories = new Dictionary<string, Func<object>>
         {
@@ -40,6 +40,7 @@ public sealed class ShellViewModel : Observable
             ["Payments"] = () => new PaymentsViewModel(vault),
             ["Wish List"] = () => new WishesViewModel(vault),
             ["Meals"] = () => new MealsViewModel(vault),
+            ["Trash"] = () => new TrashViewModel(vault),
         };
 
         Add("overview", "Today", "TodayIcon");
@@ -52,6 +53,7 @@ public sealed class ShellViewModel : Observable
         Add("money", "Payments", "PaymentsIcon");
         Add("money", "Wish List", "WishListIcon");
         Add("life", "Meals", "MealsIcon");
+        Add("life", "Trash", "TrashIcon");
 
         Items = CollectionViewSource.GetDefaultView(_items);
         Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(SidebarItem.Group)));
@@ -74,8 +76,28 @@ public sealed class ShellViewModel : Observable
     public object CurrentContent
     {
         get => _currentContent;
-        private set => Set(ref _currentContent, value);
+        private set
+        {
+            if (Set(ref _currentContent, value))
+            {
+                Raise(nameof(ToolbarActions));
+                Raise(nameof(HasToolbar));
+                Raise(nameof(HasPrimaryAction));
+                Raise(nameof(PrimaryActionName));
+            }
+        }
     }
+
+    public IReadOnlyList<ToolbarAction>? ToolbarActions =>
+        (_currentContent as IToolbarHost)?.Actions;
+
+    public bool HasToolbar => ToolbarActions is { Count: > 0 };
+
+    public string? PrimaryActionName => (_currentContent as IToolbarHost)?.PrimaryActionName;
+
+    public bool HasPrimaryAction => PrimaryActionName is not null;
+
+    public void InvokePrimary() => (_currentContent as IToolbarHost)?.InvokePrimary();
 
     public SidebarItem SelectedItem
     {

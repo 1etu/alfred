@@ -60,6 +60,14 @@ public partial class ShellWindow : Window
         DesktopWindowManager.ApplyBackdrop(this, isGlass ? WindowBackdrop.Acrylic : WindowBackdrop.None);
     }
 
+    private void OnMagicPlus(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is ShellViewModel shell)
+        {
+            shell.InvokePrimary();
+        }
+    }
+
     private void OnToggleSidebarClick(object sender, RoutedEventArgs e)
     {
         if (DataContext is ShellViewModel shell)

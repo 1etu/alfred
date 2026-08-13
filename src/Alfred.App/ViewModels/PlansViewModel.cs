@@ -5,15 +5,31 @@ using Alfred.Core.Storage;
 
 namespace Alfred.App.ViewModels;
 
-public sealed class PlansViewModel : Observable
+public sealed class PlansViewModel : Observable, IToolbarHost
 {
     private readonly Vault _vault;
 
     public PlansViewModel(Vault vault)
     {
         _vault = vault;
+        Actions =
+        [
+            new ToolbarAction("Copy list", "CopyGlyph", CopyToClipboard),
+        ];
+
         Refresh();
     }
+
+    public IReadOnlyList<ToolbarAction> Actions { get; }
+
+    public string? PrimaryActionName => "New plan";
+
+    public event EventHandler? PrimaryRequested;
+
+    public void InvokePrimary() => PrimaryRequested?.Invoke(this, EventArgs.Empty);
+
+    private void CopyToClipboard() =>
+        Interop.Clipboards.Set(string.Join(Environment.NewLine, Rows.Select(row => $"- {row.Title}  ({row.Meta})")));
 
     public ObservableCollection<PlanRow> Rows { get; } = [];
 
@@ -28,7 +44,7 @@ public sealed class PlansViewModel : Observable
 
     internal void Remove(Plan plan)
     {
-        _vault.Data.Plans.Remove(plan);
+        Recycler.Delete(_vault.Data, plan);
         _vault.Save();
         Refresh();
     }

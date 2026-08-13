@@ -13,7 +13,7 @@ public enum AgendaMode
     Upcoming,
 }
 
-public sealed class AgendaViewModel : Observable
+public sealed class AgendaViewModel : Observable, IToolbarHost
 {
     private readonly Vault _vault;
 
@@ -21,8 +21,30 @@ public sealed class AgendaViewModel : Observable
     {
         _vault = vault;
         Mode = mode;
+        Actions =
+        [
+            new ToolbarAction("Copy list", "CopyGlyph", CopyToClipboard),
+        ];
+
         _vault.Changed += (_, _) => Refresh();
         Refresh();
+    }
+
+    public IReadOnlyList<ToolbarAction> Actions { get; }
+
+    public string? PrimaryActionName => Mode == AgendaMode.Today ? "Add to today" : null;
+
+    public event EventHandler? PrimaryRequested;
+
+    public void InvokePrimary() => PrimaryRequested?.Invoke(this, EventArgs.Empty);
+
+    private void CopyToClipboard()
+    {
+        IEnumerable<string> lines = Rows
+            .OfType<AgendaRow>()
+            .Select(row => row.Amount is { } amount ? $"- {row.Title}  {amount}" : "- " + row.Title);
+
+        Interop.Clipboards.Set(string.Join(Environment.NewLine, lines));
     }
 
     public AgendaMode Mode { get; }

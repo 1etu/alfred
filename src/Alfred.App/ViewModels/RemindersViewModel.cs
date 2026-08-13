@@ -5,16 +5,32 @@ using Alfred.Core.Storage;
 
 namespace Alfred.App.ViewModels;
 
-public sealed class RemindersViewModel : Observable
+public sealed class RemindersViewModel : Observable, IToolbarHost
 {
     private readonly Vault _vault;
 
     public RemindersViewModel(Vault vault)
     {
         _vault = vault;
+        Actions =
+        [
+            new ToolbarAction("Copy list", "CopyGlyph", CopyToClipboard),
+        ];
+
         _vault.Changed += (_, _) => Refresh();
         Refresh();
     }
+
+    public IReadOnlyList<ToolbarAction> Actions { get; }
+
+    public string? PrimaryActionName => "New reminder";
+
+    public event EventHandler? PrimaryRequested;
+
+    public void InvokePrimary() => PrimaryRequested?.Invoke(this, EventArgs.Empty);
+
+    private void CopyToClipboard() =>
+        Interop.Clipboards.Set(string.Join(Environment.NewLine, Rows.Select(row => $"- {row.Title}  ({row.Meta})")));
 
     public ObservableCollection<ReminderRow> Rows { get; } = [];
 
@@ -28,7 +44,7 @@ public sealed class RemindersViewModel : Observable
 
     internal void Remove(Reminder reminder)
     {
-        _vault.Data.Reminders.Remove(reminder);
+        Recycler.Delete(_vault.Data, reminder);
         _vault.Save();
     }
 

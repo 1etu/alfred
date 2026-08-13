@@ -3,11 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="clr-namespace:Alfred.App.Controls">
   <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-    <StackPanel MaxWidth="600" HorizontalAlignment="Left" Margin="48,44,48,56">
+    <StackPanel MaxWidth="820" HorizontalAlignment="Left" Margin="64,52,64,96">
 
       <TextBlock Text="Settings"
                  FontFamily="{StaticResource AppFontDisplay}"
-                 FontSize="28"
+                 FontSize="34"
                  FontWeight="SemiBold"
                  Foreground="{DynamicResource TextPrimary}"
                  Margin="4,0,0,30" />
@@ -25,11 +25,11 @@
             <Border Grid.Column="1" Style="{StaticResource SegmentGroup}" VerticalAlignment="Center">
               <StackPanel Orientation="Horizontal">
                 <RadioButton Style="{StaticResource Segment}" Content="System" GroupName="Theme"
-                             IsChecked="{Binding Settings.IsSystemTheme, Mode=TwoWay}" />
+                             IsChecked="{Binding IsSystemTheme, Mode=TwoWay}" />
                 <RadioButton Style="{StaticResource Segment}" Content="Light" GroupName="Theme"
-                             IsChecked="{Binding Settings.IsLightTheme, Mode=TwoWay}" />
+                             IsChecked="{Binding IsLightTheme, Mode=TwoWay}" />
                 <RadioButton Style="{StaticResource Segment}" Content="Dark" GroupName="Theme"
-                             IsChecked="{Binding Settings.IsDarkTheme, Mode=TwoWay}" />
+                             IsChecked="{Binding IsDarkTheme, Mode=TwoWay}" />
               </StackPanel>
             </Border>
           </Grid>
@@ -49,7 +49,7 @@
             <ToggleButton Grid.Column="1"
                           Style="{StaticResource ToggleSwitch}"
                           VerticalAlignment="Center"
-                          IsChecked="{Binding Settings.IsGlassEnabled, Mode=TwoWay}" />
+                          IsChecked="{Binding IsGlassEnabled, Mode=TwoWay}" />
           </Grid>
 
         </StackPanel>
@@ -66,7 +66,7 @@
           <ToggleButton Grid.Column="1"
                         Style="{StaticResource ToggleSwitch}"
                         VerticalAlignment="Center"
-                        IsChecked="{Binding Settings.ShowCounts, Mode=TwoWay}" />
+                        IsChecked="{Binding ShowCounts, Mode=TwoWay}" />
         </Grid>
       </Border>
 
@@ -92,7 +92,7 @@
                           <controls:ShortcutEditor Grid.Column="1"
                                                    Margin="24,0,0,0"
                                                    Shortcut="{Binding}"
-                                                   Registry="{Binding DataContext.Shortcuts, RelativeSource={RelativeSource AncestorType=Window}}" />
+                                                   Registry="{Binding DataContext.Shortcuts, RelativeSource={RelativeSource AncestorType=UserControl}}" />
                         </Grid>
                       </StackPanel>
                       <DataTemplate.Triggers>
@@ -121,18 +121,17 @@
               <TextBlock Text="Calendar sync" Style="{StaticResource SettingsRowLabel}" />
               <TextBlock Text="Pushes the next 90 days into an 'Alfred' calendar. Needs your own Azure app ClientId — see .claude/docs/sync.md."
                          Style="{StaticResource SettingsRowCaption}" />
-              <TextBlock Text="{Binding Settings.SyncStatus}" Style="{StaticResource SettingsRowCaption}" Foreground="{DynamicResource MoneyIn}" />
+              <TextBlock Text="{Binding SyncStatus}" Style="{StaticResource SettingsRowCaption}" Foreground="{DynamicResource MoneyIn}" />
             </StackPanel>
             <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-              <TextBlock Text="{Binding Settings.AccountLabel}" Style="{StaticResource SettingsValue}" Margin="0,0,12,0" />
-              <Button x:Name="ConnectButton" Style="{StaticResource GhostButton}" Click="OnConnect"
-                      IsEnabled="{Binding Settings.CanConnect}">
-                <TextBlock x:Name="ConnectLabel" Text="Connect" FontFamily="{StaticResource AppFont}" FontSize="12" FontWeight="SemiBold"
+              <TextBlock Text="{Binding AccountLabel}" Style="{StaticResource SettingsValue}" Margin="0,0,14,0" />
+              <Button Style="{StaticResource GhostButton}" Click="OnConnect" IsEnabled="{Binding CanConnect}">
+                <TextBlock Text="{Binding ConnectLabel}" FontFamily="{StaticResource AppFont}" FontSize="13" FontWeight="SemiBold"
                            Foreground="{DynamicResource TextPrimary}" />
               </Button>
               <Button Style="{StaticResource GhostButton}" Click="OnSyncNow" Margin="4,0,0,0"
-                      IsEnabled="{Binding Settings.IsSignedIn}">
-                <TextBlock Text="Sync now" FontFamily="{StaticResource AppFont}" FontSize="12" FontWeight="SemiBold"
+                      IsEnabled="{Binding IsSignedIn}">
+                <TextBlock Text="Sync now" FontFamily="{StaticResource AppFont}" FontSize="13" FontWeight="SemiBold"
                            Foreground="{DynamicResource TextPrimary}" />
               </Button>
             </StackPanel>
@@ -144,17 +143,89 @@
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="Auto" />
               <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="ClientId" Style="{StaticResource SettingsRowLabel}" />
-            <Border Grid.Column="1" CornerRadius="7" Background="{DynamicResource SegmentTrack}" Margin="18,10,0,10">
-              <TextBox Text="{Binding Settings.MicrosoftClientId, UpdateSourceTrigger=LostFocus}"
-                       Margin="8,0,8,0" Padding="3,6,3,6"
+            <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,12,0,12">
+              <TextBlock Text="ClientId" Style="{StaticResource SettingsRowLabel}" />
+              <TextBlock Text="{Binding ClientIdHint}" Style="{StaticResource SettingsRowCaption}" />
+            </StackPanel>
+            <Border Grid.Column="1" CornerRadius="8" Background="{DynamicResource SegmentTrack}" Margin="20,12,12,12">
+              <TextBox Text="{Binding MicrosoftClientId, UpdateSourceTrigger=LostFocus}"
+                       Margin="10,0,10,0" Padding="3,7,3,7"
                        Background="Transparent" BorderThickness="0"
-                       FontFamily="{StaticResource AppFontSmall}" FontSize="11"
+                       FontFamily="{StaticResource AppFontSmall}" FontSize="12"
                        Foreground="{DynamicResource TextPrimary}" CaretBrush="{DynamicResource TextPrimary}" />
             </Border>
+            <Button Grid.Column="2" Style="{StaticResource GhostButton}" Click="OnOpenPortal">
+              <TextBlock Text="Get one" FontFamily="{StaticResource AppFont}" FontSize="13" FontWeight="SemiBold"
+                         Foreground="{DynamicResource TextPrimary}" />
+            </Button>
           </Grid>
         </StackPanel>
+      </Border>
+
+      <TextBlock Text="Updates" Style="{StaticResource SettingsSectionTitle}" Margin="4,30,0,10" />
+      <Border Style="{StaticResource SettingsCard}">
+        <Grid Style="{StaticResource SettingsRow}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,12,24,12">
+            <TextBlock Text="Software update" Style="{StaticResource SettingsRowLabel}" />
+            <TextBlock Text="{Binding Updates.Message}" Style="{StaticResource SettingsRowCaption}" />
+            <ProgressBar Height="3" Margin="0,8,0,0" Maximum="1"
+                         Value="{Binding Updates.Progress, Mode=OneWay}"
+                         Background="{DynamicResource SegmentTrack}"
+                         Foreground="{DynamicResource Accent}"
+                         BorderThickness="0">
+              <ProgressBar.Style>
+                <Style TargetType="ProgressBar">
+                  <Setter Property="Visibility" Value="Collapsed" />
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding Updates.State}" Value="Downloading">
+                      <Setter Property="Visibility" Value="Visible" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </ProgressBar.Style>
+            </ProgressBar>
+          </StackPanel>
+          <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+            <Button Style="{StaticResource GhostButton}" Click="OnCheckUpdates">
+              <TextBlock Text="Check" FontFamily="{StaticResource AppFont}" FontSize="13" FontWeight="SemiBold"
+                         Foreground="{DynamicResource TextPrimary}" />
+            </Button>
+            <Button Click="OnDownloadUpdate" Margin="4,0,0,0">
+              <Button.Style>
+                <Style TargetType="Button" BasedOn="{StaticResource GhostButton}">
+                  <Setter Property="Visibility" Value="Collapsed" />
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding Updates.State}" Value="Available">
+                      <Setter Property="Visibility" Value="Visible" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </Button.Style>
+              <TextBlock Text="Download" FontFamily="{StaticResource AppFont}" FontSize="13" FontWeight="SemiBold"
+                         Foreground="{DynamicResource Accent}" />
+            </Button>
+            <Button Click="OnInstallUpdate" Margin="4,0,0,0">
+              <Button.Style>
+                <Style TargetType="Button" BasedOn="{StaticResource GhostButton}">
+                  <Setter Property="Visibility" Value="Collapsed" />
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding Updates.State}" Value="Ready">
+                      <Setter Property="Visibility" Value="Visible" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </Button.Style>
+              <TextBlock Text="Install and restart" FontFamily="{StaticResource AppFont}" FontSize="13" FontWeight="SemiBold"
+                         Foreground="{DynamicResource Accent}" />
+            </Button>
+          </StackPanel>
+        </Grid>
       </Border>
 
       <TextBlock Text="About" Style="{StaticResource SettingsSectionTitle}" Margin="4,30,0,10" />
@@ -167,7 +238,7 @@
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" Text="Version" Style="{StaticResource SettingsRowLabel}" />
-            <TextBlock Grid.Column="1" Text="{Binding Settings.Version}" Style="{StaticResource SettingsValue}" />
+            <TextBlock Grid.Column="1" Text="{Binding Version}" Style="{StaticResource SettingsValue}" />
           </Grid>
 
           <Border Style="{StaticResource SettingsDivider}" />
@@ -179,7 +250,7 @@
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" Text="Preferences" Style="{StaticResource SettingsRowLabel}" />
             <TextBlock Grid.Column="1"
-                       Text="{Binding Settings.PreferencesPath}"
+                       Text="{Binding PreferencesPath}"
                        Style="{StaticResource SettingsValue}"
                        HorizontalAlignment="Right"
                        Margin="24,0,0,0"

@@ -53,7 +53,7 @@ public sealed class MealsViewModel : Observable
 
     internal void Remove(Meal meal)
     {
-        _vault.Data.Meals.Remove(meal);
+        Recycler.Delete(_vault.Data, meal);
         _vault.Save();
         BuildSlots();
     }

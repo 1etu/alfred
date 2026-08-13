@@ -10,15 +10,13 @@ public partial class AgendaView : UserControl
     public static readonly DependencyProperty IsTodayProperty = DependencyProperty.Register(
         nameof(IsToday), typeof(bool), typeof(AgendaView));
 
-    private DateOnly? _pickedDate;
+    private AgendaViewModel? _bound;
 
     public AgendaView()
     {
         InitializeComponent();
-        QuickDate.Source = new DateSource();
-        QuickDate.Committed += (_, suggestion) => _pickedDate = suggestion.Value as DateOnly?;
-        DataContextChanged += (_, _) =>
-            IsToday = DataContext is AgendaViewModel { Mode: AgendaMode.Today };
+        QuickTitle.Source = new DateSource();
+        DataContextChanged += OnDataContextChanged;
     }
 
     public bool IsToday
@@ -27,6 +25,24 @@ public partial class AgendaView : UserControl
         set => SetValue(IsTodayProperty, value);
     }
 
+    private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+    {
+        if (_bound is not null)
+        {
+            _bound.PrimaryRequested -= OnPrimaryRequested;
+        }
+
+        _bound = DataContext as AgendaViewModel;
+        IsToday = _bound is { Mode: AgendaMode.Today };
+
+        if (_bound is not null)
+        {
+            _bound.PrimaryRequested += OnPrimaryRequested;
+        }
+    }
+
+    private void OnPrimaryRequested(object? sender, EventArgs e) => QuickTitle.FocusInput();
+
     private void OnQuickAdd(object sender, EventArgs e)
     {
         if (DataContext is not AgendaViewModel agenda || string.IsNullOrWhiteSpace(QuickTitle.Text))
@@ -34,10 +50,8 @@ public partial class AgendaView : UserControl
             return;
         }
 
-        agenda.QuickAdd(QuickTitle.Text.Trim(), _pickedDate ?? DateOnly.FromDateTime(DateTime.Now));
+        agenda.QuickAdd(QuickTitle.Text.Trim(), DateOnly.FromDateTime(DateTime.Now));
         QuickTitle.Text = string.Empty;
-        QuickDate.Text = string.Empty;
-        _pickedDate = null;
         QuickTitle.FocusInput();
     }
 }

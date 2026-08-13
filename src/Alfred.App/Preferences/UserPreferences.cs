@@ -13,4 +13,8 @@ public sealed class UserPreferences
     public Dictionary<string, string> Shortcuts { get; set; } = [];
 
     public string? MicrosoftClientId { get; set; }
+
+    public DateTimeOffset? LastSyncUtc { get; set; }
+
+    public DateTimeOffset? LastUpdateCheckUtc { get; set; }
 }

@@ -1,19 +1,39 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
+using Alfred.App.Interop;
 using Alfred.Core.Items;
 using Alfred.Core.Storage;
 
 namespace Alfred.App.ViewModels;
 
-public sealed class TodosViewModel : Observable
+public sealed class TodosViewModel : Observable, IToolbarHost
 {
     private readonly Vault _vault;
 
     public TodosViewModel(Vault vault)
     {
         _vault = vault;
+        Actions =
+        [
+            new ToolbarAction("Copy list", "CopyGlyph", CopyToClipboard),
+        ];
+
         _vault.Changed += (_, _) => Refresh();
         Refresh();
+    }
+
+    public IReadOnlyList<ToolbarAction> Actions { get; }
+
+    public string? PrimaryActionName => "New todo";
+
+    public event EventHandler? PrimaryRequested;
+
+    public void InvokePrimary() => PrimaryRequested?.Invoke(this, EventArgs.Empty);
+
+    private void CopyToClipboard()
+    {
+        string text = string.Join(Environment.NewLine, Open.Select(row => "- " + row.Title));
+        Clipboards.Set(text);
     }
 
     public ObservableCollection<TodoRow> Open { get; } = [];
@@ -34,7 +54,7 @@ public sealed class TodosViewModel : Observable
 
     internal void Remove(Todo todo)
     {
-        _vault.Data.Todos.Remove(todo);
+        Recycler.Delete(_vault.Data, todo);
         _vault.Save();
     }
 

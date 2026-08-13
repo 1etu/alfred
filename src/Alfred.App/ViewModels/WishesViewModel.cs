@@ -5,15 +5,31 @@ using Alfred.Core.Storage;
 
 namespace Alfred.App.ViewModels;
 
-public sealed class WishesViewModel : Observable
+public sealed class WishesViewModel : Observable, IToolbarHost
 {
     private readonly Vault _vault;
 
     public WishesViewModel(Vault vault)
     {
         _vault = vault;
+        Actions =
+        [
+            new ToolbarAction("Copy list", "CopyGlyph", CopyToClipboard),
+        ];
+
         Refresh();
     }
+
+    public IReadOnlyList<ToolbarAction> Actions { get; }
+
+    public string? PrimaryActionName => "New wish";
+
+    public event EventHandler? PrimaryRequested;
+
+    public void InvokePrimary() => PrimaryRequested?.Invoke(this, EventArgs.Empty);
+
+    private void CopyToClipboard() =>
+        Interop.Clipboards.Set(string.Join(Environment.NewLine, Rows.Select(row => $"- {row.Title}  {row.Price}")));
 
     public ObservableCollection<WishRow> Rows { get; } = [];
 
@@ -36,7 +52,7 @@ public sealed class WishesViewModel : Observable
 
     internal void Remove(WishItem wish)
     {
-        _vault.Data.Wishes.Remove(wish);
+        Recycler.Delete(_vault.Data, wish);
         _vault.Save();
         Refresh();
     }

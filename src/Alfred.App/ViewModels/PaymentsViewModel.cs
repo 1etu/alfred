@@ -14,15 +14,34 @@ public enum PaymentsFilter
     In,
 }
 
-public sealed class PaymentsViewModel : Observable
+public sealed class PaymentsViewModel : Observable, IToolbarHost
 {
     private readonly Vault _vault;
 
     public PaymentsViewModel(Vault vault)
     {
         _vault = vault;
+        Actions =
+        [
+            new ToolbarAction("Copy list", "CopyGlyph", CopyToClipboard),
+        ];
+
         _vault.Changed += (_, _) => Refresh();
         Refresh();
+    }
+
+    public IReadOnlyList<ToolbarAction> Actions { get; }
+
+    public string? PrimaryActionName => "New entry";
+
+    public event EventHandler? PrimaryRequested;
+
+    public void InvokePrimary() => PrimaryRequested?.Invoke(this, EventArgs.Empty);
+
+    private void CopyToClipboard()
+    {
+        IEnumerable<string> lines = Rows.Select(row => $"- {row.Title}  {row.Amount}  ({row.Meta})");
+        Interop.Clipboards.Set(string.Join(Environment.NewLine, lines));
     }
 
     public ObservableCollection<EntryRow> Rows { get; } = [];
@@ -72,7 +91,7 @@ public sealed class PaymentsViewModel : Observable
 
     internal void Remove(LedgerEntry entry)
     {
-        _vault.Data.Entries.Remove(entry);
+        Recycler.Delete(_vault.Data, entry);
         _vault.Save();
     }
 
