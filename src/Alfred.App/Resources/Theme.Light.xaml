@@ -18,8 +18,8 @@
   <SolidColorBrush x:Key="SidebarRowHover" Color="#0A000000" po:Freeze="True" />
   <SolidColorBrush x:Key="SidebarRowSelected" Color="#14000000" po:Freeze="True" />
 
-  <SolidColorBrush x:Key="ShellBackgroundGlass" Color="#B8FAFAFA" po:Freeze="True" />
-  <SolidColorBrush x:Key="SidebarBackgroundGlass" Color="#8CF2F2F1" po:Freeze="True" />
+  <SolidColorBrush x:Key="ShellBackgroundGlass" Color="#8CFAFAFA" po:Freeze="True" />
+  <SolidColorBrush x:Key="SidebarBackgroundGlass" Color="#4DF2F2F1" po:Freeze="True" />
 
   <SolidColorBrush x:Key="CardBackground" Color="#FFFFFF" po:Freeze="True" />
   <SolidColorBrush x:Key="ChromeGlyph" Color="#6B7178" po:Freeze="True" />

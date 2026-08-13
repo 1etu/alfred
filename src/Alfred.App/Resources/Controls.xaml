@@ -160,7 +160,7 @@
 
   <Style x:Key="SettingsSectionTitle" TargetType="TextBlock">
     <Setter Property="FontFamily" Value="{StaticResource AppFontSmall}" />
-    <Setter Property="FontSize" Value="11" />
+    <Setter Property="FontSize" Value="12" />
     <Setter Property="FontWeight" Value="SemiBold" />
     <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
     <Setter Property="Margin" Value="2,0,0,8" />

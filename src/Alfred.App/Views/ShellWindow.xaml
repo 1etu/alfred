@@ -103,7 +103,10 @@
         </Style>
       </Border.Style>
 
-      <ContentControl Content="{Binding}" Margin="0,44,0,0">
+      <ContentControl Content="{Binding}"
+                      Margin="0,44,0,0"
+                      HorizontalContentAlignment="Stretch"
+                      VerticalContentAlignment="Stretch">
         <ContentControl.Style>
           <Style TargetType="ContentControl">
             <Setter Property="ContentTemplate" Value="{StaticResource PlaceholderTemplate}" />

@@ -22,15 +22,6 @@ internal enum WindowBackdrop
     Tabbed = 4,
 }
 
-[StructLayout(LayoutKind.Sequential)]
-internal struct FrameMargins
-{
-    public int Left;
-    public int Right;
-    public int Top;
-    public int Bottom;
-}
-
 internal static partial class DesktopWindowManager
 {
     private const int CornerPreferenceAttribute = 33;
@@ -39,9 +30,6 @@ internal static partial class DesktopWindowManager
 
     [LibraryImport("dwmapi.dll")]
     private static partial int DwmSetWindowAttribute(IntPtr window, int attribute, ref int value, int valueSize);
-
-    [LibraryImport("dwmapi.dll")]
-    private static partial int DwmExtendFrameIntoClientArea(IntPtr window, in FrameMargins margins);
 
     public static void ApplyCornerPreference(Window window, WindowCornerPreference preference)
     {
@@ -81,12 +69,6 @@ internal static partial class DesktopWindowManager
         {
             source.CompositionTarget.BackgroundColor = isGlass ? Colors.Transparent : Colors.Black;
         }
-
-        FrameMargins margins = isGlass
-            ? new FrameMargins { Left = -1, Right = -1, Top = -1, Bottom = -1 }
-            : default;
-
-        DwmExtendFrameIntoClientArea(handle, in margins);
 
         int value = (int)backdrop;
         DwmSetWindowAttribute(handle, SystemBackdropTypeAttribute, ref value, sizeof(int));
