@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
+using Alfred.App.Input;
 using Alfred.App.Preferences;
 
 namespace Alfred.App.ViewModels;
@@ -13,9 +14,10 @@ public sealed class ShellViewModel : Observable
     private readonly UserPreferences _preferences;
     private SidebarItem _selectedItem;
 
-    public ShellViewModel(UserPreferences preferences)
+    public ShellViewModel(UserPreferences preferences, ShortcutRegistry shortcuts)
     {
         _preferences = preferences;
+        Shortcuts = shortcuts;
         Settings = new SettingsViewModel(preferences);
 
         Add("overview", "Today", "TodayIcon", 3);
@@ -41,6 +43,8 @@ public sealed class ShellViewModel : Observable
     }
 
     public ICollectionView Items { get; }
+
+    public ShortcutRegistry Shortcuts { get; }
 
     public SettingsViewModel Settings { get; }
 

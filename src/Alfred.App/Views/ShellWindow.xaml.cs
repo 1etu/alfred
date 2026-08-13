@@ -27,6 +27,7 @@ public partial class ShellWindow : Window
 
         if (DataContext is ShellViewModel shell)
         {
+            shell.Shortcuts.Attach(this);
             shell.Settings.PropertyChanged += OnSettingsChanged;
         }
     }
@@ -49,9 +50,7 @@ public partial class ShellWindow : Window
         }
 
         if (isGlass)
-        {
-            Background = Brushes.Transparent;
-        }
+        { Background = Brushes.Transparent; }
         else
         {
             SetResourceReference(BackgroundProperty, "ShellBackground");

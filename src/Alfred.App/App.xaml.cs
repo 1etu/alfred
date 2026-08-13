@@ -1,4 +1,5 @@
 using System.Windows;
+using Alfred.App.Input;
 using Alfred.App.Preferences;
 using Alfred.App.Theming;
 using Alfred.App.ViewModels;
@@ -17,7 +18,7 @@ public partial class App : Application
 
         ShellWindow shell = new()
         {
-            DataContext = new ShellViewModel(preferences),
+            DataContext = new ShellViewModel(preferences, new ShortcutRegistry(preferences)),
         };
 
         shell.Show();

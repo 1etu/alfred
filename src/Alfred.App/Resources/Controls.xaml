@@ -138,14 +138,23 @@
   <Style x:Key="SettingsCard" TargetType="Border">
     <Setter Property="CornerRadius" Value="10" />
     <Setter Property="Background" Value="{DynamicResource CardBackground}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource Hairline}" />
-    <Setter Property="BorderThickness" Value="1" />
+  </Style>
+
+  <Style x:Key="SettingsRow" TargetType="Grid">
+    <Setter Property="MinHeight" Value="52" />
+    <Setter Property="Margin" Value="18,0,18,0" />
+  </Style>
+
+  <Style x:Key="SettingsDivider" TargetType="Border">
+    <Setter Property="Height" Value="1" />
+    <Setter Property="Margin" Value="18,0,0,0" />
+    <Setter Property="Background" Value="{DynamicResource Hairline}" />
   </Style>
 
   <Style x:Key="SettingsRowLabel" TargetType="TextBlock">
     <Setter Property="FontFamily" Value="{StaticResource AppFont}" />
     <Setter Property="FontSize" Value="13" />
-    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="FontWeight" Value="Medium" />
     <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
     <Setter Property="VerticalAlignment" Value="Center" />
   </Style>
@@ -154,8 +163,29 @@
     <Setter Property="FontFamily" Value="{StaticResource AppFontSmall}" />
     <Setter Property="FontSize" Value="11" />
     <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
-    <Setter Property="Margin" Value="0,2,0,0" />
+    <Setter Property="Margin" Value="0,3,0,0" />
     <Setter Property="TextWrapping" Value="Wrap" />
+  </Style>
+
+  <Style x:Key="SettingsValue" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource AppFontSmall}" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+
+  <Style x:Key="KeyCap" TargetType="Border">
+    <Setter Property="CornerRadius" Value="5" />
+    <Setter Property="Background" Value="{DynamicResource SegmentTrack}" />
+    <Setter Property="Padding" Value="8,3,8,4" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+
+  <Style x:Key="KeyCapText" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource AppFontSmall}" />
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
   </Style>
 
   <Style x:Key="SettingsSectionTitle" TargetType="TextBlock">
@@ -163,7 +193,7 @@
     <Setter Property="FontSize" Value="12" />
     <Setter Property="FontWeight" Value="SemiBold" />
     <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
-    <Setter Property="Margin" Value="2,0,0,8" />
+    <Setter Property="Margin" Value="4,0,0,10" />
   </Style>
 
 </ResourceDictionary>

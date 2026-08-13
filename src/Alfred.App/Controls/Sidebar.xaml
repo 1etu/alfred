@@ -21,20 +21,22 @@
     <Button Grid.Row="1"
             Style="{StaticResource SidebarFooterRow}"
             Margin="8,0,8,10"
+            AutomationProperties.Name="Open settings"
             Click="OnSettingsClick">
       <Grid>
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Path Grid.Column="0"
-              Data="{StaticResource SettingsGlyph}"
-              Fill="{DynamicResource ChromeGlyph}"
-              Width="18"
-              Height="18"
-              Stretch="Uniform"
-              Margin="8,0,0,0"
-              VerticalAlignment="Center" />
+        <Viewbox Grid.Column="0"
+                 Width="{StaticResource SidebarIconSize}"
+                 Height="{StaticResource SidebarIconSize}"
+                 Margin="8,0,0,0"
+                 VerticalAlignment="Center">
+          <Canvas Width="24" Height="24">
+            <Path Data="{StaticResource SettingsGlyph}" Fill="{DynamicResource ChromeGlyph}" />
+          </Canvas>
+        </Viewbox>
         <TextBlock Grid.Column="1"
                    Text="Settings"
                    Margin="10,0,8,0"

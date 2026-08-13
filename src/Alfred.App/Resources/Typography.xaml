@@ -18,5 +18,7 @@
   <sys:Double x:Key="SidebarGroupGap">14</sys:Double>
   <Thickness x:Key="SidebarGroupMargin">0,14,0,0</Thickness>
   <Thickness x:Key="SidebarInset">8,0,8,12</Thickness>
+  <Thickness x:Key="SidebarToggleExpanded">202,0,0,0</Thickness>
+  <Thickness x:Key="SidebarToggleCollapsed">90,0,0,0</Thickness>
 
 </ResourceDictionary>

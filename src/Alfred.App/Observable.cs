@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Alfred.App.ViewModels;
+namespace Alfred.App;
 
 public abstract class Observable : INotifyPropertyChanged
 {

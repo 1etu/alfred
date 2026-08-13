@@ -240,18 +240,18 @@
             <GeometryGroup FillRule="Nonzero">
               <CombinedGeometry GeometryCombineMode="Exclude">
                 <CombinedGeometry.Geometry1>
-                  <RectangleGeometry Rect="6.0,3.4,15.4,9.8" RadiusX="2.2" RadiusY="2.2" />
+                  <RectangleGeometry Rect="6.0,5.5,15.4,9.8" RadiusX="2.2" RadiusY="2.2" />
                 </CombinedGeometry.Geometry1>
                 <CombinedGeometry.Geometry2>
-                  <RectangleGeometry Rect="1.7,6.7,16.2,10.6" RadiusX="2.9" RadiusY="2.9" />
+                  <RectangleGeometry Rect="1.7,8.8,16.2,10.6" RadiusX="2.9" RadiusY="2.9" />
                 </CombinedGeometry.Geometry2>
               </CombinedGeometry>
               <CombinedGeometry GeometryCombineMode="Exclude">
                 <CombinedGeometry.Geometry1>
-                  <RectangleGeometry Rect="2.6,7.6,14.4,8.8" RadiusX="2.2" RadiusY="2.2" />
+                  <RectangleGeometry Rect="2.6,9.7,14.4,8.8" RadiusX="2.2" RadiusY="2.2" />
                 </CombinedGeometry.Geometry1>
                 <CombinedGeometry.Geometry2>
-                  <EllipseGeometry Center="9.8,12.0" RadiusX="2.2" RadiusY="2.2" />
+                  <EllipseGeometry Center="9.8,14.1" RadiusX="2.2" RadiusY="2.2" />
                 </CombinedGeometry.Geometry2>
               </CombinedGeometry>
             </GeometryGroup>

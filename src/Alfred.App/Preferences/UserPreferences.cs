@@ -9,4 +9,6 @@ public sealed class UserPreferences
     public bool ShowCounts { get; set; } = true;
 
     public bool IsSidebarExpanded { get; set; } = true;
+
+    public Dictionary<string, string> Shortcuts { get; set; } = [];
 }

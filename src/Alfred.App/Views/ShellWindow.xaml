@@ -90,19 +90,9 @@
     </Border>
 
     <Border Grid.Column="1"
+            Background="{DynamicResource ShellBackground}"
             BorderBrush="{DynamicResource Hairline}"
             BorderThickness="1,0,0,0">
-      <Border.Style>
-        <Style TargetType="Border">
-          <Setter Property="Background" Value="{DynamicResource ShellBackground}" />
-          <Style.Triggers>
-            <DataTrigger Binding="{Binding Settings.IsGlassEnabled}" Value="True">
-              <Setter Property="Background" Value="{DynamicResource ShellBackgroundGlass}" />
-            </DataTrigger>
-          </Style.Triggers>
-        </Style>
-      </Border.Style>
-
       <ContentControl Content="{Binding}"
                       Margin="0,44,0,0"
                       HorizontalContentAlignment="Stretch"
@@ -120,30 +110,39 @@
       </ContentControl>
     </Border>
 
-    <StackPanel Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Orientation="Horizontal"
-                Height="{StaticResource TitleBarHeight}"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Left"
-                Margin="20,0,0,0">
+    <Grid Grid.Column="0"
+          Grid.ColumnSpan="2"
+          Height="{StaticResource TitleBarHeight}"
+          VerticalAlignment="Top">
 
-      <controls:WindowButtons VerticalAlignment="Center" />
+      <controls:WindowButtons HorizontalAlignment="Left"
+                              VerticalAlignment="Center"
+                              Margin="20,0,0,0" />
 
-      <Button Style="{StaticResource ChromeButton}"
-              Margin="18,0,0,0"
-              VerticalAlignment="Center"
+      <Button VerticalAlignment="Center"
+              HorizontalAlignment="Left"
               ToolTip="Toggle sidebar"
+              AutomationProperties.Name="Toggle sidebar"
               shell:WindowChrome.IsHitTestVisibleInChrome="True"
               Click="OnToggleSidebarClick">
-        <Path Data="{StaticResource SidebarGlyph}"
-              Fill="{DynamicResource ChromeGlyph}"
-              Width="17"
-              Height="17"
-              Stretch="Uniform" />
+        <Button.Style>
+          <Style TargetType="Button" BasedOn="{StaticResource ChromeButton}">
+            <Setter Property="Margin" Value="{StaticResource SidebarToggleExpanded}" />
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding IsSidebarExpanded}" Value="False">
+                <Setter Property="Margin" Value="{StaticResource SidebarToggleCollapsed}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </Button.Style>
+        <Viewbox Width="18" Height="18">
+          <Canvas Width="24" Height="24">
+            <Path Data="{StaticResource SidebarGlyph}" Fill="{DynamicResource ChromeGlyph}" />
+          </Canvas>
+        </Viewbox>
       </Button>
 
-    </StackPanel>
+    </Grid>
 
   </Grid>
 </Window>
