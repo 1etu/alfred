@@ -119,7 +119,7 @@
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,12,24,12">
               <TextBlock Text="Calendar sync" Style="{StaticResource SettingsRowLabel}" />
-              <TextBlock Text="Pushes the next 90 days into an 'Alfred' calendar. Needs your own Azure app ClientId — see .claude/docs/sync.md."
+              <TextBlock Text="Pushes the next 90 days into an 'Alfred' calendar. Needs your own Azure app registration — press Get one, then paste the Application (client) ID below."
                          Style="{StaticResource SettingsRowCaption}" />
               <TextBlock Text="{Binding SyncStatus}" Style="{StaticResource SettingsRowCaption}" Foreground="{DynamicResource MoneyIn}" />
             </StackPanel>
