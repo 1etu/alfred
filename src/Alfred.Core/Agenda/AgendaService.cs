@@ -25,6 +25,9 @@ public static class AgendaService
         return items;
     }
 
+    public static IReadOnlyList<AgendaItem> On(VaultData data, DateOnly day) =>
+        [.. OnDay(data, day, day)];
+
     public static DayMoney MoneyOn(VaultData data, DateOnly day)
     {
         decimal moneyOut = 0;

@@ -42,7 +42,7 @@ public static class DateHints
             hints.Add(new DateHint(today, "Today"));
         }
 
-        if (Matches(text, "tomorrow"))
+        if (Matches(text, "tomorrow") || Matches(text, "tmr"))
         {
             hints.Add(new DateHint(today.AddDays(1), "Tomorrow"));
         }
@@ -50,6 +50,29 @@ public static class DateHints
         if (Matches(text, "next week"))
         {
             hints.Add(new DateHint(NextWeekday(today, DayOfWeek.Monday), "Next week"));
+        }
+
+        if (Matches(text, "next month"))
+        {
+            DateOnly next = today.AddMonths(1);
+            hints.Add(new DateHint(new DateOnly(next.Year, next.Month, 1), "Next month"));
+        }
+
+        if (Matches(text, "weekend") || Matches(text, "this weekend"))
+        {
+            hints.Add(new DateHint(NextWeekday(today, DayOfWeek.Saturday), "Weekend"));
+        }
+
+        if (Matches(text, "end of month") || Matches(text, "eom"))
+        {
+            hints.Add(new DateHint(
+                new DateOnly(today.Year, today.Month, DateTime.DaysInMonth(today.Year, today.Month)),
+                "End of month"));
+        }
+
+        if (TryRelative(text, today, out DateHint relative))
+        {
+            hints.Add(relative);
         }
 
         if (text.Length >= 2)
@@ -73,6 +96,47 @@ public static class DateHints
 
     private static bool Matches(string text, string phrase) =>
         phrase.StartsWith(text, StringComparison.OrdinalIgnoreCase);
+
+    private static bool TryRelative(string text, DateOnly today, out DateHint hint)
+    {
+        hint = default!;
+        string[] parts = text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+        int start = parts.Length > 0 && parts[0].Equals("in", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
+        if (parts.Length - start != 2)
+        {
+            return false;
+        }
+
+        if (!int.TryParse(parts[start], NumberStyles.None, CultureInfo.InvariantCulture, out int count) || count is < 1 or > 24)
+        {
+            return false;
+        }
+
+        string unit = parts[start + 1];
+
+        if (Unit(unit, "days"))
+        {
+            hint = new DateHint(today.AddDays(count), $"In {count} days");
+        }
+        else if (Unit(unit, "weeks"))
+        {
+            hint = new DateHint(today.AddDays(count * 7), count == 1 ? "In 1 week" : $"In {count} weeks");
+        }
+        else if (Unit(unit, "months"))
+        {
+            hint = new DateHint(today.AddMonths(count), count == 1 ? "In 1 month" : $"In {count} months");
+        }
+        else
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private static bool Unit(string text, string full) =>
+        full.StartsWith(text, StringComparison.OrdinalIgnoreCase) && text.Length >= 1;
 
     private static bool TryExplicitDate(string text, DateOnly today, out DateOnly date)
     {

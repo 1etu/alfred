@@ -64,6 +64,17 @@ public sealed class DateHintsTests
     }
 
     [Fact]
+    public void RelativePhrasesParse()
+    {
+        Assert.Contains(DateHints.Suggest("in 2 weeks", Today), hint => hint.Date == Today.AddDays(14));
+        Assert.Contains(DateHints.Suggest("2 w", Today), hint => hint.Date == Today.AddDays(14));
+        Assert.Contains(DateHints.Suggest("in 3 months", Today), hint => hint.Date == Today.AddMonths(3));
+        Assert.Contains(DateHints.Suggest("next m", Today), hint => hint.Date == new DateOnly(2026, 9, 1));
+        Assert.Contains(DateHints.Suggest("weekend", Today), hint => hint.Date == new DateOnly(2026, 8, 15));
+        Assert.Contains(DateHints.Suggest("eom", Today), hint => hint.Date == new DateOnly(2026, 8, 31));
+    }
+
+    [Fact]
     public void EmptyInputSuggestsDefaults()
     {
         IReadOnlyList<DateHint> hints = DateHints.Suggest("", Today);
