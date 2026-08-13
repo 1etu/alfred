@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <Resource Include="Resources\Alfred.ico" />
+    <EmbeddedResource Include="Resources\Brands\brands.json*" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(RuntimeIdentifier)' != ''">
