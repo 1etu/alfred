@@ -1,0 +1,24 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - run: dotnet restore Alfred.slnx
+
+      - run: dotnet build Alfred.slnx --configuration Release --no-restore
+
+      - run: dotnet test Alfred.slnx --configuration Release --no-build

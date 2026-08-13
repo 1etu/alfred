@@ -1,0 +1,50 @@
+name: release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: read version from tag
+        id: version
+        shell: pwsh
+        run: |
+          $number = $env:GITHUB_REF_NAME -replace '^v', ''
+          "number=$number" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+
+      - name: test
+        run: dotnet test Alfred.slnx --configuration Release
+
+      - name: publish
+        run: >
+          dotnet publish src/Alfred.App
+          --configuration Release
+          --runtime win-x64
+          --self-contained
+          -p:Version=${{ steps.version.outputs.number }}
+          --output publish
+
+      - name: package
+        shell: pwsh
+        run: Compress-Archive -Path publish/Alfred.exe -DestinationPath alfred-${{ github.ref_name }}-win-x64.zip
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          name: alfred ${{ github.ref_name }}
+          generate_release_notes: true
+          files: |
+            alfred-${{ github.ref_name }}-win-x64.zip
+            publish/Alfred.exe
