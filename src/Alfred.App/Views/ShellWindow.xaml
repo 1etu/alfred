@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         xmlns:controls="clr-namespace:Alfred.App.Controls"
+        xmlns:views="clr-namespace:Alfred.App.Views"
         Title="Alfred"
         Icon="/Resources/Alfred.ico"
         Width="1100"
@@ -16,6 +17,7 @@
         FontFamily="{StaticResource AppFont}"
         FontSize="{StaticResource BodyFontSize}"
         TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType"
         UseLayoutRounding="True"
         SnapsToDevicePixels="True">
 
@@ -28,20 +30,36 @@
   </shell:WindowChrome.WindowChrome>
 
   <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="*" />
-    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
 
-    <Border Grid.Row="0"
-            Height="{StaticResource TitleBarHeight}"
-            Background="{DynamicResource TitleBarBackground}">
-      <controls:WindowButtons HorizontalAlignment="Left"
-                              VerticalAlignment="Center"
-                              Margin="20,0,0,0" />
+    <Border Grid.Column="0"
+            Width="{StaticResource SidebarWidth}"
+            Background="{DynamicResource SidebarBackground}">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Height="{StaticResource TitleBarHeight}">
+          <controls:WindowButtons HorizontalAlignment="Left"
+                                  VerticalAlignment="Center"
+                                  Margin="20,0,0,0" />
+        </Border>
+
+        <controls:Sidebar Grid.Row="1" />
+      </Grid>
     </Border>
 
-    <Border Grid.Row="1" Background="{DynamicResource ShellBackground}" />
+    <Border Grid.Column="1"
+            Background="{DynamicResource ShellBackground}"
+            BorderBrush="{DynamicResource Hairline}"
+            BorderThickness="1,0,0,0">
+      <views:PlaceholderView />
+    </Border>
 
   </Grid>
 </Window>

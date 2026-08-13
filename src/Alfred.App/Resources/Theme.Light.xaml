@@ -11,6 +11,13 @@
   <SolidColorBrush x:Key="TextPrimary" Color="#2C3138" po:Freeze="True" />
   <SolidColorBrush x:Key="TextSecondary" Color="#8A9099" po:Freeze="True" />
 
+  <SolidColorBrush x:Key="SidebarBackground" Color="#F2F2F1" po:Freeze="True" />
+  <SolidColorBrush x:Key="SidebarText" Color="#3A4048" po:Freeze="True" />
+  <SolidColorBrush x:Key="SidebarBadge" Color="#A0A5AC" po:Freeze="True" />
+  <SolidColorBrush x:Key="SidebarBadgeSelected" Color="#767C85" po:Freeze="True" />
+  <SolidColorBrush x:Key="SidebarRowHover" Color="#0A000000" po:Freeze="True" />
+  <SolidColorBrush x:Key="SidebarRowSelected" Color="#14000000" po:Freeze="True" />
+
   <SolidColorBrush x:Key="WindowButtonClose" Color="#FF5F57" po:Freeze="True" />
   <SolidColorBrush x:Key="WindowButtonMinimize" Color="#FEBC2E" po:Freeze="True" />
   <SolidColorBrush x:Key="WindowButtonZoom" Color="#28C840" po:Freeze="True" />

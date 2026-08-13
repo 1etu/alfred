@@ -2,10 +2,21 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=System.Runtime">
 
-  <FontFamily x:Key="AppFont">pack://application:,,,/Resources/Fonts/#Geist, Segoe UI</FontFamily>
+  <FontFamily x:Key="AppFont">Geist, Segoe UI Variable Text, Segoe UI</FontFamily>
+  <FontFamily x:Key="AppFontSmall">Geist, Segoe UI Variable Small, Segoe UI</FontFamily>
+  <FontFamily x:Key="AppFontDisplay">Geist, Segoe UI Variable Display, Segoe UI</FontFamily>
 
   <sys:Double x:Key="TitleBarHeight">44</sys:Double>
   <sys:Double x:Key="BodyFontSize">13</sys:Double>
   <sys:Double x:Key="TitleFontSize">15</sys:Double>
+  <sys:Double x:Key="BadgeFontSize">11</sys:Double>
+
+  <sys:Double x:Key="SidebarWidth">236</sys:Double>
+  <sys:Double x:Key="SidebarPadding">8</sys:Double>
+  <sys:Double x:Key="SidebarRowHeight">28</sys:Double>
+  <sys:Double x:Key="SidebarIconSize">18</sys:Double>
+  <sys:Double x:Key="SidebarGroupGap">14</sys:Double>
+  <Thickness x:Key="SidebarGroupMargin">0,14,0,0</Thickness>
+  <Thickness x:Key="SidebarInset">8,0,8,12</Thickness>
 
 </ResourceDictionary>
