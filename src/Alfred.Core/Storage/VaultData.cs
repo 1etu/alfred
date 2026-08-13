@@ -18,4 +18,6 @@ public sealed class VaultData
     public List<WishItem> Wishes { get; set; } = [];
 
     public List<BoardCard> Cards { get; set; } = [];
+
+    public List<TrashEntry> Trash { get; set; } = [];
 }

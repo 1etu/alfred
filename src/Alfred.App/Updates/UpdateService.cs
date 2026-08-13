@@ -21,38 +21,33 @@ public sealed class UpdateService : INotifyPropertyChanged
     private static readonly TimeSpan DefaultCheckInterval = TimeSpan.FromHours(6);
 
     private readonly UpdateChecker _checker = new();
-
-    private UpdateState _state = UpdateState.Idle;
-    private ReleaseInfo? _available;
-    private double _progress;
-    private string _message = string.Empty;
     private string? _downloadedZipPath;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
     public UpdateState State
     {
-        get => _state;
-        private set => Set(ref _state, value);
-    }
+        get;
+        private set => Set(ref field, value);
+    } = UpdateState.Idle;
 
     public ReleaseInfo? Available
     {
-        get => _available;
-        private set => Set(ref _available, value);
+        get;
+        private set => Set(ref field, value);
     }
 
     public double Progress
     {
-        get => _progress;
-        private set => Set(ref _progress, value);
+        get;
+        private set => Set(ref field, value);
     }
 
     public string Message
     {
-        get => _message;
-        private set => Set(ref _message, value);
-    }
+        get;
+        private set => Set(ref field, value);
+    } = string.Empty;
 
     public string CurrentVersionText { get; } = "v" + AppVersion.Current;
 

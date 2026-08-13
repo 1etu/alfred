@@ -9,9 +9,9 @@
   <ScrollViewer Style="{StaticResource PageRoot}">
     <StackPanel Style="{StaticResource PageBody}">
       <TextBlock Text="Plans" Style="{StaticResource PageTitle}" />
-      <TextBlock Text="Bigger things, broken into steps" Style="{StaticResource PageSubtitle}" Margin="4,0,0,20" />
+      <TextBlock Text="Bigger things, broken into steps" Style="{StaticResource PageSubtitle}" Margin="0,10,0,28" />
 
-      <Grid Margin="0,0,0,14">
+      <Grid Margin="0,0,0,20" MaxWidth="760" HorizontalAlignment="Left">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" />
           <ColumnDefinition Width="130" />
@@ -25,7 +25,7 @@
           <DataTemplate>
             <Border CornerRadius="10" Background="{DynamicResource CardBackground}" Margin="0,0,0,8" Padding="4">
               <StackPanel>
-                <Border Style="{StaticResource ItemRow}" MouseLeftButtonUp="OnRowClick" Background="Transparent">
+                <Border x:Name="Row" Style="{StaticResource ItemRow}" MouseLeftButtonUp="OnRowClick" Background="Transparent">
                   <Grid>
                     <Grid.ColumnDefinitions>
                       <ColumnDefinition Width="*" />
@@ -41,7 +41,7 @@
                         <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
                           <Setter Property="Opacity" Value="0" />
                           <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Border, AncestorLevel=2}}" Value="True">
+                            <DataTrigger Binding="{Binding IsMouseOver, ElementName=Row}" Value="True">
                               <Setter Property="Opacity" Value="1" />
                             </DataTrigger>
                           </Style.Triggers>
@@ -101,12 +101,11 @@
         </ItemsControl.ItemTemplate>
       </ItemsControl>
 
-      <StackPanel HorizontalAlignment="Center" Margin="0,64,0,0"
-                  Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVisibility}}">
-        <Image Source="{StaticResource AlfredCryingIcon}" Width="64" Height="64" Opacity="0.5" />
+      <StackPanel HorizontalAlignment="Center" Margin="0,120,0,0" Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVisibility}}">
+        <Image Source="{StaticResource AlfredCryingIcon}" Width="80" Height="80" Opacity="0.4" />
         <TextBlock Text="No plans. Even butlers dream."
                    Margin="0,14,0,0" HorizontalAlignment="Center"
-                   FontFamily="{StaticResource AppFontSmall}" FontSize="12"
+                   FontFamily="{StaticResource AppFont}" FontSize="14"
                    Foreground="{DynamicResource TextSecondary}" />
       </StackPanel>
     </StackPanel>

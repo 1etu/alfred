@@ -10,12 +10,25 @@ public partial class WishesView : UserControl
 {
     private string? _brandSlug;
 
+    private WishesViewModel? _bound;
+
     public WishesView()
     {
         InitializeComponent();
         QuickTitle.Source = new BrandSource();
         QuickTitle.Committed += (_, suggestion) => _brandSlug = (suggestion.Value as Brand)?.Slug;
+
+        DataContextChanged += (_, _) =>
+        {
+            _bound?.PrimaryRequested -= OnPrimaryRequested;
+
+            _bound = DataContext as WishesViewModel;
+
+            _bound?.PrimaryRequested += OnPrimaryRequested;
+        };
     }
+
+    private void OnPrimaryRequested(object? sender, EventArgs e) => QuickTitle.FocusInput();
 
     private void OnQuickAdd(object sender, EventArgs e)
     {

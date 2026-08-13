@@ -13,9 +13,20 @@ public partial class PaymentsView : UserControl
     private string? _categoryId;
     private DateOnly? _pickedDate;
 
+    private PaymentsViewModel? _bound;
+
     public PaymentsView()
     {
         InitializeComponent();
+
+        DataContextChanged += (_, _) =>
+        {
+            _bound?.PrimaryRequested -= OnPrimaryRequested;
+
+            _bound = DataContext as PaymentsViewModel;
+
+            _bound?.PrimaryRequested += OnPrimaryRequested;
+        };
 
         ComposeTitle.Source = new BrandSource();
         ComposeTitle.Committed += (_, suggestion) => _brandSlug = (suggestion.Value as Brand)?.Slug;
@@ -23,6 +34,12 @@ public partial class PaymentsView : UserControl
         ComposeCategory.Committed += (_, suggestion) => _categoryId = (suggestion.Value as Category)?.Id;
         ComposeDate.Source = new DateSource();
         ComposeDate.Committed += (_, suggestion) => _pickedDate = suggestion.Value as DateOnly?;
+    }
+
+    private void OnPrimaryRequested(object? sender, EventArgs e)
+    {
+        Composer.Visibility = Visibility.Visible;
+        ComposeTitle.FocusInput();
     }
 
     private void OnToggleComposer(object sender, RoutedEventArgs e)

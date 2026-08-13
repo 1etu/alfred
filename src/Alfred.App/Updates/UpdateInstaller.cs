@@ -108,10 +108,6 @@ public static class UpdateInstaller
             WorkingDirectory = Path.GetTempPath(),
         };
 
-        using Process? updater = Process.Start(startInfo);
-        if (updater is null)
-        {
-            throw new InvalidOperationException("Windows refused to start the update script.");
-        }
+        using Process? updater = Process.Start(startInfo) ?? throw new InvalidOperationException("Windows refused to start the update script.");
     }
 }

@@ -1,0 +1,75 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "selectAction": {
+    "type": "Action.Execute",
+    "title": "Open Alfred",
+    "verb": "open"
+  },
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "${openCount}",
+      "size": "extraLarge",
+      "weight": "bolder",
+      "wrap": false
+    },
+    {
+      "type": "TextBlock",
+      "text": "${openLabel}",
+      "size": "small",
+      "weight": "bolder",
+      "isSubtle": true,
+      "spacing": "none",
+      "wrap": false
+    },
+    {
+      "type": "Container",
+      "spacing": "medium",
+      "$when": "${$host.widgetSize != \"small\"}",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "$data": "${rows}",
+          "spacing": "small",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "${title}",
+                  "weight": "bolder",
+                  "wrap": false
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "${amount}",
+                  "isSubtle": true,
+                  "horizontalAlignment": "right",
+                  "wrap": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "TextBlock",
+          "text": "${quietLine}",
+          "$when": "${hasRows == false}",
+          "size": "small",
+          "isSubtle": true,
+          "wrap": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+  xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap uap3 com rescap">
+
+  <Identity
+    Name="Ege.Alfred.Widgets"
+    Publisher="CN=Ege"
+    Version="0.1.0.0" />
+
+  <Properties>
+    <DisplayName>Alfred Widgets</DisplayName>
+    <PublisherDisplayName>Ege</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.19041.0" MaxVersionTested="10.0.26100.0" />
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.26100.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+
+  <Applications>
+    <Application
+      Id="AlfredWidgets"
+      Executable="$targetnametoken$.exe"
+      EntryPoint="$targetentrypoint$">
+
+      <uap:VisualElements
+        DisplayName="Alfred Widgets"
+        Description="Alfred widgets for the Windows 11 Widgets Board."
+        BackgroundColor="transparent"
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png"
+        AppListEntry="none">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
+        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+      </uap:VisualElements>
+
+      <Extensions>
+
+        <com:Extension Category="windows.comServer">
+          <com:ComServer>
+            <com:ExeServer
+              Executable="Alfred.Widgets.exe"
+              Arguments="-RegisterProcessAsComServer"
+              DisplayName="Alfred Widgets">
+              <com:Class Id="28303D2C-B08F-4CDE-94CE-B0DDE78E0E80" DisplayName="Alfred Widget Provider" />
+            </com:ExeServer>
+          </com:ComServer>
+        </com:Extension>
+
+        <uap3:Extension Category="windows.appExtension">
+          <uap3:AppExtension
+            Name="com.microsoft.windows.widgets"
+            DisplayName="Alfred"
+            Id="alfred.widgets"
+            PublicFolder="Public">
+            <uap3:Properties>
+              <WidgetProvider>
+
+                <ProviderIcons>
+                  <Icon Path="Assets\StoreLogo.png" />
+                </ProviderIcons>
+
+                <Activation>
+                  <CreateInstance ClassId="28303D2C-B08F-4CDE-94CE-B0DDE78E0E80" />
+                </Activation>
+
+                <Definitions>
+
+                  <Definition
+                    Id="Alfred_Today"
+                    DisplayName="Today"
+                    Description="Open items, and the next three of them."
+                    AllowMultiple="false">
+                    <Capabilities>
+                      <Capability>
+                        <Size Name="small" />
+                      </Capability>
+                      <Capability>
+                        <Size Name="medium" />
+                      </Capability>
+                      <Capability>
+                        <Size Name="large" />
+                      </Capability>
+                    </Capabilities>
+                    <ThemeResources>
+                      <Icons>
+                        <Icon Path="ProviderAssets\Today_Icon.png" />
+                      </Icons>
+                      <Screenshots>
+                        <Screenshot Path="ProviderAssets\Today_Screenshot_Dark.png" DisplayAltText="The Today widget showing a count of open items." />
+                      </Screenshots>
+                      <DarkMode>
+                        <Screenshots>
+                          <Screenshot Path="ProviderAssets\Today_Screenshot_Dark.png" DisplayAltText="The Today widget showing a count of open items." />
+                        </Screenshots>
+                      </DarkMode>
+                      <LightMode>
+                        <Screenshots>
+                          <Screenshot Path="ProviderAssets\Today_Screenshot_Light.png" DisplayAltText="The Today widget showing a count of open items." />
+                        </Screenshots>
+                      </LightMode>
+                    </ThemeResources>
+                  </Definition>
+
+                  <Definition
+                    Id="Alfred_Money_This_Month"
+                    DisplayName="Money this month"
+                    Description="Expecting in, expecting out, spent so far."
+                    AllowMultiple="false">
+                    <Capabilities>
+                      <Capability>
+                        <Size Name="medium" />
+                      </Capability>
+                      <Capability>
+                        <Size Name="large" />
+                      </Capability>
+                    </Capabilities>
+                    <ThemeResources>
+                      <Icons>
+                        <Icon Path="ProviderAssets\Money_Icon.png" />
+                      </Icons>
+                      <Screenshots>
+                        <Screenshot Path="ProviderAssets\Money_Screenshot_Dark.png" DisplayAltText="The Money this month widget showing three totals." />
+                      </Screenshots>
+                      <DarkMode>
+                        <Screenshots>
+                          <Screenshot Path="ProviderAssets\Money_Screenshot_Dark.png" DisplayAltText="The Money this month widget showing three totals." />
+                        </Screenshots>
+                      </DarkMode>
+                      <LightMode>
+                        <Screenshots>
+                          <Screenshot Path="ProviderAssets\Money_Screenshot_Light.png" DisplayAltText="The Money this month widget showing three totals." />
+                        </Screenshots>
+                      </LightMode>
+                    </ThemeResources>
+                  </Definition>
+
+                  <Definition
+                    Id="Alfred_Next_Payment"
+                    DisplayName="Next payment"
+                    Description="The next ledger entry, its amount, and how long you have."
+                    AllowMultiple="false">
+                    <Capabilities>
+                      <Capability>
+                        <Size Name="small" />
+                      </Capability>
+                      <Capability>
+                        <Size Name="medium" />
+                      </Capability>
+                    </Capabilities>
+                    <ThemeResources>
+                      <Icons>
+                        <Icon Path="ProviderAssets\NextPayment_Icon.png" />
+                      </Icons>
+                      <Screenshots>
+                        <Screenshot Path="ProviderAssets\NextPayment_Screenshot_Dark.png" DisplayAltText="The Next payment widget showing a name, an amount and the days remaining." />
+                      </Screenshots>
+                      <DarkMode>
+                        <Screenshots>
+                          <Screenshot Path="ProviderAssets\NextPayment_Screenshot_Dark.png" DisplayAltText="The Next payment widget showing a name, an amount and the days remaining." />
+                        </Screenshots>
+                      </DarkMode>
+                      <LightMode>
+                        <Screenshots>
+                          <Screenshot Path="ProviderAssets\NextPayment_Screenshot_Light.png" DisplayAltText="The Next payment widget showing a name, an amount and the days remaining." />
+                        </Screenshots>
+                      </LightMode>
+                    </ThemeResources>
+                  </Definition>
+
+                </Definitions>
+              </WidgetProvider>
+            </uap3:Properties>
+          </uap3:AppExtension>
+        </uap3:Extension>
+
+      </Extensions>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+
+</Package>

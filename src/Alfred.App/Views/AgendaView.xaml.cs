@@ -27,18 +27,12 @@ public partial class AgendaView : UserControl
 
     private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-        if (_bound is not null)
-        {
-            _bound.PrimaryRequested -= OnPrimaryRequested;
-        }
+        _bound?.PrimaryRequested -= OnPrimaryRequested;
 
         _bound = DataContext as AgendaViewModel;
         IsToday = _bound is { Mode: AgendaMode.Today };
 
-        if (_bound is not null)
-        {
-            _bound.PrimaryRequested += OnPrimaryRequested;
-        }
+        _bound?.PrimaryRequested += OnPrimaryRequested;
     }
 
     private void OnPrimaryRequested(object? sender, EventArgs e) => QuickTitle.FocusInput();

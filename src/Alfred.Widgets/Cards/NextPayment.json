@@ -1,0 +1,37 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "selectAction": {
+    "type": "Action.Execute",
+    "title": "Open Alfred",
+    "verb": "open"
+  },
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "${name}",
+      "size": "small",
+      "weight": "bolder",
+      "isSubtle": true,
+      "wrap": false
+    },
+    {
+      "type": "TextBlock",
+      "text": "${amount}",
+      "size": "extraLarge",
+      "weight": "bolder",
+      "spacing": "small",
+      "wrap": false
+    },
+    {
+      "type": "TextBlock",
+      "text": "${dueLine}",
+      "size": "small",
+      "weight": "bolder",
+      "isSubtle": true,
+      "spacing": "none",
+      "wrap": false
+    }
+  ]
+}

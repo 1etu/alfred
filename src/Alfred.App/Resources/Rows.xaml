@@ -9,6 +9,8 @@
 
   <Style x:Key="PageBody" TargetType="StackPanel">
     <Setter Property="Margin" Value="{StaticResource PageInset}" />
+    <Setter Property="MaxWidth" Value="1180" />
+    <Setter Property="HorizontalAlignment" Value="Left" />
   </Style>
 
   <Style x:Key="PageTitle" TargetType="TextBlock">
@@ -99,6 +101,7 @@
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="Padding" Value="{StaticResource RowInset}" />
     <Setter Property="MinHeight" Value="{StaticResource RowHeight}" />
+    <Setter Property="Margin" Value="0,0,0,3" />
     <Style.Triggers>
       <Trigger Property="IsMouseOver" Value="True">
         <Setter Property="Background" Value="{DynamicResource SidebarRowHover}" />

@@ -2,16 +2,19 @@ using Microsoft.Data.Sqlite;
 
 namespace Alfred.Core.Storage;
 
-internal interface IVaultRow<TSelf, TEntity>
+internal interface IVaultRow
+{
+    Guid Id { get; }
+
+    void Bind(SqliteCommand command);
+}
+
+internal interface IVaultRow<TSelf, TEntity> : IVaultRow
     where TSelf : struct, IVaultRow<TSelf, TEntity>
 {
     static abstract TSelf Read(SqliteDataReader reader);
 
     static abstract TSelf From(TEntity entity, int ordinal);
-
-    Guid Id { get; }
-
-    void Bind(SqliteCommand command);
 
     TEntity ToEntity();
 }

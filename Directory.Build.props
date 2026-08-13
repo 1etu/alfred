@@ -27,7 +27,7 @@
     <Product>Alfred</Product>
     <Company>Ege</Company>
     <Authors>Ege</Authors>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <NeutralLanguage>en</NeutralLanguage>
     <Deterministic>true</Deterministic>
   </PropertyGroup>

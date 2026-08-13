@@ -1,0 +1,125 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "selectAction": {
+    "type": "Action.Execute",
+    "title": "Open Alfred",
+    "verb": "open"
+  },
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "${monthLabel}",
+      "size": "small",
+      "weight": "bolder",
+      "isSubtle": true,
+      "wrap": false
+    },
+    {
+      "type": "ColumnSet",
+      "spacing": "medium",
+      "columns": [
+        {
+          "type": "Column",
+          "width": "stretch",
+          "verticalContentAlignment": "center",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "Expecting in",
+              "size": "small",
+              "weight": "bolder",
+              "isSubtle": true,
+              "wrap": false
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": "auto",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "${expectingIn}",
+              "size": "large",
+              "weight": "bolder",
+              "horizontalAlignment": "right",
+              "wrap": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "ColumnSet",
+      "spacing": "small",
+      "columns": [
+        {
+          "type": "Column",
+          "width": "stretch",
+          "verticalContentAlignment": "center",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "Expecting out",
+              "size": "small",
+              "weight": "bolder",
+              "isSubtle": true,
+              "wrap": false
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": "auto",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "${expectingOut}",
+              "size": "large",
+              "weight": "bolder",
+              "horizontalAlignment": "right",
+              "wrap": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "ColumnSet",
+      "spacing": "small",
+      "columns": [
+        {
+          "type": "Column",
+          "width": "stretch",
+          "verticalContentAlignment": "center",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "Spent so far",
+              "size": "small",
+              "weight": "bolder",
+              "isSubtle": true,
+              "wrap": false
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": "auto",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "${spentSoFar}",
+              "size": "large",
+              "weight": "bolder",
+              "horizontalAlignment": "right",
+              "wrap": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

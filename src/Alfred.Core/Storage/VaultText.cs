@@ -9,6 +9,10 @@ internal static class VaultText
 
     private const string TimeFormat = "HH:mm:ss.fffffff";
 
+    private const string InstantFormat = "O";
+
+    private const string EmptyList = "[]";
+
     internal static string Encode(decimal amount) => amount.ToString(CultureInfo.InvariantCulture);
 
     internal static string Encode(DateOnly date) => date.ToString(DateFormat, CultureInfo.InvariantCulture);
@@ -17,13 +21,20 @@ internal static class VaultText
 
     internal static string? EncodeOptional(TimeOnly? time) => time?.ToString(TimeFormat, CultureInfo.InvariantCulture);
 
-    internal static string EncodeList<TItem>(List<TItem> items) => JsonSerializer.Serialize(items);
+    internal static string Encode(DateTimeOffset instant) =>
+        instant.ToString(InstantFormat, CultureInfo.InvariantCulture);
+
+    internal static string EncodeList<TItem>(List<TItem> items) =>
+        items.Count == 0 ? EmptyList : JsonSerializer.Serialize(items);
 
     internal static decimal DecodeAmount(string text) =>
         decimal.Parse(text, NumberStyles.Number, CultureInfo.InvariantCulture);
 
     internal static DateOnly DecodeDate(string text) =>
         DateOnly.ParseExact(text, DateFormat, CultureInfo.InvariantCulture);
+
+    internal static DateTimeOffset DecodeInstant(string text) =>
+        DateTimeOffset.ParseExact(text, InstantFormat, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
 
     internal static DateOnly? DecodeOptionalDate(string? text) => text is null ? null : DecodeDate(text);
 
