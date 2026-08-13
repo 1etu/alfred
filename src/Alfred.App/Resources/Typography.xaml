@@ -7,18 +7,25 @@
   <FontFamily x:Key="AppFontDisplay">Geist, Segoe UI Variable Display, Segoe UI</FontFamily>
 
   <sys:Double x:Key="TitleBarHeight">44</sys:Double>
-  <sys:Double x:Key="BodyFontSize">13</sys:Double>
+  <sys:Double x:Key="BodyFontSize">14</sys:Double>
+  <sys:Double x:Key="RowFontSize">15</sys:Double>
   <sys:Double x:Key="TitleFontSize">15</sys:Double>
-  <sys:Double x:Key="BadgeFontSize">11</sys:Double>
+  <sys:Double x:Key="BadgeFontSize">12</sys:Double>
+  <sys:Double x:Key="PageTitleSize">34</sys:Double>
 
-  <sys:Double x:Key="SidebarWidth">236</sys:Double>
-  <sys:Double x:Key="SidebarPadding">8</sys:Double>
-  <sys:Double x:Key="SidebarRowHeight">28</sys:Double>
-  <sys:Double x:Key="SidebarIconSize">18</sys:Double>
-  <sys:Double x:Key="SidebarGroupGap">14</sys:Double>
-  <Thickness x:Key="SidebarGroupMargin">0,14,0,0</Thickness>
-  <Thickness x:Key="SidebarInset">8,0,8,12</Thickness>
-  <Thickness x:Key="SidebarToggleExpanded">202,0,0,0</Thickness>
-  <Thickness x:Key="SidebarToggleCollapsed">90,0,0,0</Thickness>
+  <sys:Double x:Key="SidebarWidth">260</sys:Double>
+  <sys:Double x:Key="SidebarPadding">10</sys:Double>
+  <sys:Double x:Key="SidebarRowHeight">32</sys:Double>
+  <sys:Double x:Key="SidebarIconSize">19</sys:Double>
+  <sys:Double x:Key="SidebarGroupGap">16</sys:Double>
+  <sys:Double x:Key="ContentInset">64</sys:Double>
+  <sys:Double x:Key="RowHeight">44</sys:Double>
+
+  <Thickness x:Key="SidebarGroupMargin">0,16,0,0</Thickness>
+  <Thickness x:Key="SidebarInset">10,0,10,14</Thickness>
+  <Thickness x:Key="SidebarToggleExpanded">222,0,0,0</Thickness>
+  <Thickness x:Key="SidebarToggleCollapsed">92,0,0,0</Thickness>
+  <Thickness x:Key="PageInset">64,52,64,120</Thickness>
+  <Thickness x:Key="RowInset">12,0,12,0</Thickness>
 
 </ResourceDictionary>

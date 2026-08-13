@@ -8,73 +8,71 @@
   </Style>
 
   <Style x:Key="PageBody" TargetType="StackPanel">
-    <Setter Property="MaxWidth" Value="640" />
-    <Setter Property="HorizontalAlignment" Value="Left" />
-    <Setter Property="Margin" Value="48,40,48,56" />
+    <Setter Property="Margin" Value="{StaticResource PageInset}" />
   </Style>
 
   <Style x:Key="PageTitle" TargetType="TextBlock">
     <Setter Property="FontFamily" Value="{StaticResource AppFontDisplay}" />
-    <Setter Property="FontSize" Value="28" />
-    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="FontSize" Value="{StaticResource PageTitleSize}" />
+    <Setter Property="FontWeight" Value="Bold" />
     <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
-    <Setter Property="Margin" Value="4,0,0,2" />
+    <Setter Property="VerticalAlignment" Value="Center" />
   </Style>
 
   <Style x:Key="PageSubtitle" TargetType="TextBlock">
-    <Setter Property="FontFamily" Value="{StaticResource AppFontSmall}" />
-    <Setter Property="FontSize" Value="12" />
+    <Setter Property="FontFamily" Value="{StaticResource AppFont}" />
+    <Setter Property="FontSize" Value="13" />
     <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
-    <Setter Property="Margin" Value="4,0,0,0" />
+    <Setter Property="Margin" Value="0,8,0,0" />
   </Style>
 
   <Style x:Key="DayHeader" TargetType="TextBlock">
     <Setter Property="FontFamily" Value="{StaticResource AppFontSmall}" />
-    <Setter Property="FontSize" Value="12" />
+    <Setter Property="FontSize" Value="12.5" />
     <Setter Property="FontWeight" Value="SemiBold" />
     <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
-    <Setter Property="Margin" Value="4,22,0,6" />
+    <Setter Property="Margin" Value="12,30,0,8" />
+  </Style>
+
+  <Style x:Key="SectionRule" TargetType="Border">
+    <Setter Property="Height" Value="1" />
+    <Setter Property="Background" Value="{DynamicResource Hairline}" />
+    <Setter Property="Margin" Value="12,0,12,10" />
   </Style>
 
   <Style x:Key="CheckCircle" TargetType="ToggleButton">
-    <Setter Property="Width" Value="20" />
-    <Setter Property="Height" Value="20" />
+    <Setter Property="Width" Value="21" />
+    <Setter Property="Height" Value="21" />
     <Setter Property="Focusable" Value="False" />
     <Setter Property="Cursor" Value="Hand" />
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="ToggleButton">
           <Grid Background="Transparent">
-            <Ellipse x:Name="Ring"
-                     Stroke="{DynamicResource CheckRing}"
-                     StrokeThickness="1.6"
-                     Fill="Transparent" />
+            <Ellipse x:Name="Ring" Stroke="{DynamicResource CheckRing}" StrokeThickness="1.6" Fill="Transparent" />
             <Ellipse x:Name="Fill" Fill="{DynamicResource CheckFill}" Opacity="0" />
-            <Path x:Name="Mark"
-                  Data="{StaticResource CheckGlyph}"
-                  Fill="#FFFFFF"
-                  Width="12"
-                  Height="12"
-                  Stretch="Uniform"
-                  Opacity="0"
-                  RenderTransformOrigin="0.5,0.5">
+            <Path x:Name="Mark" Data="{StaticResource CheckGlyph}" Fill="#FFFFFF"
+                  Width="12" Height="12" Stretch="Uniform" Opacity="0" RenderTransformOrigin="0.5,0.5">
               <Path.RenderTransform>
-                <ScaleTransform x:Name="MarkScale" ScaleX="0.6" ScaleY="0.6" />
+                <ScaleTransform x:Name="MarkScale" ScaleX="0.5" ScaleY="0.5" />
               </Path.RenderTransform>
             </Path>
           </Grid>
           <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="Ring" Property="Stroke" Value="{DynamicResource CheckFill}" />
+            </Trigger>
             <Trigger Property="IsChecked" Value="True">
               <Trigger.EnterActions>
                 <BeginStoryboard>
                   <Storyboard>
                     <DoubleAnimation Storyboard.TargetName="Fill" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.12" />
                     <DoubleAnimation Storyboard.TargetName="Mark" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.12" />
-                    <DoubleAnimation Storyboard.TargetName="MarkScale" Storyboard.TargetProperty="ScaleX" To="1" Duration="0:0:0.16">
-                      <DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.6" /></DoubleAnimation.EasingFunction>
+                    <DoubleAnimation Storyboard.TargetName="MarkScale" Storyboard.TargetProperty="ScaleX" To="1" Duration="0:0:0.18">
+                      <DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.7" /></DoubleAnimation.EasingFunction>
                     </DoubleAnimation>
-                    <DoubleAnimation Storyboard.TargetName="MarkScale" Storyboard.TargetProperty="ScaleY" To="1" Duration="0:0:0.16">
-                      <DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.6" /></DoubleAnimation.EasingFunction>
+                    <DoubleAnimation Storyboard.TargetName="MarkScale" Storyboard.TargetProperty="ScaleY" To="1" Duration="0:0:0.18">
+                      <DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.7" /></DoubleAnimation.EasingFunction>
                     </DoubleAnimation>
                   </Storyboard>
                 </BeginStoryboard>
@@ -84,8 +82,8 @@
                   <Storyboard>
                     <DoubleAnimation Storyboard.TargetName="Fill" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.10" />
                     <DoubleAnimation Storyboard.TargetName="Mark" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.10" />
-                    <DoubleAnimation Storyboard.TargetName="MarkScale" Storyboard.TargetProperty="ScaleX" To="0.6" Duration="0:0:0.10" />
-                    <DoubleAnimation Storyboard.TargetName="MarkScale" Storyboard.TargetProperty="ScaleY" To="0.6" Duration="0:0:0.10" />
+                    <DoubleAnimation Storyboard.TargetName="MarkScale" Storyboard.TargetProperty="ScaleX" To="0.5" Duration="0:0:0.10" />
+                    <DoubleAnimation Storyboard.TargetName="MarkScale" Storyboard.TargetProperty="ScaleY" To="0.5" Duration="0:0:0.10" />
                   </Storyboard>
                 </BeginStoryboard>
               </Trigger.ExitActions>
@@ -97,10 +95,10 @@
   </Style>
 
   <Style x:Key="ItemRow" TargetType="Border">
-    <Setter Property="CornerRadius" Value="8" />
+    <Setter Property="CornerRadius" Value="9" />
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Padding" Value="10,0,10,0" />
-    <Setter Property="MinHeight" Value="38" />
+    <Setter Property="Padding" Value="{StaticResource RowInset}" />
+    <Setter Property="MinHeight" Value="{StaticResource RowHeight}" />
     <Style.Triggers>
       <Trigger Property="IsMouseOver" Value="True">
         <Setter Property="Background" Value="{DynamicResource SidebarRowHover}" />
@@ -110,7 +108,7 @@
 
   <Style x:Key="RowTitle" TargetType="TextBlock">
     <Setter Property="FontFamily" Value="{StaticResource AppFont}" />
-    <Setter Property="FontSize" Value="{StaticResource BodyFontSize}" />
+    <Setter Property="FontSize" Value="{StaticResource RowFontSize}" />
     <Setter Property="FontWeight" Value="Medium" />
     <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
     <Setter Property="VerticalAlignment" Value="Center" />
@@ -119,17 +117,18 @@
 
   <Style x:Key="RowMeta" TargetType="TextBlock">
     <Setter Property="FontFamily" Value="{StaticResource AppFontSmall}" />
-    <Setter Property="FontSize" Value="11" />
+    <Setter Property="FontSize" Value="12" />
     <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
     <Setter Property="VerticalAlignment" Value="Center" />
   </Style>
 
   <Style x:Key="RowAmount" TargetType="TextBlock">
     <Setter Property="FontFamily" Value="{StaticResource AppFontSmall}" />
-    <Setter Property="FontSize" Value="12" />
+    <Setter Property="FontSize" Value="13.5" />
     <Setter Property="FontWeight" Value="SemiBold" />
     <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
     <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="HorizontalAlignment" Value="Right" />
   </Style>
 
   <Style x:Key="GhostButton" TargetType="Button">
@@ -138,7 +137,7 @@
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="Button">
-          <Border x:Name="Pill" CornerRadius="7" Background="Transparent" Padding="10,6,10,6">
+          <Border x:Name="Pill" CornerRadius="8" Background="Transparent" Padding="12,7,12,8">
             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
           </Border>
           <ControlTemplate.Triggers>
@@ -148,23 +147,68 @@
             <Trigger Property="IsPressed" Value="True">
               <Setter TargetName="Pill" Property="Background" Value="{DynamicResource SidebarRowSelected}" />
             </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+              <Setter Property="Opacity" Value="0.4" />
+            </Trigger>
           </ControlTemplate.Triggers>
         </ControlTemplate>
       </Setter.Value>
     </Setter>
   </Style>
 
-  <Style x:Key="IconButton" TargetType="Button" BasedOn="{StaticResource GhostButton}">
-    <Setter Property="Width" Value="28" />
-    <Setter Property="Height" Value="28" />
-    <Setter Property="Padding" Value="0" />
+  <Style x:Key="IconButton" TargetType="Button">
+    <Setter Property="Width" Value="32" />
+    <Setter Property="Height" Value="32" />
+    <Setter Property="Focusable" Value="False" />
+    <Setter Property="Cursor" Value="Hand" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Border x:Name="Pill" CornerRadius="8" Background="Transparent">
+            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="Pill" Property="Background" Value="{DynamicResource SidebarRowSelected}" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Style x:Key="RowActionButton" TargetType="Button">
+    <Setter Property="Width" Value="30" />
+    <Setter Property="Height" Value="30" />
+    <Setter Property="Focusable" Value="False" />
+    <Setter Property="Cursor" Value="Hand" />
+    <Setter Property="Opacity" Value="0" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Border x:Name="Pill" CornerRadius="7" Background="Transparent">
+            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="Pill" Property="Background" Value="{DynamicResource SidebarRowSelected}" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
   </Style>
 
   <Style x:Key="Chip" TargetType="Border">
-    <Setter Property="CornerRadius" Value="5" />
+    <Setter Property="CornerRadius" Value="6" />
     <Setter Property="Background" Value="{DynamicResource SegmentTrack}" />
-    <Setter Property="Padding" Value="7,2,7,3" />
+    <Setter Property="Padding" Value="9,3,9,4" />
     <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+
+  <Style x:Key="CardSurface" TargetType="Border">
+    <Setter Property="CornerRadius" Value="12" />
+    <Setter Property="Background" Value="{DynamicResource CardBackground}" />
   </Style>
 
 </ResourceDictionary>

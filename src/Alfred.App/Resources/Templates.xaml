@@ -5,32 +5,38 @@
 
   <suggest:BrandTileImageConverter x:Key="BrandTileImage" />
   <suggest:IsNotNullConverter x:Key="IsNotNull" />
+  <suggest:GlyphLookupConverter x:Key="GlyphLookup" />
   <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
 
   <DataTemplate DataType="{x:Type vm:AgendaViewModel+DayHeaderRow}">
-    <TextBlock Text="{Binding Header}" Style="{StaticResource DayHeader}" />
+    <StackPanel>
+      <TextBlock Text="{Binding Header}" Style="{StaticResource DayHeader}" />
+      <Border Style="{StaticResource SectionRule}" />
+    </StackPanel>
   </DataTemplate>
 
   <DataTemplate DataType="{x:Type vm:AgendaViewModel+AgendaRow}">
-    <Border Style="{StaticResource ItemRow}">
+    <Border x:Name="Row" Style="{StaticResource ItemRow}">
       <Grid>
         <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="26" />
+          <ColumnDefinition Width="30" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" MaxWidth="620" />
           <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="*" />
-          <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" MinWidth="120" />
         </Grid.ColumnDefinitions>
 
         <ToggleButton Grid.Column="0"
                       Style="{StaticResource CheckCircle}"
                       HorizontalAlignment="Left"
+                      VerticalAlignment="Center"
                       IsChecked="{Binding IsDone, Mode=TwoWay}"
                       Visibility="{Binding HasCheck, Converter={StaticResource BoolToVisibility}}" />
 
         <Border Grid.Column="1"
-                Width="22" Height="22" CornerRadius="5"
-                Margin="0,0,9,0"
+                Width="24" Height="24" CornerRadius="6"
+                Margin="0,0,12,0"
                 VerticalAlignment="Center"
                 Background="{DynamicResource CardBackground}">
           <Border.Style>
@@ -42,7 +48,7 @@
               </Style.Triggers>
             </Style>
           </Border.Style>
-          <Image Source="{Binding BrandSlug, Converter={StaticResource BrandTileImage}}" Width="13" Height="13" />
+          <Image Source="{Binding BrandSlug, Converter={StaticResource BrandTileImage}}" Width="14" Height="14" />
         </Border>
 
         <TextBlock Grid.Column="2" Text="{Binding Title}" VerticalAlignment="Center">
@@ -50,26 +56,28 @@
             <Style TargetType="TextBlock" BasedOn="{StaticResource RowTitle}">
               <Style.Triggers>
                 <DataTrigger Binding="{Binding IsDone}" Value="True">
-                  <Setter Property="Opacity" Value="0.45" />
+                  <Setter Property="Opacity" Value="0.4" />
                 </DataTrigger>
               </Style.Triggers>
             </Style>
           </TextBlock.Style>
         </TextBlock>
 
-        <TextBlock Grid.Column="3" Margin="12,0,0,0" Text="{Binding Meta}">
+        <TextBlock Grid.Column="3" Text="{Binding Meta}" Margin="18,0,0,0"
+                   TextTrimming="CharacterEllipsis">
           <TextBlock.Style>
             <Style TargetType="TextBlock" BasedOn="{StaticResource RowMeta}">
               <Style.Triggers>
                 <DataTrigger Binding="{Binding IsOverdue}" Value="True">
                   <Setter Property="Foreground" Value="{DynamicResource Overdue}" />
+                  <Setter Property="FontWeight" Value="SemiBold" />
                 </DataTrigger>
               </Style.Triggers>
             </Style>
           </TextBlock.Style>
         </TextBlock>
 
-        <TextBlock Grid.Column="4" Margin="14,0,0,0" Text="{Binding Amount}">
+        <TextBlock Grid.Column="5" Text="{Binding Amount}" Margin="24,0,0,0">
           <TextBlock.Style>
             <Style TargetType="TextBlock" BasedOn="{StaticResource RowAmount}">
               <Style.Triggers>
