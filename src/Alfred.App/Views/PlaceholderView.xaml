@@ -17,7 +17,7 @@
                FontWeight="SemiBold"
                Foreground="{DynamicResource TextSecondary}" />
 
-    <TextBlock Text="{Binding SelectedItem.Title}"
+    <TextBlock Text="{Binding Title}"
                Margin="0,6,0,0"
                HorizontalAlignment="Center"
                FontFamily="{StaticResource AppFontSmall}"

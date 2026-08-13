@@ -12,6 +12,7 @@
   </Style>
 
   <Style x:Key="SidebarRow" TargetType="ListBoxItem">
+    <Setter Property="AutomationProperties.Name" Value="{Binding Title}" />
     <Setter Property="Height" Value="{StaticResource SidebarRowHeight}" />
     <Setter Property="Padding" Value="0" />
     <Setter Property="Margin" Value="0,0,0,1" />

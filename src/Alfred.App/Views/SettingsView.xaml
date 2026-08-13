@@ -109,6 +109,54 @@
         </ItemsControl.ItemTemplate>
       </ItemsControl>
 
+      <TextBlock Text="Microsoft account" Style="{StaticResource SettingsSectionTitle}" Margin="4,30,0,10" />
+      <Border Style="{StaticResource SettingsCard}">
+        <StackPanel>
+          <Grid Style="{StaticResource SettingsRow}">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,12,24,12">
+              <TextBlock Text="Calendar sync" Style="{StaticResource SettingsRowLabel}" />
+              <TextBlock Text="Pushes the next 90 days into an 'Alfred' calendar. Needs your own Azure app ClientId — see .claude/docs/sync.md."
+                         Style="{StaticResource SettingsRowCaption}" />
+              <TextBlock Text="{Binding Settings.SyncStatus}" Style="{StaticResource SettingsRowCaption}" Foreground="{DynamicResource MoneyIn}" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+              <TextBlock Text="{Binding Settings.AccountLabel}" Style="{StaticResource SettingsValue}" Margin="0,0,12,0" />
+              <Button x:Name="ConnectButton" Style="{StaticResource GhostButton}" Click="OnConnect"
+                      IsEnabled="{Binding Settings.CanConnect}">
+                <TextBlock x:Name="ConnectLabel" Text="Connect" FontFamily="{StaticResource AppFont}" FontSize="12" FontWeight="SemiBold"
+                           Foreground="{DynamicResource TextPrimary}" />
+              </Button>
+              <Button Style="{StaticResource GhostButton}" Click="OnSyncNow" Margin="4,0,0,0"
+                      IsEnabled="{Binding Settings.IsSignedIn}">
+                <TextBlock Text="Sync now" FontFamily="{StaticResource AppFont}" FontSize="12" FontWeight="SemiBold"
+                           Foreground="{DynamicResource TextPrimary}" />
+              </Button>
+            </StackPanel>
+          </Grid>
+
+          <Border Style="{StaticResource SettingsDivider}" />
+
+          <Grid Style="{StaticResource SettingsRow}">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="ClientId" Style="{StaticResource SettingsRowLabel}" />
+            <Border Grid.Column="1" CornerRadius="7" Background="{DynamicResource SegmentTrack}" Margin="18,10,0,10">
+              <TextBox Text="{Binding Settings.MicrosoftClientId, UpdateSourceTrigger=LostFocus}"
+                       Margin="8,0,8,0" Padding="3,6,3,6"
+                       Background="Transparent" BorderThickness="0"
+                       FontFamily="{StaticResource AppFontSmall}" FontSize="11"
+                       Foreground="{DynamicResource TextPrimary}" CaretBrush="{DynamicResource TextPrimary}" />
+            </Border>
+          </Grid>
+        </StackPanel>
+      </Border>
+
       <TextBlock Text="About" Style="{StaticResource SettingsSectionTitle}" Margin="4,30,0,10" />
       <Border Style="{StaticResource SettingsCard}">
         <StackPanel>

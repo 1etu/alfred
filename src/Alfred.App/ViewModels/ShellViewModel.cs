@@ -5,65 +5,102 @@ using System.Windows.Data;
 using System.Windows.Media;
 using Alfred.App.Input;
 using Alfred.App.Preferences;
+using Alfred.Core.Agenda;
+using Alfred.Core.Ledger;
+using Alfred.Core.Storage;
 
 namespace Alfred.App.ViewModels;
 
 public sealed class ShellViewModel : Observable
 {
     private readonly ObservableCollection<SidebarItem> _items = [];
+    private readonly Dictionary<string, Func<object>> _factories;
+    private readonly Dictionary<string, object> _pages = [];
     private readonly UserPreferences _preferences;
     private SidebarItem _selectedItem;
+    private bool _isSettingsOpen;
+    private object _currentContent = null!;
 
-    public ShellViewModel(UserPreferences preferences, ShortcutRegistry shortcuts)
+    public ShellViewModel(UserPreferences preferences, ShortcutRegistry shortcuts, Vault vault)
     {
         _preferences = preferences;
+        Vault = vault;
         Shortcuts = shortcuts;
         Settings = new SettingsViewModel(preferences);
 
-        Add("overview", "Today", "TodayIcon", 3);
-        Add("overview", "Upcoming", "UpcomingIcon", 5);
+        _factories = new Dictionary<string, Func<object>>
+        {
+            ["Today"] = () => new AgendaViewModel(vault, AgendaMode.Today),
+            ["Upcoming"] = () => new AgendaViewModel(vault, AgendaMode.Upcoming),
+            ["Plans"] = () => new PlansViewModel(vault),
+            ["TODOs"] = () => new TodosViewModel(vault),
+            ["Free Board"] = () => new BoardViewModel(vault),
+            ["Calendar"] = () => new CalendarViewModel(vault),
+            ["Reminders"] = () => new RemindersViewModel(vault),
+            ["Payments"] = () => new PaymentsViewModel(vault),
+            ["Wish List"] = () => new WishesViewModel(vault),
+            ["Meals"] = () => new MealsViewModel(vault),
+        };
 
-        Add("work", "Plans", "PlansIcon", 0);
-        Add("work", "TODOs", "TodosIcon", 12);
-        Add("work", "Free Board", "FreeBoardIcon", 0);
-
-        Add("time", "Calendar", "CalendarIcon", 0);
-        Add("time", "Reminders", "RemindersIcon", 2);
-
-        Add("money", "Payments", "PaymentsIcon", 1);
-        Add("money", "Subscriptions", "SubscriptionsIcon", 0);
-        Add("money", "Wish List", "WishListIcon", 0);
-
-        Add("life", "Meals", "MealsIcon", 0);
+        Add("overview", "Today", "TodayIcon");
+        Add("overview", "Upcoming", "UpcomingIcon");
+        Add("work", "Plans", "PlansIcon");
+        Add("work", "TODOs", "TodosIcon");
+        Add("work", "Free Board", "FreeBoardIcon");
+        Add("time", "Calendar", "CalendarIcon");
+        Add("time", "Reminders", "RemindersIcon");
+        Add("money", "Payments", "PaymentsIcon");
+        Add("money", "Wish List", "WishListIcon");
+        Add("life", "Meals", "MealsIcon");
 
         Items = CollectionViewSource.GetDefaultView(_items);
         Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(SidebarItem.Group)));
 
         _selectedItem = _items[0];
+        _currentContent = Resolve("Today");
+
+        vault.Changed += (_, _) => RefreshCounts();
+        RefreshCounts();
     }
 
     public ICollectionView Items { get; }
 
+    public Vault Vault { get; }
+
     public ShortcutRegistry Shortcuts { get; }
 
     public SettingsViewModel Settings { get; }
+
+    public object CurrentContent
+    {
+        get => _currentContent;
+        private set => Set(ref _currentContent, value);
+    }
 
     public SidebarItem SelectedItem
     {
         get => _selectedItem;
         set
         {
-            if (Set(ref _selectedItem, value))
+            if (Set(ref _selectedItem, value) && value is not null)
             {
-                IsSettingsOpen = false;
+                _isSettingsOpen = false;
+                Raise(nameof(IsSettingsOpen));
+                CurrentContent = Resolve(value.Title);
             }
         }
     }
 
     public bool IsSettingsOpen
     {
-        get;
-        set => Set(ref field, value);
+        get => _isSettingsOpen;
+        set
+        {
+            if (Set(ref _isSettingsOpen, value))
+            {
+                CurrentContent = value ? Settings : Resolve(_selectedItem.Title);
+            }
+        }
     }
 
     public bool IsSidebarExpanded
@@ -82,10 +119,45 @@ public sealed class ShellViewModel : Observable
         }
     }
 
-    private void Add(string group, string title, string iconKey, int count)
+    public void Navigate(int index)
+    {
+        if (index >= 0 && index < _items.Count)
+        {
+            SelectedItem = _items[index];
+        }
+    }
+
+    private object Resolve(string title)
+    {
+        if (!_pages.TryGetValue(title, out object? page))
+        {
+            page = _factories[title]();
+            _pages[title] = page;
+        }
+
+        return page;
+    }
+
+    private void RefreshCounts()
+    {
+        DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+        IReadOnlyList<AgendaItem> todayItems = AgendaService.Today(Vault.Data, today);
+
+        SetCount("Today", todayItems.Count(item => !item.IsDone && item.Kind != AgendaKind.Know));
+        SetCount("TODOs", Vault.Data.Todos.Count(todo => !todo.Done));
+        SetCount("Reminders", Vault.Data.Reminders.Count(reminder => !reminder.Done && reminder.Due <= today));
+        SetCount("Payments", todayItems.Count(item => item is { Kind: AgendaKind.Settle, IsDone: false }));
+    }
+
+    private void SetCount(string title, int count)
+    {
+        SidebarItem? item = _items.FirstOrDefault(item => item.Title == title);
+        item?.Count = count;
+    }
+
+    private void Add(string group, string title, string iconKey)
     {
         ImageSource icon = (ImageSource)Application.Current.Resources[iconKey];
-        _items.Add(new SidebarItem(group, title, icon) { Count = count });
+        _items.Add(new SidebarItem(group, title, icon));
     }
 }
-

@@ -27,6 +27,12 @@
   <SolidColorBrush x:Key="SwitchTrackOn" Color="#30D158" po:Freeze="True" />
   <SolidColorBrush x:Key="SwitchKnob" Color="#FFFFFF" po:Freeze="True" />
 
+  <SolidColorBrush x:Key="CheckRing" Color="#57534C" po:Freeze="True" />
+  <SolidColorBrush x:Key="CheckFill" Color="#3B82F6" po:Freeze="True" />
+  <SolidColorBrush x:Key="MoneyIn" Color="#4ADE80" po:Freeze="True" />
+  <SolidColorBrush x:Key="MoneyOut" Color="#F87171" po:Freeze="True" />
+  <SolidColorBrush x:Key="Overdue" Color="#F87171" po:Freeze="True" />
+
   <SolidColorBrush x:Key="ScrollThumbBrush" Color="#4DFFFFFF" po:Freeze="True" />
   <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#82FFFFFF" po:Freeze="True" />
 

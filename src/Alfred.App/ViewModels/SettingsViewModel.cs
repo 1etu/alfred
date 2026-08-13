@@ -1,4 +1,5 @@
 using Alfred.App.Preferences;
+using Alfred.App.Sync;
 using Alfred.App.Theming;
 
 namespace Alfred.App.ViewModels;
@@ -10,6 +11,44 @@ public sealed class SettingsViewModel : Observable
     public SettingsViewModel(UserPreferences preferences)
     {
         _preferences = preferences;
+        Account = new MicrosoftAccount();
+    }
+
+    internal MicrosoftAccount Account { get; }
+
+    public string? MicrosoftClientId
+    {
+        get => _preferences.MicrosoftClientId;
+        set
+        {
+            _preferences.MicrosoftClientId = string.IsNullOrWhiteSpace(value) ? null : value.Trim();
+            PreferencesStore.Save(_preferences);
+            Raise(nameof(CanConnect));
+        }
+    }
+
+    public bool CanConnect => !string.IsNullOrWhiteSpace(_preferences.MicrosoftClientId);
+
+    public bool IsSignedIn => Account.IsSignedIn;
+
+    public string AccountLabel => Account.AccountName ?? "Not connected";
+
+    public string SyncStatus
+    {
+        get;
+        set => Set(ref field, value);
+    } = string.Empty;
+
+    public bool IsBusy
+    {
+        get;
+        set => Set(ref field, value);
+    }
+
+    internal void RefreshAccount()
+    {
+        Raise(nameof(IsSignedIn));
+        Raise(nameof(AccountLabel));
     }
 
     public bool IsSystemTheme

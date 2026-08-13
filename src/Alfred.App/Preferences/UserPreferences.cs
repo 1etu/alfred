@@ -11,4 +11,6 @@ public sealed class UserPreferences
     public bool IsSidebarExpanded { get; set; } = true;
 
     public Dictionary<string, string> Shortcuts { get; set; } = [];
+
+    public string? MicrosoftClientId { get; set; }
 }

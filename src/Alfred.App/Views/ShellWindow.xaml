@@ -4,6 +4,7 @@
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         xmlns:controls="clr-namespace:Alfred.App.Controls"
         xmlns:views="clr-namespace:Alfred.App.Views"
+        xmlns:vm="clr-namespace:Alfred.App.ViewModels"
         Title="Alfred"
         Icon="/Resources/Alfred.ico"
         Width="1100"
@@ -30,10 +31,34 @@
   </shell:WindowChrome.WindowChrome>
 
   <Window.Resources>
-    <DataTemplate x:Key="PlaceholderTemplate">
-      <views:PlaceholderView />
+    <DataTemplate DataType="{x:Type vm:AgendaViewModel}">
+      <views:AgendaView />
     </DataTemplate>
-    <DataTemplate x:Key="SettingsTemplate">
+    <DataTemplate DataType="{x:Type vm:PaymentsViewModel}">
+      <views:PaymentsView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:TodosViewModel}">
+      <views:TodosView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:RemindersViewModel}">
+      <views:RemindersView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:PlansViewModel}">
+      <views:PlansView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:BoardViewModel}">
+      <views:BoardView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:MealsViewModel}">
+      <views:MealsView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:WishesViewModel}">
+      <views:WishesView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:CalendarViewModel}">
+      <views:CalendarView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
       <views:SettingsView />
     </DataTemplate>
   </Window.Resources>
@@ -93,21 +118,10 @@
             Background="{DynamicResource ShellBackground}"
             BorderBrush="{DynamicResource Hairline}"
             BorderThickness="1,0,0,0">
-      <ContentControl Content="{Binding}"
+      <ContentControl Content="{Binding CurrentContent}"
                       Margin="0,44,0,0"
                       HorizontalContentAlignment="Stretch"
-                      VerticalContentAlignment="Stretch">
-        <ContentControl.Style>
-          <Style TargetType="ContentControl">
-            <Setter Property="ContentTemplate" Value="{StaticResource PlaceholderTemplate}" />
-            <Style.Triggers>
-              <DataTrigger Binding="{Binding IsSettingsOpen}" Value="True">
-                <Setter Property="ContentTemplate" Value="{StaticResource SettingsTemplate}" />
-              </DataTrigger>
-            </Style.Triggers>
-          </Style>
-        </ContentControl.Style>
-      </ContentControl>
+                      VerticalContentAlignment="Stretch" />
     </Border>
 
     <Grid Grid.Column="0"
