@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Alfred.App.Input;
 using Alfred.App.Preferences;
 using Alfred.App.Suggest;
+using Alfred.App.Sync;
 using Alfred.App.Theming;
 using Alfred.App.ViewModels;
 using Alfred.App.Views;
@@ -13,6 +14,14 @@ namespace Alfred.App;
 
 public partial class App : Application
 {
+    private Vault? _vault;
+
+    protected override void OnExit(ExitEventArgs e)
+    {
+        _vault?.Dispose();
+        base.OnExit(e);
+    }
+
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
@@ -37,7 +46,14 @@ public partial class App : Application
         registry.Register("nav.payments", "Go to Payments", "Navigation",
             new KeyGesture(Key.D4, ModifierKeys.Control), () => model.Navigate(7));
 
-        _ = Task.Run(() => BrandCatalog.All.Count);
+        _vault = vault;
+        vault.Changed += (_, _) => WidgetSnapshotWriter.Write(vault.Data);
+
+        _ = Task.Run(() =>
+        {
+            _ = BrandCatalog.All.Count;
+            WidgetSnapshotWriter.Write(vault.Data);
+        });
 
         ShellWindow shell = new()
         {
