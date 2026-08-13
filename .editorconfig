@@ -120,6 +120,20 @@ dotnet_naming_symbols.type_parameter_symbols.applicable_kinds = type_parameter
 dotnet_naming_style.t_prefixed.capitalization = pascal_case
 dotnet_naming_style.t_prefixed.required_prefix = T
 
+dotnet_naming_rule.constants_are_pascal_case.severity = warning
+dotnet_naming_rule.constants_are_pascal_case.symbols = const_field_symbols
+dotnet_naming_rule.constants_are_pascal_case.style = pascal_case
+dotnet_naming_symbols.const_field_symbols.applicable_kinds = field
+dotnet_naming_symbols.const_field_symbols.applicable_accessibilities = *
+dotnet_naming_symbols.const_field_symbols.required_modifiers = const
+
+dotnet_naming_rule.static_readonly_fields_are_pascal_case.severity = warning
+dotnet_naming_rule.static_readonly_fields_are_pascal_case.symbols = static_readonly_field_symbols
+dotnet_naming_rule.static_readonly_fields_are_pascal_case.style = pascal_case
+dotnet_naming_symbols.static_readonly_field_symbols.applicable_kinds = field
+dotnet_naming_symbols.static_readonly_field_symbols.applicable_accessibilities = *
+dotnet_naming_symbols.static_readonly_field_symbols.required_modifiers = static, readonly
+
 dotnet_naming_rule.private_fields_are_underscore_camel_case.severity = warning
 dotnet_naming_rule.private_fields_are_underscore_camel_case.symbols = private_field_symbols
 dotnet_naming_rule.private_fields_are_underscore_camel_case.style = underscore_camel_case
