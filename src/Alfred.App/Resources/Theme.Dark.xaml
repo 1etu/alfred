@@ -18,7 +18,6 @@
   <SolidColorBrush x:Key="SidebarRowHover" Color="#0DFFFFFF" po:Freeze="True" />
   <SolidColorBrush x:Key="SidebarRowSelected" Color="#1AFFFFFF" po:Freeze="True" />
 
-  <SolidColorBrush x:Key="ShellBackgroundGlass" Color="#8C21201E" po:Freeze="True" />
   <SolidColorBrush x:Key="SidebarBackgroundGlass" Color="#4D1A1918" po:Freeze="True" />
 
   <SolidColorBrush x:Key="CardBackground" Color="#282725" po:Freeze="True" />
@@ -27,6 +26,9 @@
   <SolidColorBrush x:Key="SwitchTrackOff" Color="#3D3B37" po:Freeze="True" />
   <SolidColorBrush x:Key="SwitchTrackOn" Color="#30D158" po:Freeze="True" />
   <SolidColorBrush x:Key="SwitchKnob" Color="#FFFFFF" po:Freeze="True" />
+
+  <SolidColorBrush x:Key="ScrollThumbBrush" Color="#4DFFFFFF" po:Freeze="True" />
+  <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#82FFFFFF" po:Freeze="True" />
 
   <SolidColorBrush x:Key="SegmentTrack" Color="#2B2A27" po:Freeze="True" />
   <SolidColorBrush x:Key="SegmentSelected" Color="#403E3A" po:Freeze="True" />

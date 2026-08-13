@@ -9,6 +9,7 @@
         <ResourceDictionary Source="Resources/Shell.xaml" />
         <ResourceDictionary Source="Resources/Icons.xaml" />
         <ResourceDictionary Source="Resources/Controls.xaml" />
+        <ResourceDictionary Source="Resources/Scrolling.xaml" />
         <ResourceDictionary Source="Resources/Sidebar.xaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
