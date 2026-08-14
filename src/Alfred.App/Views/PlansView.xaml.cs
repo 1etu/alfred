@@ -2,47 +2,38 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Alfred.App.Controls;
-using Alfred.App.Suggest;
 using Alfred.App.ViewModels;
 
 namespace Alfred.App.Views;
 
 public partial class PlansView : UserControl
 {
-    private DateOnly? _pickedDate;
-
     private PlansViewModel? _bound;
 
     public PlansView()
     {
         InitializeComponent();
-        QuickDate.Source = new DateSource();
-        QuickDate.Committed += (_, suggestion) => _pickedDate = suggestion.Value as DateOnly?;
 
         DataContextChanged += (_, _) =>
         {
             _bound?.PrimaryRequested -= OnPrimaryRequested;
-
             _bound = DataContext as PlansViewModel;
-
             _bound?.PrimaryRequested += OnPrimaryRequested;
         };
     }
 
-    private void OnPrimaryRequested(object? sender, EventArgs e) => QuickTitle.FocusInput();
+    private void OnPrimaryRequested(object? sender, EventArgs e) => Bar.FocusTitle();
 
     private void OnQuickAdd(object sender, EventArgs e)
     {
-        if (DataContext is not PlansViewModel plans || string.IsNullOrWhiteSpace(QuickTitle.Text))
+        if (DataContext is not PlansViewModel plans || Bar.Title.Length == 0)
         {
             return;
         }
 
-        plans.Add(QuickTitle.Text.Trim(), _pickedDate);
-        QuickTitle.Text = string.Empty;
-        QuickDate.Text = string.Empty;
-        _pickedDate = null;
-        QuickTitle.FocusInput();
+        plans.Add(Bar.Title, Bar.PickedDate);
+        Bar.Reset();
+        Bar.FocusTitle();
     }
 
     private void OnRowClick(object sender, MouseButtonEventArgs e)

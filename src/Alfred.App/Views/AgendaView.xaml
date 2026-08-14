@@ -5,21 +5,51 @@
   <ScrollViewer Style="{StaticResource PageRoot}">
     <StackPanel Style="{StaticResource PageBody}">
 
-      <TextBlock Text="{Binding Title}" Style="{StaticResource PageTitle}" />
-      <TextBlock Text="{Binding Subtitle}" Style="{StaticResource PageSubtitle}" Margin="0,10,0,0" />
+      <StackPanel Orientation="Horizontal" Margin="0,44,0,4">
+        <Image Source="{Binding HeaderIcon, RelativeSource={RelativeSource AncestorType=UserControl}}"
+               Width="24" Height="24" Margin="0,3,10,0" VerticalAlignment="Center" />
+        <TextBlock Text="{Binding Title}" Style="{StaticResource BigTitle}" />
+      </StackPanel>
 
-      <controls:SmartInput x:Name="QuickTitle"
-                           Margin="0,30,0,0"
-                           Width="620"
-                           HorizontalAlignment="Left"
-                           Placeholder="Add something for today…"
-                           Submitted="OnQuickAdd"
-                           Visibility="{Binding IsToday, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolToVisibility}}" />
+      <TextBlock Style="{StaticResource PageSubtitle}" Margin="34,0,0,0"
+                 Visibility="{Binding IsToday, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolToVisibility}}">
+        <Run Text="{Binding Greeting, Mode=OneWay}" /><Run Text="  ·  " /><Run Text="{Binding Subtitle, Mode=OneWay}" />
+      </TextBlock>
 
-      <ItemsControl ItemsSource="{Binding Rows}" Margin="0,22,0,0" />
+      <StackPanel Visibility="{Binding IsToday, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolToVisibility}}">
+        <UniformGrid Columns="3" Margin="0,18,0,0">
+          <Border CornerRadius="12" Background="{DynamicResource StatAmberBack}" Padding="15,12,15,13" Margin="0,0,10,0">
+            <StackPanel>
+              <TextBlock Text="{Binding StatMoney}" FontFamily="{StaticResource AppFontDisplay}" FontSize="17" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimary}" />
+              <TextBlock Text="{Binding StatMoneyDetail}" Style="{StaticResource RowSub}" Margin="0,2,0,0" />
+            </StackPanel>
+          </Border>
+          <Border CornerRadius="12" Background="{DynamicResource StatBlueBack}" Padding="15,12,15,13" Margin="0,0,10,0">
+            <StackPanel>
+              <TextBlock Text="{Binding StatDue}" FontFamily="{StaticResource AppFontDisplay}" FontSize="17" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimary}" />
+              <TextBlock Text="{Binding StatDueDetail}" Style="{StaticResource RowSub}" Margin="0,2,0,0" />
+            </StackPanel>
+          </Border>
+          <Border CornerRadius="12" Background="{DynamicResource StatGreenBack}" Padding="15,12,15,13"
+                  Visibility="{Binding HasNext, Converter={StaticResource BoolToVisibility}}">
+            <StackPanel>
+              <TextBlock Text="{Binding StatNext}" FontFamily="{StaticResource AppFontDisplay}" FontSize="17" FontWeight="SemiBold"
+                         Foreground="{DynamicResource TextPrimary}" TextTrimming="CharacterEllipsis" />
+              <TextBlock Text="{Binding StatNextDetail}" Style="{StaticResource RowSub}" Margin="0,2,0,0" />
+            </StackPanel>
+          </Border>
+        </UniformGrid>
+
+        <controls:QuickBar x:Name="Bar"
+                           Margin="0,16,0,0"
+                           TitlePlaceholder="Add something… try 'call mom tomorrow'"
+                           Submitted="OnQuickAdd" />
+      </StackPanel>
+
+      <ItemsControl ItemsSource="{Binding Rows}" Margin="0,8,0,0" />
 
       <StackPanel HorizontalAlignment="Center"
-                  Margin="0,120,0,0"
+                  Margin="0,100,0,0"
                   Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVisibility}}">
         <Image Source="{StaticResource AlfredCryingIcon}" Width="80" Height="80" Opacity="0.4" />
         <TextBlock Text="All clear. Alfred approves."

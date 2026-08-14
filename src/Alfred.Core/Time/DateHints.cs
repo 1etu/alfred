@@ -91,8 +91,93 @@ public static class DateHints
             hints.Add(new DateHint(explicitDate, $"{explicitDate.Day} {MonthNames[explicitDate.Month - 1]}"));
         }
 
+        if (hints.Count == 0)
+        {
+            foreach ((string phrase, DateOnly hit, string label) in Phrases(text, today))
+            {
+                if (string.Equals(phrase.Trim(), text, StringComparison.OrdinalIgnoreCase))
+                {
+                    hints.Add(new DateHint(hit, label));
+                    break;
+                }
+            }
+        }
+
         return hints;
     }
+
+    public static bool TryExtract(string text, DateOnly today, out string cleaned, out DateOnly date, out string label)
+    {
+        cleaned = text;
+        date = default;
+        label = string.Empty;
+
+        foreach ((string phrase, DateOnly hit, string hitLabel) in Phrases(text, today))
+        {
+            int index = text.LastIndexOf(phrase, StringComparison.OrdinalIgnoreCase);
+            if (index < 0)
+            {
+                continue;
+            }
+
+            cleaned = (text.Remove(index, phrase.Length)).Trim().TrimEnd(',', '-', '·').Trim();
+            date = hit;
+            label = hitLabel;
+            return cleaned.Length > 0;
+        }
+
+        return false;
+    }
+
+    private static IEnumerable<(string Phrase, DateOnly Date, string Label)> Phrases(string text, DateOnly today)
+    {
+        yield return ("day after tomorrow", today.AddDays(2), "Day after tomorrow");
+        yield return ("tomorrow", today.AddDays(1), "Tomorrow");
+        yield return ("yesterday", today.AddDays(-1), "Yesterday");
+        yield return ("today", today, "Today");
+        yield return ("tonight", today, "Tonight");
+        yield return ("next week", NextWeekday(today, DayOfWeek.Monday), "Next week");
+        yield return ("a week later", today.AddDays(7), "In 1 week");
+        yield return ("a week ago", today.AddDays(-7), "A week ago");
+        yield return ("a month ago", today.AddMonths(-1), "A month ago");
+        yield return ("next month", new DateOnly(today.AddMonths(1).Year, today.AddMonths(1).Month, 1), "Next month");
+        yield return ("this weekend", NextWeekday(today, DayOfWeek.Saturday), "Weekend");
+        yield return ("end of month", new DateOnly(today.Year, today.Month, DateTime.DaysInMonth(today.Year, today.Month)), "End of month");
+
+        foreach (System.Text.RegularExpressions.Match match in RelativePattern.Matches(text))
+        {
+            if (!int.TryParse(match.Groups["n"].Value, NumberStyles.None, CultureInfo.InvariantCulture, out int count))
+            {
+                count = 1;
+            }
+
+            int sign = match.Groups["dir"].Value.Equals("ago", StringComparison.OrdinalIgnoreCase) ? -1 : 1;
+            string unit = match.Groups["unit"].Value.ToLowerInvariant();
+
+            DateOnly hit = unit[0] switch
+            {
+                'w' => today.AddDays(sign * count * 7),
+                'm' => today.AddMonths(sign * count),
+                _ => today.AddDays(sign * count),
+            };
+
+            string when = sign < 0 ? " ago" : " later";
+            yield return (match.Value, hit, count + " " + unit + when);
+        }
+
+        foreach (DayOfWeek day in Enum.GetValues<DayOfWeek>())
+        {
+            string name = day.ToString();
+            if (text.Contains(name, StringComparison.OrdinalIgnoreCase))
+            {
+                yield return (name, NextWeekday(today, day), name);
+            }
+        }
+    }
+
+    private static readonly System.Text.RegularExpressions.Regex RelativePattern = new(
+        @"\b(?:in\s+)?(?<n>\d{1,3}|a|an)\s+(?<unit>day|days|week|weeks|month|months)\s*(?<dir>later|ago|after)?\b",
+        System.Text.RegularExpressions.RegexOptions.IgnoreCase | System.Text.RegularExpressions.RegexOptions.Compiled);
 
     private static bool Matches(string text, string phrase) =>
         phrase.StartsWith(text, StringComparison.OrdinalIgnoreCase);

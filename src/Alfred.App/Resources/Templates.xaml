@@ -6,6 +6,7 @@
   <suggest:BrandTileImageConverter x:Key="BrandTileImage" />
   <suggest:IsNotNullConverter x:Key="IsNotNull" />
   <suggest:GlyphLookupConverter x:Key="GlyphLookup" />
+  <suggest:SourceChipConverter x:Key="SourceChip" />
   <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
 
   <DataTemplate DataType="{x:Type vm:AgendaViewModel+DayHeaderRow}">
@@ -21,10 +22,8 @@
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="30" />
           <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="Auto" MaxWidth="620" />
-          <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="*" />
-          <ColumnDefinition Width="Auto" MinWidth="120" />
+          <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         <ToggleButton Grid.Column="0"
@@ -35,10 +34,10 @@
                       Visibility="{Binding HasCheck, Converter={StaticResource BoolToVisibility}}" />
 
         <Border Grid.Column="1"
-                Width="24" Height="24" CornerRadius="6"
-                Margin="0,0,12,0"
+                Width="22" Height="22" CornerRadius="6"
+                Margin="0,0,10,0"
                 VerticalAlignment="Center"
-                Background="{DynamicResource CardBackground}">
+                Background="{DynamicResource SheetHover}">
           <Border.Style>
             <Style TargetType="Border">
               <Style.Triggers>
@@ -48,36 +47,35 @@
               </Style.Triggers>
             </Style>
           </Border.Style>
-          <Image Source="{Binding BrandSlug, Converter={StaticResource BrandTileImage}}" Width="14" Height="14" />
+          <Image Source="{Binding BrandSlug, Converter={StaticResource BrandTileImage}}" Width="13" Height="13" />
         </Border>
 
-        <TextBlock Grid.Column="2" Text="{Binding Title}" VerticalAlignment="Center">
-          <TextBlock.Style>
-            <Style TargetType="TextBlock" BasedOn="{StaticResource RowTitle}">
-              <Style.Triggers>
-                <DataTrigger Binding="{Binding IsDone}" Value="True">
-                  <Setter Property="Opacity" Value="0.4" />
-                </DataTrigger>
-              </Style.Triggers>
-            </Style>
-          </TextBlock.Style>
-        </TextBlock>
+        <StackPanel Grid.Column="2" VerticalAlignment="Center">
+          <TextBlock Text="{Binding Title}">
+            <TextBlock.Style>
+              <Style TargetType="TextBlock" BasedOn="{StaticResource RowTitle}">
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding IsDone}" Value="True">
+                    <Setter Property="Opacity" Value="0.4" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </TextBlock.Style>
+          </TextBlock>
+          <TextBlock Text="{Binding Meta}" Margin="0,1,0,0">
+            <TextBlock.Style>
+              <Style TargetType="TextBlock" BasedOn="{StaticResource RowSub}">
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding IsOverdue}" Value="True">
+                    <Setter Property="Foreground" Value="{DynamicResource Overdue}" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </TextBlock.Style>
+          </TextBlock>
+        </StackPanel>
 
-        <TextBlock Grid.Column="3" Text="{Binding Meta}" Margin="18,0,0,0"
-                   TextTrimming="CharacterEllipsis">
-          <TextBlock.Style>
-            <Style TargetType="TextBlock" BasedOn="{StaticResource RowMeta}">
-              <Style.Triggers>
-                <DataTrigger Binding="{Binding IsOverdue}" Value="True">
-                  <Setter Property="Foreground" Value="{DynamicResource Overdue}" />
-                  <Setter Property="FontWeight" Value="SemiBold" />
-                </DataTrigger>
-              </Style.Triggers>
-            </Style>
-          </TextBlock.Style>
-        </TextBlock>
-
-        <TextBlock Grid.Column="5" Text="{Binding Amount}" Margin="24,0,0,0">
+        <TextBlock Grid.Column="3" Text="{Binding Amount}" Margin="24,0,0,0" VerticalAlignment="Center">
           <TextBlock.Style>
             <Style TargetType="TextBlock" BasedOn="{StaticResource RowAmount}">
               <Style.Triggers>

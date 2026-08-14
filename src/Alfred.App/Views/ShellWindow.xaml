@@ -7,10 +7,10 @@
         xmlns:vm="clr-namespace:Alfred.App.ViewModels"
         Title="Alfred"
         Icon="/Resources/Alfred.ico"
-        Width="1100"
-        Height="700"
-        MinWidth="720"
-        MinHeight="480"
+        Width="1180"
+        Height="760"
+        MinWidth="820"
+        MinHeight="520"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         Background="{DynamicResource ShellBackground}"
@@ -109,102 +109,62 @@
 
       <Grid Width="{StaticResource SidebarWidth}" HorizontalAlignment="Left">
         <Grid.RowDefinitions>
+          <RowDefinition Height="{StaticResource TitleBarRow}" />
           <RowDefinition Height="Auto" />
           <RowDefinition Height="*" />
+          <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" Height="{StaticResource TitleBarHeight}" />
-        <controls:Sidebar Grid.Row="1" />
+
+
+        <controls:Sidebar Grid.Row="2" />
+
+        <Grid Grid.Row="3" Margin="16,6,16,12">
+          <StackPanel Orientation="Horizontal">
+            <Button Style="{StaticResource IconButton}" ToolTip="Trash"
+                    AutomationProperties.Name="Open trash" Click="OnOpenTrash">
+              <Viewbox Width="15" Height="15">
+                <Canvas Width="24" Height="24">
+                  <Path Data="{StaticResource TrashGlyph}" Fill="{DynamicResource TextSecondary}" />
+                </Canvas>
+              </Viewbox>
+            </Button>
+            <Button Style="{StaticResource IconButton}" Margin="2,0,0,0" ToolTip="Settings"
+                    AutomationProperties.Name="Open settings" Click="OnOpenSettings">
+              <Viewbox Width="15" Height="15">
+                <Canvas Width="24" Height="24">
+                  <Path Data="{StaticResource SettingsGlyph}" Fill="{DynamicResource TextSecondary}" />
+                </Canvas>
+              </Viewbox>
+            </Button>
+          </StackPanel>
+          <TextBlock Text="Ege"
+                     HorizontalAlignment="Right" VerticalAlignment="Center"
+                     FontFamily="{StaticResource AppFont}" FontSize="12.5" FontWeight="SemiBold"
+                     Foreground="{DynamicResource TextSecondary}" />
+        </Grid>
       </Grid>
     </Border>
 
     <Border Grid.Column="1"
-            Background="{DynamicResource ShellBackground}"
+            Background="{DynamicResource SheetBackground}"
             BorderBrush="{DynamicResource Hairline}"
             BorderThickness="1,0,0,0">
-      <Grid>
-        <ContentControl Content="{Binding CurrentContent}"
-                        Margin="0,44,0,0"
-                        HorizontalContentAlignment="Stretch"
-                        VerticalContentAlignment="Stretch" />
-
-        <controls:ViewToolbar Actions="{Binding ToolbarActions}"
-                              HorizontalAlignment="Right"
-                              VerticalAlignment="Top"
-                              Margin="0,56,44,0"
-                              Visibility="{Binding HasToolbar, Converter={StaticResource BoolToVisibility}}" />
-
-        <Button x:Name="MagicPlus"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Bottom"
-                Margin="56,0,0,40"
-                Width="52"
-                Height="52"
-                Focusable="False"
-                Cursor="Hand"
-                ToolTip="{Binding PrimaryActionName}"
-                AutomationProperties.Name="{Binding PrimaryActionName}"
-                Visibility="{Binding HasPrimaryAction, Converter={StaticResource BoolToVisibility}}"
-                Click="OnMagicPlus">
-          <Button.Template>
-            <ControlTemplate TargetType="Button">
-              <Grid x:Name="PlusRoot" RenderTransformOrigin="0.5,0.5">
-                <Grid.RenderTransform>
-                  <ScaleTransform ScaleX="1" ScaleY="1" />
-                </Grid.RenderTransform>
-                <Ellipse Fill="{DynamicResource Accent}" />
-                <Viewbox Width="22" Height="22">
-                  <Canvas Width="24" Height="24">
-                    <Path Data="{StaticResource PlusGlyph}" Fill="#FFFFFF" />
-                  </Canvas>
-                </Viewbox>
-              </Grid>
-              <ControlTemplate.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                  <Trigger.EnterActions>
-                    <BeginStoryboard>
-                      <Storyboard>
-                        <DoubleAnimation Storyboard.TargetName="PlusRoot"
-                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
-                                         To="1.08" Duration="0:0:0.14">
-                          <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut" /></DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                        <DoubleAnimation Storyboard.TargetName="PlusRoot"
-                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                                         To="1.08" Duration="0:0:0.14">
-                          <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut" /></DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                      </Storyboard>
-                    </BeginStoryboard>
-                  </Trigger.EnterActions>
-                  <Trigger.ExitActions>
-                    <BeginStoryboard>
-                      <Storyboard>
-                        <DoubleAnimation Storyboard.TargetName="PlusRoot"
-                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
-                                         To="1" Duration="0:0:0.12" />
-                        <DoubleAnimation Storyboard.TargetName="PlusRoot"
-                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                                         To="1" Duration="0:0:0.12" />
-                      </Storyboard>
-                    </BeginStoryboard>
-                  </Trigger.ExitActions>
-                </Trigger>
-              </ControlTemplate.Triggers>
-            </ControlTemplate>
-          </Button.Template>
-        </Button>
-      </Grid>
+      <ContentControl x:Name="PageHost"
+                      Content="{Binding CurrentContent}"
+                      HorizontalContentAlignment="Stretch"
+                      VerticalContentAlignment="Stretch"
+                      RenderTransformOrigin="0.5,0">
+        <ContentControl.RenderTransform>
+          <TranslateTransform />
+        </ContentControl.RenderTransform>
+      </ContentControl>
     </Border>
 
     <Grid Grid.Column="0"
           Grid.ColumnSpan="2"
           Height="{StaticResource TitleBarHeight}"
           VerticalAlignment="Top">
-
-      <controls:WindowButtons HorizontalAlignment="Left"
-                              VerticalAlignment="Center"
-                              Margin="20,0,0,0" />
-
+      <controls:WindowButtons HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0" />
       <Button VerticalAlignment="Center"
               HorizontalAlignment="Left"
               ToolTip="Toggle sidebar"
@@ -227,8 +187,52 @@
           </Canvas>
         </Viewbox>
       </Button>
-
     </Grid>
 
+
+    <Border Grid.Column="1"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Margin="0,54,26,0"
+            CornerRadius="12"
+            Background="{DynamicResource ToolbarBackground}"
+            BorderBrush="{DynamicResource Hairline}"
+            BorderThickness="1"
+            Padding="4">
+      <StackPanel Orientation="Horizontal">
+        <Button Style="{StaticResource IconButton}" ToolTip="New (Ctrl+N)"
+                AutomationProperties.Name="New item" Click="OnOpenCapture">
+          <Viewbox Width="16" Height="16">
+            <Canvas Width="24" Height="24">
+              <Path Data="{StaticResource PlusGlyph}" Fill="{DynamicResource Accent}" />
+            </Canvas>
+          </Viewbox>
+        </Button>
+        <Button Style="{StaticResource IconButton}" Margin="2,0,0,0" ToolTip="Search"
+                AutomationProperties.Name="Search" Click="OnOpenCapture">
+          <Viewbox Width="14.5" Height="14.5">
+            <Canvas Width="24" Height="24">
+              <Path Data="{StaticResource SearchGlyph}" Fill="{DynamicResource TextSecondary}" />
+            </Canvas>
+          </Viewbox>
+        </Button>
+        <Button x:Name="MoreButton" Style="{StaticResource IconButton}" Margin="2,0,0,0" ToolTip="More"
+                AutomationProperties.Name="More" Click="OnMore">
+          <Button.ContextMenu>
+            <ContextMenu>
+              <MenuItem Header="Trash" Click="OnOpenTrash" />
+              <MenuItem Header="Settings" Click="OnOpenSettings" />
+            </ContextMenu>
+          </Button.ContextMenu>
+          <Viewbox Width="15" Height="15">
+            <Canvas Width="24" Height="24">
+              <Path Data="{StaticResource MoreGlyph}" Fill="{DynamicResource TextSecondary}" />
+            </Canvas>
+          </Viewbox>
+        </Button>
+      </StackPanel>
+    </Border>
+
+    <controls:CaptureOverlay x:Name="Capture" Grid.Column="0" Grid.ColumnSpan="2" />
   </Grid>
 </Window>

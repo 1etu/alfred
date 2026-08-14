@@ -53,7 +53,6 @@ public sealed class ShellViewModel : Observable
         Add("money", "Payments", "PaymentsIcon");
         Add("money", "Wish List", "WishListIcon");
         Add("life", "Meals", "MealsIcon");
-        Add("life", "Trash", "TrashIcon");
 
         Items = CollectionViewSource.GetDefaultView(_items);
         Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(SidebarItem.Group)));
@@ -139,6 +138,58 @@ public sealed class ShellViewModel : Observable
             PreferencesStore.Save(_preferences);
             Raise();
         }
+    }
+
+    public void ShowTrash()
+    {
+        _isSettingsOpen = false;
+        Raise(nameof(IsSettingsOpen));
+        CurrentContent = Resolve("Trash");
+    }
+
+    public void Capture(CaptureRequest request)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+
+        DateOnly date = request.Date ?? DateOnly.FromDateTime(DateTime.Now);
+
+        switch (request.Kind)
+        {
+            case CaptureKind.Todo:
+                Vault.Data.Todos.Add(new Core.Items.Todo { Title = request.Title, Due = request.Date });
+                break;
+
+            case CaptureKind.Reminder:
+                Vault.Data.Reminders.Add(new Core.Items.Reminder { Title = request.Title, Due = date, At = request.Time });
+                break;
+
+            case CaptureKind.Wish:
+                Vault.Data.Wishes.Add(new Core.Items.WishItem
+                {
+                    Title = request.Title,
+                    Price = request.Amount is { } price ? Money.Lira(price) : null,
+                    BrandSlug = request.BrandSlug,
+                });
+                break;
+
+            default:
+                Vault.Data.Entries.Add(new LedgerEntry
+                {
+                    Title = request.Title,
+                    Money = Money.Lira(request.Amount ?? 0),
+                    Kind = request.Kind switch
+                    {
+                        CaptureKind.Payment => EntryKind.Payment,
+                        CaptureKind.Income => EntryKind.Income,
+                        _ => EntryKind.Expense,
+                    },
+                    Schedule = Schedule.Once(date),
+                    BrandSlug = request.BrandSlug,
+                });
+                break;
+        }
+
+        Vault.Save();
     }
 
     public void Navigate(int index)

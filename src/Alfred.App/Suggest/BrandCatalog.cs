@@ -69,15 +69,20 @@ public static class BrandCatalog
         if (packed is not null)
         {
             using GZipStream unzipped = new(packed, CompressionMode.Decompress);
-            return JsonSerializer.Deserialize<Catalog>(unzipped)?.Brands ?? [];
+            return Curate(JsonSerializer.Deserialize<Catalog>(unzipped)?.Brands ?? []);
         }
 
         using Stream? plain = assembly.GetManifestResourceStream("Alfred.App.Resources.Brands.brands.json");
         if (plain is not null)
         {
-            return JsonSerializer.Deserialize<Catalog>(plain)?.Brands ?? [];
+            return Curate(JsonSerializer.Deserialize<Catalog>(plain)?.Brands ?? []);
         }
 
         return [];
+    }
+
+    private static IReadOnlyList<Brand> Curate(IReadOnlyList<Brand> brands)
+    {
+        return [.. brands.Where(brand => BrandAllowlist.Slugs.Contains(brand.Slug))];
     }
 }

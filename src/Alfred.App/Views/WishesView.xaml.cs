@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using Alfred.App.Suggest;
@@ -8,46 +7,33 @@ namespace Alfred.App.Views;
 
 public partial class WishesView : UserControl
 {
-    private string? _brandSlug;
-
     private WishesViewModel? _bound;
 
     public WishesView()
     {
         InitializeComponent();
-        QuickTitle.Source = new BrandSource();
-        QuickTitle.Committed += (_, suggestion) => _brandSlug = (suggestion.Value as Brand)?.Slug;
+        Bar.TitleSource = new BrandSource();
 
         DataContextChanged += (_, _) =>
         {
             _bound?.PrimaryRequested -= OnPrimaryRequested;
-
             _bound = DataContext as WishesViewModel;
-
             _bound?.PrimaryRequested += OnPrimaryRequested;
         };
     }
 
-    private void OnPrimaryRequested(object? sender, EventArgs e) => QuickTitle.FocusInput();
+    private void OnPrimaryRequested(object? sender, EventArgs e) => Bar.FocusTitle();
 
     private void OnQuickAdd(object sender, EventArgs e)
     {
-        if (DataContext is not WishesViewModel wishes || string.IsNullOrWhiteSpace(QuickTitle.Text))
+        if (DataContext is not WishesViewModel wishes || Bar.Title.Length == 0)
         {
             return;
         }
 
-        decimal? price = null;
-        if (decimal.TryParse(QuickPrice.Text.Replace("₺", string.Empty).Trim(), NumberStyles.Number, CultureInfo.GetCultureInfo("tr-TR"), out decimal parsed))
-        {
-            price = parsed;
-        }
-
-        wishes.Add(QuickTitle.Text.Trim(), price, _brandSlug);
-        QuickTitle.Text = string.Empty;
-        QuickPrice.Text = string.Empty;
-        _brandSlug = null;
-        QuickTitle.FocusInput();
+        wishes.Add(Bar.Title, Bar.PickedAmount, Bar.PickedBrandSlug);
+        Bar.Reset();
+        Bar.FocusTitle();
     }
 
     private void OnRemoveRow(object sender, RoutedEventArgs e)

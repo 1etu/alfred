@@ -53,6 +53,22 @@ public sealed class AgendaViewModel : Observable, IToolbarHost
 
     public string Subtitle { get; private set; } = string.Empty;
 
+    public string Greeting { get; private set; } = string.Empty;
+
+    public string StatMoney { get; private set; } = string.Empty;
+
+    public string StatMoneyDetail { get; private set; } = string.Empty;
+
+    public string StatDue { get; private set; } = string.Empty;
+
+    public string StatDueDetail { get; private set; } = string.Empty;
+
+    public string StatNext { get; private set; } = string.Empty;
+
+    public string StatNextDetail { get; private set; } = string.Empty;
+
+    public bool HasNext { get; private set; }
+
     public ObservableCollection<object> Rows { get; } = [];
 
     public bool IsEmpty => Rows.Count == 0;
@@ -71,12 +87,58 @@ public sealed class AgendaViewModel : Observable, IToolbarHost
         if (Mode == AgendaMode.Today)
         {
             DayMoney money = AgendaService.MoneyOn(_vault.Data, today);
-            Subtitle = BuildSubtitle(today, money);
+            Subtitle = today.ToString("dddd, d MMMM", CultureInfo.InvariantCulture);
+            Greeting = BuildGreeting();
 
-            foreach (AgendaItem item in AgendaService.Today(_vault.Data, today))
+            IReadOnlyList<AgendaItem> items = AgendaService.Today(_vault.Data, today);
+
+            StatMoney = MoneyFormat.Compact(Money.Lira(money.Out)) + " out";
+            StatMoneyDetail = MoneyFormat.Compact(Money.Lira(money.In)) + " in today";
+
+            int due = items.Count(item => !item.IsDone && item.Kind != AgendaKind.Know);
+            StatDue = due == 0 ? "All clear" : due + (due == 1 ? " thing" : " things");
+            StatDueDetail = due == 0 ? "nothing needs you" : "waiting on you today";
+
+            AgendaItem? next = AgendaService.Upcoming(_vault.Data, today, 90)
+                .FirstOrDefault(item => item.Flow == CashFlow.Out && item.Money is not null);
+
+            HasNext = next is not null;
+            if (next is not null)
+            {
+                int days = next.Date.DayNumber - today.DayNumber;
+                StatNext = next.Title;
+                StatNextDetail = MoneyFormat.Compact(next.Money!.Value) + " · in " + days + (days == 1 ? " day" : " days");
+            }
+
+            bool anyOverdue = items.Any(item => item.IsOverdue);
+            if (anyOverdue)
+            {
+                Rows.Add(new DayHeaderRow("Overdue"));
+            }
+
+            foreach (AgendaItem item in items.Where(item => item.IsOverdue))
             {
                 Rows.Add(new AgendaRow(item, _vault));
             }
+
+            if (items.Any(item => !item.IsOverdue))
+            {
+                Rows.Add(new DayHeaderRow("Today"));
+            }
+
+            foreach (AgendaItem item in items.Where(item => !item.IsOverdue))
+            {
+                Rows.Add(new AgendaRow(item, _vault));
+            }
+
+            Raise(nameof(Greeting));
+            Raise(nameof(StatMoney));
+            Raise(nameof(StatMoneyDetail));
+            Raise(nameof(StatDue));
+            Raise(nameof(StatDueDetail));
+            Raise(nameof(StatNext));
+            Raise(nameof(StatNextDetail));
+            Raise(nameof(HasNext));
         }
         else
         {
@@ -99,16 +161,19 @@ public sealed class AgendaViewModel : Observable, IToolbarHost
         Raise(nameof(IsEmpty));
     }
 
-    private static string BuildSubtitle(DateOnly today, DayMoney money)
+    private static string BuildGreeting()
     {
-        string date = today.ToString("dddd, d MMMM", CultureInfo.InvariantCulture);
+        int hour = DateTime.Now.Hour;
 
-        if (money.Out == 0 && money.In == 0)
+        string opener = hour switch
         {
-            return date;
-        }
+            < 6 => "Still up, Ege?",
+            < 12 => "Good morning, Ege",
+            < 18 => "Good afternoon, Ege",
+            _ => "Good evening, Ege",
+        };
 
-        return $"{date}   ·   {MoneyFormat.Compact(Money.Lira(money.Out))} out · {MoneyFormat.Compact(Money.Lira(money.In))} in";
+        return opener + " 👋";
     }
 
     private static string HeaderFor(DateOnly day, DateOnly today)
@@ -175,6 +240,8 @@ public sealed class AgendaViewModel : Observable, IToolbarHost
         public string Meta => _item.IsOverdue
             ? _item.Source + " · " + _item.Date.ToString("d MMM", CultureInfo.InvariantCulture)
             : _item.Source;
+
+        public string OverdueLabel => _item.Date.ToString("d MMM", CultureInfo.InvariantCulture);
 
         public string? Amount => _item.Money is { } money && _item.Flow is { } flow
             ? MoneyFormat.WithSign(money, flow)

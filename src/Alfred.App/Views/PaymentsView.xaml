@@ -8,7 +8,10 @@
 
   <ScrollViewer Style="{StaticResource PageRoot}">
     <StackPanel Style="{StaticResource PageBody}">
-      <TextBlock Text="Payments" Style="{StaticResource PageTitle}" />
+      <StackPanel Orientation="Horizontal" Margin="0,44,0,14">
+        <Image Source="{StaticResource PaymentsIcon}" Width="24" Height="24" Margin="0,3,10,0" VerticalAlignment="Center" />
+        <TextBlock Text="Payments" Style="{StaticResource BigTitle}" />
+      </StackPanel>
       <TextBlock Text="{Binding Summary}" Style="{StaticResource PageSubtitle}" Margin="0,10,0,28" />
 
       <Grid Margin="0,0,0,20" MaxWidth="760" HorizontalAlignment="Left">

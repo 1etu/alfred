@@ -3,14 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="clr-namespace:Alfred.App.Controls">
   <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-    <StackPanel MaxWidth="820" HorizontalAlignment="Left" Margin="64,52,64,96">
-
-      <TextBlock Text="Settings"
-                 FontFamily="{StaticResource AppFontDisplay}"
-                 FontSize="34"
-                 FontWeight="SemiBold"
-                 Foreground="{DynamicResource TextPrimary}"
-                 Margin="4,0,0,30" />
+    <StackPanel MaxWidth="820" HorizontalAlignment="Left" Margin="44,44,44,72">
+      <TextBlock Text="Settings" Style="{StaticResource BigTitle}" Margin="0,0,0,20" />
 
       <TextBlock Text="Appearance" Style="{StaticResource SettingsSectionTitle}" />
       <Border Style="{StaticResource SettingsCard}">

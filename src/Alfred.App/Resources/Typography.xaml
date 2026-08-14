@@ -7,6 +7,7 @@
   <FontFamily x:Key="AppFontDisplay">Geist, Segoe UI Variable Display, Segoe UI</FontFamily>
 
   <sys:Double x:Key="TitleBarHeight">44</sys:Double>
+  <GridLength x:Key="TitleBarRow">44</GridLength>
   <sys:Double x:Key="BodyFontSize">14</sys:Double>
   <sys:Double x:Key="RowFontSize">15</sys:Double>
   <sys:Double x:Key="TitleFontSize">15</sys:Double>
@@ -25,7 +26,7 @@
   <Thickness x:Key="SidebarInset">10,0,10,14</Thickness>
   <Thickness x:Key="SidebarToggleExpanded">222,0,0,0</Thickness>
   <Thickness x:Key="SidebarToggleCollapsed">92,0,0,0</Thickness>
-  <Thickness x:Key="PageInset">64,52,64,120</Thickness>
+  <Thickness x:Key="PageInset">56,46,56,88</Thickness>
   <Thickness x:Key="RowInset">12,0,12,0</Thickness>
 
 </ResourceDictionary>

@@ -60,6 +60,9 @@ public partial class App : Application
             DataContext = model,
         };
 
+        registry.Register("capture.new", "Quick capture", "General",
+            new KeyGesture(Key.N, ModifierKeys.Control), shell.OpenCapture);
+
         shell.Show();
     }
 }
