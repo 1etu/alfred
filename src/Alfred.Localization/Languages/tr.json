@@ -55,11 +55,8 @@
     "Loc.Color.Purple": "Mor",
     "Loc.Color.Pink": "Pembe",
 
-    "Loc.Chip.Amount": "Tutar",
-    "Loc.Chip.Date": "Tarih",
-    "Loc.Chip.Time": "Saat",
-    "Loc.Chip.Brand": "Marka",
-    "Loc.Chip.Remove": "kaldır",
+    "Loc.Settings.Currency": "Para birimi",
+    "Loc.Settings.CurrencyCaption": "Para birimi işareti olmayan tutarlarda kullanılır.",
 
     "Loc.Update.Checking": "Güncellemeler denetleniyor…",
     "Loc.Update.UpToDate": "Alfred {0} güncel",

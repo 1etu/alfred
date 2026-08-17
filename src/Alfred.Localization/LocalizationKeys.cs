@@ -56,11 +56,8 @@ public static class LocalizationKeys
     public const string ColorPurple = "Loc.Color.Purple";
     public const string ColorPink = "Loc.Color.Pink";
 
-    public const string ChipAmount = "Loc.Chip.Amount";
-    public const string ChipDate = "Loc.Chip.Date";
-    public const string ChipTime = "Loc.Chip.Time";
-    public const string ChipBrand = "Loc.Chip.Brand";
-    public const string ChipRemove = "Loc.Chip.Remove";
+    public const string SettingsCurrency = "Loc.Settings.Currency";
+    public const string SettingsCurrencyCaption = "Loc.Settings.CurrencyCaption";
 
     public const string UpdateChecking = "Loc.Update.Checking";
     public const string UpdateUpToDate = "Loc.Update.UpToDate";

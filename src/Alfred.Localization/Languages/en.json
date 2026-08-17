@@ -55,11 +55,8 @@
     "Loc.Color.Purple": "Purple",
     "Loc.Color.Pink": "Pink",
 
-    "Loc.Chip.Amount": "Amount",
-    "Loc.Chip.Date": "Date",
-    "Loc.Chip.Time": "Time",
-    "Loc.Chip.Brand": "Brand",
-    "Loc.Chip.Remove": "remove",
+    "Loc.Settings.Currency": "Currency",
+    "Loc.Settings.CurrencyCaption": "Used when an amount has no currency sign.",
 
     "Loc.Update.Checking": "Checking for updates…",
     "Loc.Update.UpToDate": "Alfred {0} is up to date",
