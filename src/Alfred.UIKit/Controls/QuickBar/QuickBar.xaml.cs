@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using Alfred.Core.Ledger;
 using Alfred.Core.Time;
 using Alfred.UIKit.Suggest;
 
@@ -203,15 +204,10 @@ public partial class QuickBar : UserControl
             text = text.Remove(time.Index, time.Length).Trim();
         }
 
-        if (ParseAmount)
+        if (ParseAmount && AmountHints.TryExtract(text, out string remainder, out decimal parsedAmount))
         {
-            System.Text.RegularExpressions.Match amount = AmountPattern.Match(text);
-            if (amount.Success &&
-                decimal.TryParse(amount.Groups["v"].Value, NumberStyles.Number, CultureInfo.GetCultureInfo("tr-TR"), out decimal parsedAmount))
-            {
-                PickedAmount = parsedAmount;
-                text = text.Remove(amount.Index, amount.Length).Trim();
-            }
+            PickedAmount = parsedAmount;
+            text = remainder;
         }
 
         Title = text.Trim().TrimEnd(',', '·', '-').Trim();
@@ -221,10 +217,6 @@ public partial class QuickBar : UserControl
     private static readonly System.Text.RegularExpressions.Regex TimePattern = new(
         @"\b\d{1,2}[:.]\d{2}\b",
         System.Text.RegularExpressions.RegexOptions.Compiled);
-
-    private static readonly System.Text.RegularExpressions.Regex AmountPattern = new(
-        @"₺?\s?(?<v>\d{1,3}(?:\.\d{3})*(?:,\d{1,2})?|\d+(?:,\d{1,2})?)\s?(?:₺|tl)?\s*$",
-        System.Text.RegularExpressions.RegexOptions.IgnoreCase | System.Text.RegularExpressions.RegexOptions.Compiled);
 
     private void Offer(IReadOnlyList<Suggestion> suggestions)
     {
