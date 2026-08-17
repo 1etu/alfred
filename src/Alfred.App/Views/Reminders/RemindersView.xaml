@@ -1,0 +1,82 @@
+<UserControl x:Class="Alfred.App.Views.RemindersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Alfred.UIKit.Controls;assembly=Alfred.UIKit"
+             xmlns:vm="clr-namespace:Alfred.App.ViewModels">
+  <UserControl.Resources>
+    <DataTemplate DataType="{x:Type vm:RemindersViewModel+SectionRow}">
+      <controls:SectionHeader Title="{Binding Title}" TintKey="{Binding TintKey}" Margin="0,18,0,0" />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:RemindersViewModel+ReminderRow}">
+      <Border x:Name="Row" Style="{StaticResource ItemRow}" MinHeight="40">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+
+          <ToggleButton Style="{StaticResource CheckCircle}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding IsDone, Mode=TwoWay}" />
+
+          <TextBlock Grid.Column="1" Text="{Binding Title}" Style="{StaticResource RowTitle}" />
+
+          <TextBlock Grid.Column="2" Text="{Binding Meta}" Margin="16,0,4,0" VerticalAlignment="Center">
+            <TextBlock.Style>
+              <Style TargetType="TextBlock" BasedOn="{StaticResource RowMeta}">
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding IsOverdue}" Value="True">
+                    <Setter Property="Foreground" Value="{DynamicResource Overdue}" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </TextBlock.Style>
+          </TextBlock>
+
+          <Button Grid.Column="3" Click="OnRemoveRow" AutomationProperties.Name="{DynamicResource Loc.Trash.Forget}">
+            <Button.Style>
+              <Style TargetType="Button" BasedOn="{StaticResource RowActionButton}">
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding IsMouseOver, ElementName=Row}" Value="True">
+                    <Setter Property="Opacity" Value="1" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </Button.Style>
+            <Viewbox Width="12" Height="12">
+              <Canvas Width="24" Height="24">
+                <Path Data="{StaticResource TrashGlyph}" Fill="{DynamicResource TextSecondary}" />
+              </Canvas>
+            </Viewbox>
+          </Button>
+        </Grid>
+      </Border>
+    </DataTemplate>
+  </UserControl.Resources>
+
+  <ScrollViewer Style="{StaticResource PageRoot}">
+    <StackPanel Style="{StaticResource PageBody}">
+
+      <StackPanel Orientation="Horizontal" Margin="0,44,0,16">
+        <Image Source="{Binding Icon}" Width="24" Height="24" Margin="0,3,10,0" VerticalAlignment="Center" />
+        <TextBlock Text="{Binding Title}" Style="{StaticResource BigTitle}" />
+      </StackPanel>
+
+      <controls:QuickBar x:Name="Bar"
+                         TitlePlaceholder="{DynamicResource Loc.Reminders.Add}"
+                         Submitted="OnQuickAdd"
+                         Margin="0,0,0,10" />
+
+      <ItemsControl ItemsSource="{Binding Rows}" />
+
+      <TextBlock Text="{DynamicResource Loc.Agenda.Empty}"
+                 Style="{StaticResource RowMeta}"
+                 Margin="12,10,0,0"
+                 Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVisibility}}" />
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>
