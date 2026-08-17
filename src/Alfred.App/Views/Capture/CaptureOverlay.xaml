@@ -4,26 +4,25 @@
              xmlns:controls="clr-namespace:Alfred.UIKit.Controls;assembly=Alfred.UIKit"
              Visibility="Collapsed">
   <Grid>
-    <Border Background="#59000000" MouseLeftButtonDown="OnScrimClick" />
+    <Border Background="#3D000000" MouseLeftButtonDown="OnScrimClick" />
 
     <Border x:Name="Card"
-            Width="620"
+            Width="600"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Margin="0,0,0,120"
-            CornerRadius="18"
+            CornerRadius="16"
             Background="{DynamicResource SheetBackground}"
             BorderBrush="{DynamicResource Hairline}"
             BorderThickness="1"
             RenderTransformOrigin="0.5,0.4"
-            Padding="16,14,16,14">
+            Padding="14,12,14,12">
       <Border.RenderTransform>
-        <ScaleTransform x:Name="CardScale" ScaleX="0.95" ScaleY="0.95" />
+        <ScaleTransform x:Name="CardScale" ScaleX="0.96" ScaleY="0.96" />
       </Border.RenderTransform>
       <StackPanel>
-        <controls:QuickBar x:Name="Bar" TitlePlaceholder="What is it?" Submitted="OnSubmitted" />
 
-        <ItemsControl x:Name="TypeChips" Margin="2,12,0,2">
+        <ItemsControl x:Name="TypeChips" Margin="2,0,0,10">
           <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
               <StackPanel Orientation="Horizontal" />
@@ -33,7 +32,8 @@
             <DataTemplate>
               <RadioButton GroupName="CaptureType"
                            IsChecked="{Binding IsSelected, Mode=TwoWay}"
-                           Focusable="False" Cursor="Hand"
+                           Focusable="True"
+                           Cursor="Hand"
                            AutomationProperties.Name="{Binding Name}">
                 <RadioButton.Template>
                   <ControlTemplate TargetType="RadioButton">
@@ -52,6 +52,9 @@
                     </Border>
                     <ControlTemplate.Triggers>
                       <Trigger Property="IsMouseOver" Value="True">
+                        <Setter TargetName="Chip" Property="Background" Value="{DynamicResource SheetHover}" />
+                      </Trigger>
+                      <Trigger Property="IsKeyboardFocused" Value="True">
                         <Setter TargetName="Chip" Property="Background" Value="{DynamicResource SheetHover}" />
                       </Trigger>
                       <Trigger Property="IsChecked" Value="True">
@@ -82,10 +85,29 @@
           </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <TextBlock Margin="4,8,0,0"
-                   FontFamily="{StaticResource AppFontSmall}" FontSize="11.5"
-                   Foreground="{DynamicResource TextSecondary}"
-                   Text="Type it naturally — 'rent 42.000 in 3 days' · Enter saves · Esc closes" />
+        <controls:QuickBar x:Name="Bar" Submitted="OnSubmitted" />
+
+        <WrapPanel x:Name="Chips" Margin="3,0,0,0" />
+
+        <Grid Margin="4,12,2,0">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+
+          <TextBlock x:Name="CommitLine"
+                     Grid.Column="0"
+                     VerticalAlignment="Center"
+                     FontFamily="{StaticResource AppFontSmall}"
+                     FontSize="11.5"
+                     Foreground="{DynamicResource TextSecondary}"
+                     TextTrimming="CharacterEllipsis" />
+
+          <controls:KeycapHintBar x:Name="Hints"
+                                  Grid.Column="1"
+                                  Margin="16,0,0,0"
+                                  VerticalAlignment="Center" />
+        </Grid>
       </StackPanel>
     </Border>
   </Grid>

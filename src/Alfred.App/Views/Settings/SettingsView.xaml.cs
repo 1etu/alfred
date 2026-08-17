@@ -1,7 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
-using Alfred.Update;
 using Alfred.App.ViewModels;
+using Alfred.Update;
 
 namespace Alfred.App.Views;
 

@@ -2,7 +2,6 @@ using System.Diagnostics;
 using System.Net.Http;
 using Alfred.App.Preferences;
 using Alfred.App.Sync;
-using Alfred.Update;
 using Alfred.Core.Ledger;
 using Alfred.Core.Storage;
 using Alfred.Theme;
@@ -11,6 +10,7 @@ using Alfred.Theme.Defaults;
 using Alfred.UIKit;
 using Alfred.UIKit.Controls;
 using Alfred.UIKit.Input;
+using Alfred.Update;
 
 namespace Alfred.App.ViewModels;
 

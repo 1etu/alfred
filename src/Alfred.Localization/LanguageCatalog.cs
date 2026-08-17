@@ -63,12 +63,7 @@ public static class LanguageCatalog
 
     private static Language Read(Assembly assembly, string resource, string code)
     {
-        using Stream? stream = assembly.GetManifestResourceStream(resource);
-
-        if (stream is null)
-        {
-            throw new InvalidOperationException($"Language file '{resource}' could not be opened.");
-        }
+        using Stream? stream = assembly.GetManifestResourceStream(resource) ?? throw new InvalidOperationException($"Language file '{resource}' could not be opened.");
 
         LanguageFile? file;
 
