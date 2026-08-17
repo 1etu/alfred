@@ -13,7 +13,11 @@ public sealed class SidebarItem : Observable
 
     public string Group { get; }
 
-    public string Title { get; }
+    public string Title
+    {
+        get;
+        set => Set(ref field, value);
+    }
 
     public ImageSource Icon { get; }
 

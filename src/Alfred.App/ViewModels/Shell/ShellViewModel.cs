@@ -5,6 +5,7 @@ using Alfred.App.Preferences;
 using Alfred.Core.Agenda;
 using Alfred.Core.Ledger;
 using Alfred.Core.Storage;
+using Alfred.Localization;
 using Alfred.UIKit;
 using Alfred.UIKit.Controls;
 using Alfred.UIKit.Icons;
@@ -17,8 +18,11 @@ public sealed class ShellViewModel : Observable
     private readonly ObservableCollection<SidebarItem> _items = [];
     private readonly Dictionary<string, Func<PageViewModel>> _factories = [];
     private readonly Dictionary<string, PageViewModel> _pages = [];
+    private readonly Dictionary<string, string> _titleKeys = [];
+    private readonly Dictionary<SidebarItem, string> _ids = [];
     private readonly UserPreferences _preferences;
     private SidebarItem _selectedItem;
+    private string _currentPageId;
     private bool _isSettingsOpen;
     private object _currentContent;
 
@@ -29,27 +33,29 @@ public sealed class ShellViewModel : Observable
         Shortcuts = shortcuts;
         Settings = new SettingsViewModel(preferences, shortcuts, vault);
 
-        Add("overview", "Today", "TodayIcon");
-        Add("overview", "Upcoming", "UpcomingIcon");
-        Add("work", "Plans", "PlansIcon");
-        Add("work", "TODOs", "TodosIcon");
-        Add("work", "Free Board", "FreeBoardIcon");
-        Add("time", "Calendar", "CalendarIcon");
-        Add("time", "Reminders", "RemindersIcon");
-        Add("money", "Payments", "PaymentsIcon");
-        Add("money", "Wish List", "WishListIcon");
-        Add("life", "Meals", "MealsIcon");
-        Register("Trash", "TrashIcon");
+        Add("overview", "today", LocalizationKeys.NavToday, "TodayIcon");
+        Add("overview", "upcoming", LocalizationKeys.NavUpcoming, "UpcomingIcon");
+        Add("work", "plans", LocalizationKeys.NavPlans, "PlansIcon");
+        Add("work", "todos", LocalizationKeys.NavTodos, "TodosIcon");
+        Add("work", "board", LocalizationKeys.NavFreeBoard, "FreeBoardIcon");
+        Add("time", "calendar", LocalizationKeys.NavCalendar, "CalendarIcon");
+        Add("time", "reminders", LocalizationKeys.NavReminders, "RemindersIcon");
+        Add("money", "payments", LocalizationKeys.NavPayments, "PaymentsIcon");
+        Add("money", "wishes", LocalizationKeys.NavWishList, "WishListIcon");
+        Add("life", "meals", LocalizationKeys.NavMeals, "MealsIcon");
+        Register("trash", LocalizationKeys.NavTrash, "TrashIcon");
 
-        _factories["Meals"] = () => new MealsViewModel(vault);
+        _factories["meals"] = () => new MealsViewModel(vault);
 
         Items = CollectionViewSource.GetDefaultView(_items);
         Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(SidebarItem.Group)));
 
         _selectedItem = _items[0];
-        _currentContent = Resolve(_selectedItem.Title);
+        _currentPageId = "today";
+        _currentContent = Resolve(_currentPageId);
 
         vault.Changed += (_, _) => RefreshCounts();
+        LocalizationService.Changed += (_, _) => OnLanguageChanged();
         RefreshCounts();
     }
 
@@ -76,7 +82,8 @@ public sealed class ShellViewModel : Observable
             {
                 _isSettingsOpen = false;
                 Raise(nameof(IsSettingsOpen));
-                CurrentContent = Resolve(value.Title);
+                _currentPageId = _ids[value];
+                CurrentContent = Resolve(_currentPageId);
             }
         }
     }
@@ -88,7 +95,7 @@ public sealed class ShellViewModel : Observable
         {
             if (Set(ref _isSettingsOpen, value))
             {
-                CurrentContent = value ? Settings : Resolve(_selectedItem.Title);
+                CurrentContent = value ? Settings : Resolve(_currentPageId);
             }
         }
     }
@@ -113,7 +120,8 @@ public sealed class ShellViewModel : Observable
     {
         _isSettingsOpen = false;
         Raise(nameof(IsSettingsOpen));
-        CurrentContent = Resolve("Trash");
+        _currentPageId = "trash";
+        CurrentContent = Resolve(_currentPageId);
     }
 
     public void Capture(CaptureRequest request)
@@ -169,15 +177,30 @@ public sealed class ShellViewModel : Observable
         }
     }
 
-    private PageViewModel Resolve(string title)
+    private PageViewModel Resolve(string id)
     {
-        if (!_pages.TryGetValue(title, out PageViewModel? page))
+        if (!_pages.TryGetValue(id, out PageViewModel? page))
         {
-            page = _factories[title]();
-            _pages[title] = page;
+            page = _factories[id]();
+            _pages[id] = page;
         }
 
         return page;
+    }
+
+    private void OnLanguageChanged()
+    {
+        foreach ((SidebarItem item, string id) in _ids)
+        {
+            item.Title = LocalizationService.Text(_titleKeys[id]);
+        }
+
+        _pages.Clear();
+
+        if (!_isSettingsOpen)
+        {
+            CurrentContent = Resolve(_currentPageId);
+        }
     }
 
     private void RefreshCounts()
@@ -185,24 +208,29 @@ public sealed class ShellViewModel : Observable
         DateOnly today = DateOnly.FromDateTime(DateTime.Now);
         IReadOnlyList<AgendaItem> todayItems = AgendaService.Today(Vault.Data, today);
 
-        SetCount("Today", todayItems.Count(item => !item.IsDone && item.Kind != AgendaKind.Know));
-        SetCount("TODOs", Vault.Data.Todos.Count(todo => !todo.Done));
-        SetCount("Reminders", Vault.Data.Reminders.Count(reminder => !reminder.Done && reminder.Due <= today));
-        SetCount("Payments", todayItems.Count(item => item is { Kind: AgendaKind.Settle, IsDone: false }));
+        SetCount("today", todayItems.Count(item => !item.IsDone && item.Kind != AgendaKind.Know));
+        SetCount("todos", Vault.Data.Todos.Count(todo => !todo.Done));
+        SetCount("reminders", Vault.Data.Reminders.Count(reminder => !reminder.Done && reminder.Due <= today));
+        SetCount("payments", todayItems.Count(item => item is { Kind: AgendaKind.Settle, IsDone: false }));
     }
 
-    private void SetCount(string title, int count)
+    private void SetCount(string id, int count)
     {
-        SidebarItem? item = _items.FirstOrDefault(item => item.Title == title);
+        SidebarItem? item = _ids.FirstOrDefault(entry => entry.Value == id).Key;
         item?.Count = count;
     }
 
-    private void Add(string group, string title, string iconKey)
+    private void Add(string group, string id, string titleKey, string iconKey)
     {
-        _items.Add(new SidebarItem(group, title, IconLibrary.Resolve(iconKey)));
-        Register(title, iconKey);
+        SidebarItem item = new(group, LocalizationService.Text(titleKey), IconLibrary.Resolve(iconKey));
+        _items.Add(item);
+        _ids[item] = id;
+        Register(id, titleKey, iconKey);
     }
 
-    private void Register(string title, string iconKey) =>
-        _factories[title] = () => new DefaultViewModel(title, iconKey);
+    private void Register(string id, string titleKey, string iconKey)
+    {
+        _titleKeys[id] = titleKey;
+        _factories[id] = () => new DefaultViewModel(LocalizationService.Text(titleKey), iconKey);
+    }
 }

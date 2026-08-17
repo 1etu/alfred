@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using Alfred.Localization;
 
 namespace Alfred.UIKit.Input;
 
@@ -79,7 +80,7 @@ public sealed class ShortcutRegistry
 
         if (FindByGesture(gesture, shortcut) is Shortcut taken)
         {
-            conflict = $"Already used by {taken.Name}";
+            conflict = LocalizationService.Text(LocalizationKeys.ShortcutUsedBy, taken.Name);
             return false;
         }
 

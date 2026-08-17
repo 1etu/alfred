@@ -4,6 +4,8 @@ public sealed class UserPreferences
 {
     public string Theme { get; set; } = "System";
 
+    public string Language { get; set; } = "en";
+
     public bool IsGlassEnabled { get; set; }
 
     public bool ShowCounts { get; set; } = true;

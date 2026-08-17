@@ -19,7 +19,7 @@
       <StackPanel Orientation="Horizontal">
 
         <TextBlock x:Name="Prompt"
-                   Text="Press keys"
+                   Text="{DynamicResource Loc.Shortcut.Prompt}"
                    Margin="6,0,6,0"
                    VerticalAlignment="Center"
                    FontFamily="{StaticResource AppFontSmall}"

@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Alfred.Core\Alfred.Core.csproj" />
+    <ProjectReference Include="..\Alfred.Localization\Alfred.Localization.csproj" />
     <ProjectReference Include="..\Alfred.Theme\Alfred.Theme.csproj" />
   </ItemGroup>
 

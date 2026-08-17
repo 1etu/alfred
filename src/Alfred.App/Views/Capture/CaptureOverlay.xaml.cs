@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using Alfred.App.ViewModels;
+using Alfred.Localization;
 using Alfred.UIKit;
 using Alfred.UIKit.Icons;
 using Alfred.UIKit.Suggest;
@@ -55,12 +56,12 @@ public partial class CaptureOverlay : UserControl
     {
         InitializeComponent();
 
-        _choices.Add(new TypeChoice(CaptureKind.Todo, "Todo", "TODOs", "TodosIcon", this, true));
-        _choices.Add(new TypeChoice(CaptureKind.Reminder, "Reminder", "Reminders", "RemindersIcon", this, false));
-        _choices.Add(new TypeChoice(CaptureKind.Expense, "Expense", "Payments", "PaymentsIcon", this, false));
-        _choices.Add(new TypeChoice(CaptureKind.Payment, "Payment", "Payments", "PaymentsIcon", this, false));
-        _choices.Add(new TypeChoice(CaptureKind.Income, "Income", "Meals", "SubscriptionsIcon", this, false));
-        _choices.Add(new TypeChoice(CaptureKind.Wish, "Wish", "Plans", "WishListIcon", this, false));
+        _choices.Add(new TypeChoice(CaptureKind.Todo, LocalizationService.Text(LocalizationKeys.CaptureKindTodo), "TODOs", "TodosIcon", this, true));
+        _choices.Add(new TypeChoice(CaptureKind.Reminder, LocalizationService.Text(LocalizationKeys.CaptureKindReminder), "Reminders", "RemindersIcon", this, false));
+        _choices.Add(new TypeChoice(CaptureKind.Expense, LocalizationService.Text(LocalizationKeys.CaptureKindExpense), "Payments", "PaymentsIcon", this, false));
+        _choices.Add(new TypeChoice(CaptureKind.Payment, LocalizationService.Text(LocalizationKeys.CaptureKindPayment), "Payments", "PaymentsIcon", this, false));
+        _choices.Add(new TypeChoice(CaptureKind.Income, LocalizationService.Text(LocalizationKeys.CaptureKindIncome), "Meals", "SubscriptionsIcon", this, false));
+        _choices.Add(new TypeChoice(CaptureKind.Wish, LocalizationService.Text(LocalizationKeys.CaptureKindWish), "Plans", "WishListIcon", this, false));
         TypeChips.ItemsSource = _choices;
     }
 
@@ -102,15 +103,15 @@ public partial class CaptureOverlay : UserControl
         Bar.ParseAmount = kind is CaptureKind.Expense or CaptureKind.Payment or CaptureKind.Income or CaptureKind.Wish;
         Bar.ParseDate = kind != CaptureKind.Wish;
         Bar.TitleSource = kind is CaptureKind.Expense or CaptureKind.Payment or CaptureKind.Wish ? new BrandSource() : null;
-        Bar.TitlePlaceholder = kind switch
+        Bar.TitlePlaceholder = LocalizationService.Text(kind switch
         {
-            CaptureKind.Todo => "What needs doing?",
-            CaptureKind.Reminder => "Remind me to…",
-            CaptureKind.Expense => "What did you spend on?",
-            CaptureKind.Payment => "What do you owe?",
-            CaptureKind.Income => "What's coming in?",
-            _ => "What do you want?",
-        };
+            CaptureKind.Todo => LocalizationKeys.CapturePlaceholderTodo,
+            CaptureKind.Reminder => LocalizationKeys.CapturePlaceholderReminder,
+            CaptureKind.Expense => LocalizationKeys.CapturePlaceholderExpense,
+            CaptureKind.Payment => LocalizationKeys.CapturePlaceholderPayment,
+            CaptureKind.Income => LocalizationKeys.CapturePlaceholderIncome,
+            _ => LocalizationKeys.CapturePlaceholderWish,
+        });
     }
 
     private void OnScrimClick(object sender, MouseButtonEventArgs e) => Close();

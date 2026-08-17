@@ -6,6 +6,7 @@ using Alfred.App.Sync;
 using Alfred.App.ViewModels;
 using Alfred.App.Views;
 using Alfred.Core.Storage;
+using Alfred.Localization;
 using Alfred.Theme;
 using Alfred.Theme.Catalog;
 using Alfred.UIKit.Input;
@@ -29,6 +30,7 @@ public partial class App : Application
 
         UserPreferences preferences = PreferencesStore.Load();
         ThemeService.Apply(ThemeCatalog.Resolve(preferences.Theme));
+        LocalizationService.Apply(LanguageCatalog.Resolve(preferences.Language));
 
         Vault vault = new(Path.Combine(PreferencesStore.Folder, "alfred.json"));
         ShortcutRegistry registry = new(preferences.Shortcuts, () => PreferencesStore.Save(preferences));

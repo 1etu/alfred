@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Alfred.Localization;
 using Alfred.UIKit.Input;
 
 namespace Alfred.UIKit.Controls;
@@ -106,14 +107,14 @@ public partial class ShortcutEditor : UserControl
 
         if (ShortcutGesture.IsReserved(key, modifiers))
         {
-            Conflict = "Reserved by Windows";
+            Conflict = LocalizationService.Text(LocalizationKeys.ShortcutReserved);
             ShowPending(modifiers, key);
             return;
         }
 
         if (ShortcutGesture.TryCreate(key, modifiers) is not KeyGesture gesture)
         {
-            Conflict = "Add Ctrl or Alt";
+            Conflict = LocalizationService.Text(LocalizationKeys.ShortcutNeedsModifier);
             ShowPending(modifiers, key);
             return;
         }
