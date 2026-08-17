@@ -56,6 +56,73 @@ public static class LocalizationKeys
     public const string ColorPurple = "Loc.Color.Purple";
     public const string ColorPink = "Loc.Color.Pink";
 
+    public const string ActionCopy = "Loc.Action.Copy";
+    public const string ActionEmptyTrash = "Loc.Action.EmptyTrash";
+
+    public const string SectionOverdue = "Loc.Section.Overdue";
+    public const string SectionTomorrow = "Loc.Section.Tomorrow";
+    public const string SectionThisWeek = "Loc.Section.ThisWeek";
+    public const string SectionLater = "Loc.Section.Later";
+    public const string SectionLogbook = "Loc.Section.Logbook";
+
+    public const string GreetingNight = "Loc.Greeting.Night";
+    public const string GreetingMorning = "Loc.Greeting.Morning";
+    public const string GreetingAfternoon = "Loc.Greeting.Afternoon";
+    public const string GreetingEvening = "Loc.Greeting.Evening";
+
+    public const string AgendaAdd = "Loc.Agenda.Add";
+    public const string AgendaEmpty = "Loc.Agenda.Empty";
+    public const string AgendaNext90 = "Loc.Agenda.Next90";
+    public const string StatOut = "Loc.Stat.Out";
+    public const string StatInToday = "Loc.Stat.InToday";
+    public const string StatAllClear = "Loc.Stat.AllClear";
+    public const string StatNothingNeedsYou = "Loc.Stat.NothingNeedsYou";
+    public const string StatWaitingToday = "Loc.Stat.WaitingToday";
+    public const string StatInDays = "Loc.Stat.InDays";
+    public const string StatInOneDay = "Loc.Stat.InOneDay";
+
+    public const string TodosAdd = "Loc.Todos.Add";
+    public const string RemindersAdd = "Loc.Reminders.Add";
+
+    public const string MealBreakfast = "Loc.Meal.Breakfast";
+    public const string MealLunch = "Loc.Meal.Lunch";
+    public const string MealDinner = "Loc.Meal.Dinner";
+    public const string MealSnack = "Loc.Meal.Snack";
+    public const string MealsAdd = "Loc.Meals.Add";
+
+    public const string WishesTotal = "Loc.Wishes.Total";
+    public const string WishesCaption = "Loc.Wishes.Caption";
+
+    public const string PaymentsSummary = "Loc.Payments.Summary";
+    public const string CadenceOnce = "Loc.Cadence.Once";
+    public const string CadenceWeekly = "Loc.Cadence.Weekly";
+    public const string CadenceMonthly = "Loc.Cadence.Monthly";
+    public const string CadenceYearly = "Loc.Cadence.Yearly";
+    public const string PaymentsNextToday = "Loc.Payments.NextToday";
+    public const string PaymentsNextTomorrow = "Loc.Payments.NextTomorrow";
+    public const string PaymentsNext = "Loc.Payments.Next";
+    public const string FilterAll = "Loc.Filter.All";
+    public const string FilterOut = "Loc.Filter.Out";
+    public const string FilterRecurring = "Loc.Filter.Recurring";
+    public const string FilterIn = "Loc.Filter.In";
+
+    public const string PlansAdd = "Loc.Plans.Add";
+    public const string PlansAddStep = "Loc.Plans.AddStep";
+    public const string PlansNoSteps = "Loc.Plans.NoSteps";
+    public const string PlansProgress = "Loc.Plans.Progress";
+    public const string PlansNotes = "Loc.Plans.Notes";
+
+    public const string BoardAdd = "Loc.Board.Add";
+
+    public const string TrashCaptionEmpty = "Loc.Trash.CaptionEmpty";
+    public const string TrashCaption = "Loc.Trash.Caption";
+    public const string TrashDeleted = "Loc.Trash.Deleted";
+    public const string TrashDaysLeft = "Loc.Trash.DaysLeft";
+    public const string TrashOneDayLeft = "Loc.Trash.OneDayLeft";
+    public const string TrashRestore = "Loc.Trash.Restore";
+    public const string TrashForget = "Loc.Trash.Forget";
+    public const string TrashEmptyState = "Loc.Trash.EmptyState";
+
     public const string SettingsCurrency = "Loc.Settings.Currency";
     public const string SettingsCurrencyCaption = "Loc.Settings.CurrencyCaption";
 

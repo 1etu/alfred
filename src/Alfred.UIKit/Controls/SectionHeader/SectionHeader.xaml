@@ -1,0 +1,23 @@
+<UserControl x:Class="Alfred.UIKit.Controls.SectionHeader"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Name="Root"
+             Focusable="False">
+  <StackPanel>
+    <Grid Margin="12,0,12,0">
+      <TextBlock x:Name="TitleText"
+                 Text="{Binding Title, ElementName=Root}"
+                 FontFamily="{StaticResource AppFontSmall}"
+                 FontSize="12.5"
+                 FontWeight="SemiBold"
+                 Foreground="{DynamicResource TextSecondary}"
+                 VerticalAlignment="Center" />
+      <ContentPresenter Content="{Binding Trailing, ElementName=Root}"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center" />
+    </Grid>
+    <Border Height="1"
+            Background="{DynamicResource Hairline}"
+            Margin="12,6,12,8" />
+  </StackPanel>
+</UserControl>

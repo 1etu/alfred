@@ -55,6 +55,73 @@
     "Loc.Color.Purple": "Purple",
     "Loc.Color.Pink": "Pink",
 
+    "Loc.Action.Copy": "Copy",
+    "Loc.Action.EmptyTrash": "Empty trash",
+
+    "Loc.Section.Overdue": "Overdue",
+    "Loc.Section.Tomorrow": "Tomorrow",
+    "Loc.Section.ThisWeek": "This week",
+    "Loc.Section.Later": "Later",
+    "Loc.Section.Logbook": "Logbook",
+
+    "Loc.Greeting.Night": "Still up?",
+    "Loc.Greeting.Morning": "Good morning",
+    "Loc.Greeting.Afternoon": "Good afternoon",
+    "Loc.Greeting.Evening": "Good evening",
+
+    "Loc.Agenda.Add": "Add something… try 'call mom tomorrow'",
+    "Loc.Agenda.Empty": "All clear. Alfred approves.",
+    "Loc.Agenda.Next90": "The next 90 days",
+    "Loc.Stat.Out": "{0} out",
+    "Loc.Stat.InToday": "{0} in today",
+    "Loc.Stat.AllClear": "All clear",
+    "Loc.Stat.NothingNeedsYou": "nothing needs you",
+    "Loc.Stat.WaitingToday": "waiting on you today",
+    "Loc.Stat.InDays": "in {0} days",
+    "Loc.Stat.InOneDay": "in 1 day",
+
+    "Loc.Todos.Add": "Add a todo… try 'send invoice friday'",
+    "Loc.Reminders.Add": "Remind me to… try 'water plants tomorrow 9:00'",
+
+    "Loc.Meal.Breakfast": "Breakfast",
+    "Loc.Meal.Lunch": "Lunch",
+    "Loc.Meal.Dinner": "Dinner",
+    "Loc.Meal.Snack": "Snacks",
+    "Loc.Meals.Add": "Add a meal…",
+
+    "Loc.Wishes.Total": "Everything still wanted adds up to {0}",
+    "Loc.Wishes.Caption": "Things you want, with what they cost",
+
+    "Loc.Payments.Summary": "expecting {0} in · {1} out · {2} gone so far",
+    "Loc.Cadence.Once": "Once",
+    "Loc.Cadence.Weekly": "Weekly",
+    "Loc.Cadence.Monthly": "Monthly",
+    "Loc.Cadence.Yearly": "Yearly",
+    "Loc.Payments.NextToday": "next today",
+    "Loc.Payments.NextTomorrow": "next tomorrow",
+    "Loc.Payments.Next": "next {0}",
+    "Loc.Filter.All": "All",
+    "Loc.Filter.Out": "Out",
+    "Loc.Filter.Recurring": "Recurring",
+    "Loc.Filter.In": "In",
+
+    "Loc.Plans.Add": "Add a plan…",
+    "Loc.Plans.AddStep": "Add a step…",
+    "Loc.Plans.NoSteps": "No steps",
+    "Loc.Plans.Progress": "{0} of {1}",
+    "Loc.Plans.Notes": "Notes…",
+
+    "Loc.Board.Add": "Add a card…",
+
+    "Loc.Trash.CaptionEmpty": "Deleted things wait here for 30 days",
+    "Loc.Trash.Caption": "{0} recoverable · kept for 30 days",
+    "Loc.Trash.Deleted": "deleted {0}",
+    "Loc.Trash.DaysLeft": "{0} days left",
+    "Loc.Trash.OneDayLeft": "1 day left",
+    "Loc.Trash.Restore": "Restore",
+    "Loc.Trash.Forget": "Delete forever",
+    "Loc.Trash.EmptyState": "Nothing deleted. Spotless.",
+
     "Loc.Settings.Currency": "Currency",
     "Loc.Settings.CurrencyCaption": "Used when an amount has no currency sign.",
 

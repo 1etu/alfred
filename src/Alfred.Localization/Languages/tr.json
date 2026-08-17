@@ -55,6 +55,73 @@
     "Loc.Color.Purple": "Mor",
     "Loc.Color.Pink": "Pembe",
 
+    "Loc.Action.Copy": "Kopyala",
+    "Loc.Action.EmptyTrash": "Çöpü boşalt",
+
+    "Loc.Section.Overdue": "Geciken",
+    "Loc.Section.Tomorrow": "Yarın",
+    "Loc.Section.ThisWeek": "Bu hafta",
+    "Loc.Section.Later": "Sonra",
+    "Loc.Section.Logbook": "Kayıt defteri",
+
+    "Loc.Greeting.Night": "Hâlâ ayakta mısın?",
+    "Loc.Greeting.Morning": "Günaydın",
+    "Loc.Greeting.Afternoon": "İyi günler",
+    "Loc.Greeting.Evening": "İyi akşamlar",
+
+    "Loc.Agenda.Add": "Bir şey ekle… 'yarın annemi ara' dene",
+    "Loc.Agenda.Empty": "Her şey yolunda. Alfred onaylıyor.",
+    "Loc.Agenda.Next90": "Önümüzdeki 90 gün",
+    "Loc.Stat.Out": "{0} çıkış",
+    "Loc.Stat.InToday": "bugün {0} giriş",
+    "Loc.Stat.AllClear": "Hepsi tamam",
+    "Loc.Stat.NothingNeedsYou": "seni bekleyen yok",
+    "Loc.Stat.WaitingToday": "bugün seni bekliyor",
+    "Loc.Stat.InDays": "{0} gün içinde",
+    "Loc.Stat.InOneDay": "1 gün içinde",
+
+    "Loc.Todos.Add": "Yapılacak ekle… 'faturayı cuma gönder' dene",
+    "Loc.Reminders.Add": "Bana hatırlat… 'yarın 9:00 çiçekleri sula' dene",
+
+    "Loc.Meal.Breakfast": "Kahvaltı",
+    "Loc.Meal.Lunch": "Öğle",
+    "Loc.Meal.Dinner": "Akşam",
+    "Loc.Meal.Snack": "Atıştırmalık",
+    "Loc.Meals.Add": "Öğün ekle…",
+
+    "Loc.Wishes.Total": "İstenenlerin toplamı {0}",
+    "Loc.Wishes.Caption": "İstediklerin ve fiyatları",
+
+    "Loc.Payments.Summary": "beklenen {0} giriş · {1} çıkış · şimdiye dek {2} gitti",
+    "Loc.Cadence.Once": "Bir kez",
+    "Loc.Cadence.Weekly": "Haftalık",
+    "Loc.Cadence.Monthly": "Aylık",
+    "Loc.Cadence.Yearly": "Yıllık",
+    "Loc.Payments.NextToday": "sonraki bugün",
+    "Loc.Payments.NextTomorrow": "sonraki yarın",
+    "Loc.Payments.Next": "sonraki {0}",
+    "Loc.Filter.All": "Tümü",
+    "Loc.Filter.Out": "Giden",
+    "Loc.Filter.Recurring": "Tekrarlayan",
+    "Loc.Filter.In": "Gelen",
+
+    "Loc.Plans.Add": "Plan ekle…",
+    "Loc.Plans.AddStep": "Adım ekle…",
+    "Loc.Plans.NoSteps": "Adım yok",
+    "Loc.Plans.Progress": "{0} / {1}",
+    "Loc.Plans.Notes": "Notlar…",
+
+    "Loc.Board.Add": "Kart ekle…",
+
+    "Loc.Trash.CaptionEmpty": "Silinenler burada 30 gün bekler",
+    "Loc.Trash.Caption": "{0} geri alınabilir · 30 gün saklanır",
+    "Loc.Trash.Deleted": "{0} silindi",
+    "Loc.Trash.DaysLeft": "{0} gün kaldı",
+    "Loc.Trash.OneDayLeft": "1 gün kaldı",
+    "Loc.Trash.Restore": "Geri al",
+    "Loc.Trash.Forget": "Kalıcı olarak sil",
+    "Loc.Trash.EmptyState": "Silinen bir şey yok. Tertemiz.",
+
     "Loc.Settings.Currency": "Para birimi",
     "Loc.Settings.CurrencyCaption": "Para birimi işareti olmayan tutarlarda kullanılır.",
 

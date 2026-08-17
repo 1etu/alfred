@@ -12,7 +12,7 @@
   </Style>
 
   <Style x:Key="PageBody" TargetType="StackPanel">
-    <Setter Property="Margin" Value="44,10,44,72" />
+    <Setter Property="Margin" Value="44,10,44,32" />
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="MaxWidth" Value="980" />
   </Style>
