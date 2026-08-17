@@ -25,17 +25,6 @@
                  AutomationProperties.Name="Quick add"
                  TextChanged="OnTitleChanged"
                  PreviewKeyDown="OnFieldKeyDown" />
-        <Border x:Name="DateBadge"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                CornerRadius="7"
-                Background="{DynamicResource AccentSoft}"
-                Padding="9,3,9,4"
-                Visibility="Collapsed">
-          <TextBlock x:Name="DateBadgeText"
-                     FontFamily="{StaticResource AppFontSmall}" FontSize="11.5" FontWeight="SemiBold"
-                     Foreground="{DynamicResource Accent}" />
-        </Border>
       </Grid>
 
       <ListBox x:Name="List"

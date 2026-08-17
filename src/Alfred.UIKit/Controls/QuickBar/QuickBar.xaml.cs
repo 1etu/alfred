@@ -23,12 +23,22 @@ public partial class QuickBar : UserControl
         nameof(TitleSource), typeof(ISuggestionSource), typeof(QuickBar));
 
     public static readonly DependencyProperty ParseDateProperty = DependencyProperty.Register(
-        nameof(ParseDate), typeof(bool), typeof(QuickBar), new PropertyMetadata(true));
+        nameof(ParseDate), typeof(bool), typeof(QuickBar),
+        new PropertyMetadata(true, (target, _) => ((QuickBar)target).RefreshParses()));
 
     public static readonly DependencyProperty ParseAmountProperty = DependencyProperty.Register(
-        nameof(ParseAmount), typeof(bool), typeof(QuickBar), new PropertyMetadata(false));
+        nameof(ParseAmount), typeof(bool), typeof(QuickBar),
+        new PropertyMetadata(false, (target, _) => ((QuickBar)target).RefreshParses()));
+
+    private static readonly System.Text.RegularExpressions.Regex TimePattern = new(
+        @"\b\d{1,2}[:.]\d{2}\b",
+        System.Text.RegularExpressions.RegexOptions.Compiled);
 
     private readonly ObservableCollection<Suggestion> _suggestions = [];
+    private (string Label, DateOnly Date)? _rejectedDate;
+    private TimeOnly? _rejectedTime;
+    private decimal? _rejectedAmount;
+    private string _liveTitle = string.Empty;
     private bool _isOpen;
     private bool _suppress;
 
@@ -39,6 +49,8 @@ public partial class QuickBar : UserControl
     }
 
     public event EventHandler? Submitted;
+
+    public event EventHandler? ParsesChanged;
 
     public string? TitlePlaceholder
     {
@@ -68,6 +80,8 @@ public partial class QuickBar : UserControl
 
     public DateOnly? PickedDate { get; private set; }
 
+    public string? PickedDateLabel { get; private set; }
+
     public TimeOnly? PickedTime { get; private set; }
 
     public decimal? PickedAmount { get; private set; }
@@ -78,18 +92,92 @@ public partial class QuickBar : UserControl
     {
         _suppress = true;
         TitleField.Text = string.Empty;
-        Title = string.Empty;
-        PickedDate = null;
-        PickedTime = null;
-        PickedAmount = null;
-        PickedBrandSlug = null;
-        DateBadge.Visibility = Visibility.Collapsed;
         _suppress = false;
+
+        Title = string.Empty;
+        PickedBrandSlug = null;
+        _rejectedDate = null;
+        _rejectedTime = null;
+        _rejectedAmount = null;
         Close();
         RefreshGhost();
+        RefreshParses();
     }
 
     public void FocusTitle() => TitleField.Focus();
+
+    public void RejectDate()
+    {
+        if (PickedDate is DateOnly date && PickedDateLabel is string label)
+        {
+            _rejectedDate = (label, date);
+            RefreshParses();
+        }
+    }
+
+    public void RejectTime()
+    {
+        if (PickedTime is TimeOnly time)
+        {
+            _rejectedTime = time;
+            RefreshParses();
+        }
+    }
+
+    public void RejectAmount()
+    {
+        if (PickedAmount is decimal amount)
+        {
+            _rejectedAmount = amount;
+            RefreshParses();
+        }
+    }
+
+    public void RejectBrand()
+    {
+        PickedBrandSlug = null;
+        ParsesChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void RefreshParses()
+    {
+        string working = TitleField.Text;
+        DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+
+        PickedDate = null;
+        PickedDateLabel = null;
+        PickedTime = null;
+        PickedAmount = null;
+
+        if (ParseDate &&
+            DateHints.TryExtract(working, today, out string afterDate, out DateOnly date, out string label) &&
+            _rejectedDate != (label, date))
+        {
+            PickedDate = date;
+            PickedDateLabel = label;
+            working = afterDate;
+        }
+
+        System.Text.RegularExpressions.Match time = TimePattern.Match(working);
+        if (time.Success &&
+            TimeOnly.TryParseExact(time.Value.Trim(), ["H:mm", "HH:mm", "H.mm"], CultureInfo.InvariantCulture, DateTimeStyles.None, out TimeOnly parsedTime) &&
+            _rejectedTime != parsedTime)
+        {
+            PickedTime = parsedTime;
+            working = working.Remove(time.Index, time.Length).Trim();
+        }
+
+        if (ParseAmount &&
+            AmountHints.TryExtract(working, out string afterAmount, out decimal parsedAmount) &&
+            _rejectedAmount != parsedAmount)
+        {
+            PickedAmount = parsedAmount;
+            working = afterAmount;
+        }
+
+        _liveTitle = working.Trim().TrimEnd(',', '·', '-').Trim();
+        ParsesChanged?.Invoke(this, EventArgs.Empty);
+    }
 
     private void OnTitleChanged(object sender, TextChangedEventArgs e)
     {
@@ -101,7 +189,7 @@ public partial class QuickBar : UserControl
         }
 
         PickedBrandSlug = null;
-        Preview();
+        RefreshParses();
 
         List<Suggestion> offers = [];
 
@@ -111,21 +199,6 @@ public partial class QuickBar : UserControl
         }
 
         Offer(offers);
-    }
-
-    private void Preview()
-    {
-        string text = TitleField.Text;
-
-        if (ParseDate && DateHints.TryExtract(text, DateOnly.FromDateTime(DateTime.Now), out _, out DateOnly date, out string label))
-        {
-            DateBadgeText.Text = label + " · " + date.ToString("ddd, d MMM", CultureInfo.InvariantCulture);
-            DateBadge.Visibility = Visibility.Visible;
-        }
-        else
-        {
-            DateBadge.Visibility = Visibility.Collapsed;
-        }
     }
 
     private void OnFieldKeyDown(object sender, KeyEventArgs e)
@@ -178,45 +251,15 @@ public partial class QuickBar : UserControl
         TitleField.CaretIndex = TitleField.Text.Length;
         _suppress = false;
         RefreshGhost();
+        RefreshParses();
         Close();
     }
 
     private void Submit()
     {
-        string text = TitleField.Text.Trim();
-        DateOnly today = DateOnly.FromDateTime(DateTime.Now);
-
-        PickedDate = null;
-        PickedTime = null;
-        PickedAmount = null;
-
-        if (ParseDate && DateHints.TryExtract(text, today, out string cleaned, out DateOnly date, out _))
-        {
-            text = cleaned;
-            PickedDate = date;
-        }
-
-        System.Text.RegularExpressions.Match time = TimePattern.Match(text);
-        if (time.Success &&
-            TimeOnly.TryParseExact(time.Value.Trim(), ["H:mm", "HH:mm", "H.mm"], CultureInfo.InvariantCulture, DateTimeStyles.None, out TimeOnly parsedTime))
-        {
-            PickedTime = parsedTime;
-            text = text.Remove(time.Index, time.Length).Trim();
-        }
-
-        if (ParseAmount && AmountHints.TryExtract(text, out string remainder, out decimal parsedAmount))
-        {
-            PickedAmount = parsedAmount;
-            text = remainder;
-        }
-
-        Title = text.Trim().TrimEnd(',', '·', '-').Trim();
+        Title = _liveTitle;
         Submitted?.Invoke(this, EventArgs.Empty);
     }
-
-    private static readonly System.Text.RegularExpressions.Regex TimePattern = new(
-        @"\b\d{1,2}[:.]\d{2}\b",
-        System.Text.RegularExpressions.RegexOptions.Compiled);
 
     private void Offer(IReadOnlyList<Suggestion> suggestions)
     {
