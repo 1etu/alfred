@@ -3,10 +3,12 @@ using System.Net.Http;
 using Alfred.App.Input;
 using Alfred.App.Preferences;
 using Alfred.App.Sync;
-using Alfred.App.Theming;
 using Alfred.App.Updates;
 using Alfred.Core.Ledger;
 using Alfred.Core.Storage;
+using Alfred.Theme;
+using Alfred.Theme.Catalog;
+using Alfred.Theme.Defaults;
 
 namespace Alfred.App.ViewModels;
 
@@ -47,20 +49,20 @@ public sealed class SettingsViewModel : Observable, IToolbarHost
 
     public bool IsSystemTheme
     {
-        get => _preferences.Theme == nameof(ThemeVariant.System);
-        set => SelectTheme(ThemeVariant.System, value);
+        get => _preferences.Theme == ThemeCatalog.SystemSelection;
+        set => SelectTheme(ThemeCatalog.SystemSelection, value);
     }
 
     public bool IsLightTheme
     {
-        get => _preferences.Theme == nameof(ThemeVariant.Light);
-        set => SelectTheme(ThemeVariant.Light, value);
+        get => _preferences.Theme == DefaultThemes.Light.Name;
+        set => SelectTheme(DefaultThemes.Light.Name, value);
     }
 
     public bool IsDarkTheme
     {
-        get => _preferences.Theme == nameof(ThemeVariant.Dark);
-        set => SelectTheme(ThemeVariant.Dark, value);
+        get => _preferences.Theme == DefaultThemes.Dark.Name;
+        set => SelectTheme(DefaultThemes.Dark.Name, value);
     }
 
     public bool IsGlassEnabled
@@ -253,16 +255,16 @@ public sealed class SettingsViewModel : Observable, IToolbarHost
         }
     }
 
-    private void SelectTheme(ThemeVariant variant, bool isSelected)
+    private void SelectTheme(string selection, bool isSelected)
     {
-        if (!isSelected || _preferences.Theme == variant.ToString())
+        if (!isSelected || _preferences.Theme == selection)
         {
             return;
         }
 
-        _preferences.Theme = variant.ToString();
+        _preferences.Theme = selection;
         PreferencesStore.Save(_preferences);
-        Theme.Apply(variant);
+        ThemeService.Apply(ThemeCatalog.Resolve(selection));
 
         Raise(nameof(IsSystemTheme));
         Raise(nameof(IsLightTheme));
@@ -270,7 +272,5 @@ public sealed class SettingsViewModel : Observable, IToolbarHost
         Raise(nameof(CurrentTheme));
     }
 
-    public ThemeVariant CurrentTheme => Enum.TryParse(_preferences.Theme, out ThemeVariant variant)
-        ? variant
-        : ThemeVariant.System;
+    public string CurrentTheme => _preferences.Theme;
 }

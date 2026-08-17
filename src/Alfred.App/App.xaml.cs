@@ -5,10 +5,11 @@ using Alfred.App.Input;
 using Alfred.App.Preferences;
 using Alfred.App.Suggest;
 using Alfred.App.Sync;
-using Alfred.App.Theming;
 using Alfred.App.ViewModels;
 using Alfred.App.Views;
 using Alfred.Core.Storage;
+using Alfred.Theme;
+using Alfred.Theme.Catalog;
 
 namespace Alfred.App;
 
@@ -27,7 +28,7 @@ public partial class App : Application
         base.OnStartup(e);
 
         UserPreferences preferences = PreferencesStore.Load();
-        Theme.Apply(Enum.TryParse(preferences.Theme, out ThemeVariant variant) ? variant : ThemeVariant.System);
+        ThemeService.Apply(ThemeCatalog.Resolve(preferences.Theme));
 
         Vault vault = new(Path.Combine(PreferencesStore.Folder, "alfred.json"));
         ShortcutRegistry registry = new(preferences);

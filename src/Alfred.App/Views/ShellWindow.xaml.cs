@@ -4,8 +4,8 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shell;
 using Alfred.App.Interop;
-using Alfred.App.Theming;
 using Alfred.App.ViewModels;
+using Alfred.Theme;
 
 namespace Alfred.App.Views;
 
@@ -84,7 +84,7 @@ public partial class ShellWindow : Window
             SetResourceReference(BackgroundProperty, "ShellBackground");
         }
 
-        DesktopWindowManager.ApplyDarkTitleBar(this, Theme.IsDark);
+        DesktopWindowManager.ApplyDarkTitleBar(this, ThemeService.IsDark);
         DesktopWindowManager.ApplyBackdrop(this, isGlass ? WindowBackdrop.Acrylic : WindowBackdrop.None);
     }
 
