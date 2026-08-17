@@ -47,6 +47,15 @@ public static class ThemeKeys
     public const string SwitchTrackOn = nameof(SwitchTrackOn);
     public const string SwitchKnob = nameof(SwitchKnob);
 
+    public const string FolderRed = nameof(FolderRed);
+    public const string FolderOrange = nameof(FolderOrange);
+    public const string FolderYellow = nameof(FolderYellow);
+    public const string FolderGreen = nameof(FolderGreen);
+    public const string FolderTeal = nameof(FolderTeal);
+    public const string FolderBlue = nameof(FolderBlue);
+    public const string FolderPurple = nameof(FolderPurple);
+    public const string FolderPink = nameof(FolderPink);
+
     public const string CheckRing = nameof(CheckRing);
     public const string CheckFill = nameof(CheckFill);
     public const string MoneyIn = nameof(MoneyIn);

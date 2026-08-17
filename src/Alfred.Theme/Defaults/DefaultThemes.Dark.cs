@@ -56,6 +56,15 @@ public static partial class DefaultThemes
             [ThemeKeys.SwitchTrackOn] = Rgb(0x30D158),
             [ThemeKeys.SwitchKnob] = Rgb(0xFFFFFF),
 
+            [ThemeKeys.FolderRed] = Rgb(0xFF6369),
+            [ThemeKeys.FolderOrange] = Rgb(0xFF8B3E),
+            [ThemeKeys.FolderYellow] = Rgb(0xFFC53D),
+            [ThemeKeys.FolderGreen] = Rgb(0x3DD68C),
+            [ThemeKeys.FolderTeal] = Rgb(0x25D0B4),
+            [ThemeKeys.FolderBlue] = Rgb(0x6E9BFF),
+            [ThemeKeys.FolderPurple] = Rgb(0xB784E0),
+            [ThemeKeys.FolderPink] = Rgb(0xE86BC1),
+
             [ThemeKeys.CheckRing] = Rgb(0x57534C),
             [ThemeKeys.CheckFill] = Rgb(0x3B82F6),
             [ThemeKeys.MoneyIn] = Rgb(0x4ADE80),
