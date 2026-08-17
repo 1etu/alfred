@@ -1,5 +1,6 @@
 using System.Windows.Media;
 using Alfred.UIKit;
+using Alfred.UIKit.Controls;
 using Alfred.UIKit.Icons;
 
 namespace Alfred.App.ViewModels;
@@ -17,4 +18,6 @@ public abstract class PageViewModel : Observable
     public string Title { get; }
 
     public ImageSource Icon { get; }
+
+    public virtual IReadOnlyList<ActionBarItem> Actions { get; } = [];
 }

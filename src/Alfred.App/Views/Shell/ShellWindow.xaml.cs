@@ -34,6 +34,7 @@ public partial class ShellWindow : Window
             shell.Shortcuts.Attach(this);
             shell.Settings.PropertyChanged += OnSettingsChanged;
             shell.PropertyChanged += OnShellChanged;
+            shell.CaptureRequested += (_, _) => Capture.Open();
         }
     }
 
@@ -93,17 +94,6 @@ public partial class ShellWindow : Window
         if (DataContext is ShellViewModel shell)
         {
             shell.Capture(request);
-        }
-    }
-
-    private void OnOpenCapture(object sender, RoutedEventArgs e) => Capture.Open();
-
-    private void OnMore(object sender, RoutedEventArgs e)
-    {
-        if (MoreButton.ContextMenu is { } menu)
-        {
-            menu.PlacementTarget = MoreButton;
-            menu.IsOpen = true;
         }
     }
 

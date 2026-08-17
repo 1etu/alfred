@@ -59,6 +59,8 @@ public sealed class ShellViewModel : Observable
         RefreshCounts();
     }
 
+    public event EventHandler? CaptureRequested;
+
     public ICollectionView Items { get; }
 
     public Vault Vault { get; }
@@ -70,8 +72,35 @@ public sealed class ShellViewModel : Observable
     public object CurrentContent
     {
         get => _currentContent;
-        private set => Set(ref _currentContent, value);
+        private set
+        {
+            if (Set(ref _currentContent, value))
+            {
+                Raise(nameof(ActionBarItems));
+            }
+        }
     }
+
+    public IReadOnlyList<ActionBarItem> ActionBarItems
+    {
+        get
+        {
+            List<ActionBarItem> items =
+            [
+                new(LocalizationService.Text(LocalizationKeys.ActionNew), "PlusGlyph", RequestCapture, isProminent: true),
+            ];
+
+            if (_currentContent is PageViewModel page)
+            {
+                items.AddRange(page.Actions);
+            }
+
+            items.Add(new ActionBarItem(LocalizationService.Text(LocalizationKeys.ActionSearch), "SearchGlyph", RequestCapture));
+            return items;
+        }
+    }
+
+    private void RequestCapture() => CaptureRequested?.Invoke(this, EventArgs.Empty);
 
     public SidebarItem SelectedItem
     {
@@ -201,6 +230,8 @@ public sealed class ShellViewModel : Observable
         {
             CurrentContent = Resolve(_currentPageId);
         }
+
+        Raise(nameof(ActionBarItems));
     }
 
     private void RefreshCounts()
