@@ -5,6 +5,9 @@
   <Border CornerRadius="10" Background="{DynamicResource SheetHover}" ClipToBounds="True">
     <StackPanel>
       <Grid Margin="14,0,14,0" MinHeight="38">
+        <Canvas x:Name="HighlightLayer"
+                IsHitTestVisible="False"
+                ClipToBounds="True" />
         <TextBlock x:Name="TitleGhost"
                    VerticalAlignment="Center"
                    Margin="1,0,0,0"

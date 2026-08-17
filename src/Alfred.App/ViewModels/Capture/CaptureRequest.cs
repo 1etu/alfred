@@ -16,4 +16,5 @@ public sealed record CaptureRequest(
     DateOnly? Date,
     TimeOnly? Time,
     decimal? Amount,
-    string? BrandSlug);
+    string? BrandSlug,
+    string? Currency);

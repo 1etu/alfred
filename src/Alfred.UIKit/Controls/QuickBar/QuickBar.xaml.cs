@@ -3,7 +3,9 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 using Alfred.Core.Ledger;
 using Alfred.Core.Time;
 using Alfred.UIKit.Suggest;
@@ -34,7 +36,11 @@ public partial class QuickBar : UserControl
         @"\b\d{1,2}[:.]\d{2}\b",
         System.Text.RegularExpressions.RegexOptions.Compiled);
 
+    private sealed record TokenSpan(string Kind, int Start, int Length);
+
     private readonly ObservableCollection<Suggestion> _suggestions = [];
+    private readonly List<TokenSpan> _spans = [];
+    private readonly HashSet<string> _shownKinds = [];
     private (string Label, DateOnly Date)? _rejectedDate;
     private TimeOnly? _rejectedTime;
     private decimal? _rejectedAmount;
@@ -46,6 +52,7 @@ public partial class QuickBar : UserControl
     {
         InitializeComponent();
         List.ItemsSource = _suggestions;
+        SizeChanged += (_, _) => RenderHighlights();
     }
 
     public event EventHandler? Submitted;
@@ -86,6 +93,8 @@ public partial class QuickBar : UserControl
 
     public decimal? PickedAmount { get; private set; }
 
+    public string? PickedCurrency { get; private set; }
+
     public string? PickedBrandSlug { get; private set; }
 
     public void Reset()
@@ -99,6 +108,7 @@ public partial class QuickBar : UserControl
         _rejectedDate = null;
         _rejectedTime = null;
         _rejectedAmount = null;
+        _shownKinds.Clear();
         Close();
         RefreshGhost();
         RefreshParses();
@@ -141,42 +151,147 @@ public partial class QuickBar : UserControl
 
     public void RefreshParses()
     {
-        string working = TitleField.Text;
+        string original = TitleField.Text;
         DateOnly today = DateOnly.FromDateTime(DateTime.Now);
 
+        _spans.Clear();
         PickedDate = null;
         PickedDateLabel = null;
         PickedTime = null;
         PickedAmount = null;
+        PickedCurrency = null;
+
+        char[] masked = original.ToCharArray();
 
         if (ParseDate &&
-            DateHints.TryExtract(working, today, out string afterDate, out DateOnly date, out string label) &&
-            _rejectedDate != (label, date))
+            DateHints.Match(original, today) is DateMatch date &&
+            _rejectedDate != (date.Label, date.Date))
         {
-            PickedDate = date;
-            PickedDateLabel = label;
-            working = afterDate;
+            PickedDate = date.Date;
+            PickedDateLabel = date.Label;
+            Consume(masked, "date", date.Start, date.Length);
         }
 
-        System.Text.RegularExpressions.Match time = TimePattern.Match(working);
+        System.Text.RegularExpressions.Match time = TimePattern.Match(new string(masked));
         if (time.Success &&
             TimeOnly.TryParseExact(time.Value.Trim(), ["H:mm", "HH:mm", "H.mm"], CultureInfo.InvariantCulture, DateTimeStyles.None, out TimeOnly parsedTime) &&
             _rejectedTime != parsedTime)
         {
             PickedTime = parsedTime;
-            working = working.Remove(time.Index, time.Length).Trim();
+            Consume(masked, "time", time.Index, time.Length);
         }
 
         if (ParseAmount &&
-            AmountHints.TryExtract(working, out string afterAmount, out decimal parsedAmount) &&
-            _rejectedAmount != parsedAmount)
+            AmountHints.Match(new string(masked)) is AmountMatch amount &&
+            _rejectedAmount != amount.Amount)
         {
-            PickedAmount = parsedAmount;
-            working = afterAmount;
+            PickedAmount = amount.Amount;
+            PickedCurrency = amount.CurrencyCode;
+            Consume(masked, "amount", amount.Start, amount.Length);
         }
 
-        _liveTitle = working.Trim().TrimEnd(',', '·', '-').Trim();
+        _liveTitle = BuildTitle(original);
+        RenderHighlights();
         ParsesChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void Consume(char[] masked, string kind, int start, int length)
+    {
+        _spans.Add(new TokenSpan(kind, start, length));
+
+        for (int index = start; index < start + length; index++)
+        {
+            masked[index] = ' ';
+        }
+    }
+
+    private string BuildTitle(string original)
+    {
+        string remainder = original;
+
+        foreach (TokenSpan span in _spans.OrderByDescending(span => span.Start))
+        {
+            remainder = remainder.Remove(span.Start, span.Length);
+        }
+
+        return string.Join(' ', remainder.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+            .Trim()
+            .TrimEnd(',', '·', '-')
+            .Trim();
+    }
+
+    private void RenderHighlights()
+    {
+        HighlightLayer.Children.Clear();
+
+        if (_spans.Count == 0)
+        {
+            _shownKinds.Clear();
+            return;
+        }
+
+        Dispatcher.BeginInvoke(DispatcherPriority.Loaded, PlaceHighlights);
+    }
+
+    private void PlaceHighlights()
+    {
+        HighlightLayer.Children.Clear();
+        HashSet<string> current = [];
+
+        foreach (TokenSpan span in _spans)
+        {
+            Rect leading = TitleField.GetRectFromCharacterIndex(span.Start);
+            Rect trailing = TitleField.GetRectFromCharacterIndex(span.Start + span.Length);
+
+            if (leading.IsEmpty || trailing.IsEmpty || trailing.Left <= leading.Left)
+            {
+                continue;
+            }
+
+            Border pill = new()
+            {
+                CornerRadius = new CornerRadius(5),
+                Width = trailing.Left - leading.Left + 8,
+                Height = leading.Height + 2,
+            };
+
+            pill.SetResourceReference(Border.BackgroundProperty, BrushKeyFor(span.Kind));
+            Canvas.SetLeft(pill, Math.Max(leading.Left - 4, 0));
+            Canvas.SetTop(pill, leading.Top - 1);
+            HighlightLayer.Children.Add(pill);
+
+            current.Add(span.Kind);
+
+            if (!_shownKinds.Contains(span.Kind))
+            {
+                Motion.FadeIn(pill, 140);
+            }
+        }
+
+        _shownKinds.Clear();
+        _shownKinds.UnionWith(current);
+    }
+
+    private static string BrushKeyFor(string kind) => kind switch
+    {
+        "amount" => "StatGreenBack",
+        "date" => "StatBlueBack",
+        _ => "ChipRemindersBack",
+    };
+
+    private string? SpanKindAtCaret()
+    {
+        int caret = TitleField.CaretIndex;
+
+        foreach (TokenSpan span in _spans)
+        {
+            if (caret >= span.Start && caret <= span.Start + span.Length)
+            {
+                return span.Kind;
+            }
+        }
+
+        return null;
     }
 
     private void OnTitleChanged(object sender, TextChangedEventArgs e)
@@ -228,6 +343,29 @@ public partial class QuickBar : UserControl
             case Key.Escape when _isOpen:
                 Close();
                 e.Handled = true;
+                break;
+
+            case Key.Escape when SpanKindAtCaret() is string kind:
+                Reject(kind);
+                e.Handled = true;
+                break;
+        }
+    }
+
+    private void Reject(string kind)
+    {
+        switch (kind)
+        {
+            case "date":
+                RejectDate();
+                break;
+
+            case "time":
+                RejectTime();
+                break;
+
+            case "amount":
+                RejectAmount();
                 break;
         }
     }

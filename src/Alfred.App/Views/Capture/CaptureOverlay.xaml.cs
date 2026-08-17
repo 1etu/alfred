@@ -52,10 +52,7 @@ public partial class CaptureOverlay : UserControl
         }
     }
 
-    private static readonly string[] ChipOrder = ["amount", "date", "time", "brand"];
-
     private readonly ObservableCollection<TypeChoice> _choices = [];
-    private readonly Dictionary<string, (ParseChip Chip, string Value)> _chips = [];
     private bool _needsTitle;
 
     public CaptureOverlay()
@@ -70,7 +67,7 @@ public partial class CaptureOverlay : UserControl
         _choices.Add(new TypeChoice(CaptureKind.Wish, LocalizationService.Text(LocalizationKeys.CaptureKindWish), "Plans", "WishListIcon", this, false));
         TypeChips.ItemsSource = _choices;
 
-        Bar.ParsesChanged += OnParsesChanged;
+        Bar.ParsesChanged += (_, _) => OnParsesChanged();
         OnKindChanged(CaptureKind.Todo);
     }
 
@@ -100,7 +97,7 @@ public partial class CaptureOverlay : UserControl
     {
         base.OnPreviewKeyDown(e);
 
-        if (e.Key == Key.Escape)
+        if (e.Key == Key.Escape && !e.Handled)
         {
             Close();
             e.Handled = true;
@@ -130,99 +127,14 @@ public partial class CaptureOverlay : UserControl
         });
     }
 
-    private void OnParsesChanged(object? sender, EventArgs e)
+    private void OnParsesChanged()
     {
         _needsTitle = false;
-        RefreshChips();
         RefreshCommitLine();
     }
 
-    private void RefreshChips()
-    {
-        SetChip(
-            "amount",
-            LocalizationService.Text(LocalizationKeys.ChipAmount),
-            Bar.PickedAmount is decimal amount ? MoneyFormat.Compact(Money.Lira(amount)) : null,
-            Bar.RejectAmount);
-
-        SetChip(
-            "date",
-            LocalizationService.Text(LocalizationKeys.ChipDate),
-            Bar.PickedDate is DateOnly date
-                ? $"{Bar.PickedDateLabel} · {date.ToString("ddd, d MMM", LocalizationService.Current.Culture)}"
-                : null,
-            Bar.RejectDate);
-
-        SetChip(
-            "time",
-            LocalizationService.Text(LocalizationKeys.ChipTime),
-            Bar.PickedTime?.ToString("HH:mm", CultureInfo.InvariantCulture),
-            Bar.RejectTime);
-
-        SetChip(
-            "brand",
-            LocalizationService.Text(LocalizationKeys.ChipBrand),
-            Bar.PickedBrandSlug is string slug ? BrandCatalog.Find(slug)?.Name : null,
-            Bar.RejectBrand);
-
-        Chips.Margin = _chips.Count == 0 ? new Thickness(3, 0, 0, 0) : new Thickness(3, 10, 0, 0);
-    }
-
-    private void SetChip(string type, string label, string? value, Action reject)
-    {
-        if (value is null)
-        {
-            if (_chips.Remove(type, out (ParseChip Chip, string Value) stale))
-            {
-                Chips.Children.Remove(stale.Chip);
-            }
-
-            return;
-        }
-
-        if (_chips.TryGetValue(type, out (ParseChip Chip, string Value) existing))
-        {
-            if (existing.Value == value)
-            {
-                return;
-            }
-
-            existing.Chip.Value = value;
-            _chips[type] = (existing.Chip, value);
-            return;
-        }
-
-        ParseChip chip = new()
-        {
-            Label = label,
-            Value = value,
-            Margin = new Thickness(0, 0, 6, 0),
-        };
-        chip.Dismissed += (_, _) => reject();
-
-        Chips.Children.Insert(InsertIndexFor(type), chip);
-        _chips[type] = (chip, value);
-    }
-
-    private int InsertIndexFor(string type)
-    {
-        int index = 0;
-
-        foreach (string preceding in ChipOrder)
-        {
-            if (preceding == type)
-            {
-                break;
-            }
-
-            if (_chips.ContainsKey(preceding))
-            {
-                index++;
-            }
-        }
-
-        return index;
-    }
+    private string DefaultCurrency =>
+        (DataContext as ShellViewModel)?.Settings.DefaultCurrency ?? Currencies.Lira.Code;
 
     private void RefreshCommitLine()
     {
@@ -234,25 +146,42 @@ public partial class CaptureOverlay : UserControl
         }
 
         CaptureKind kind = _choices.First(choice => choice.IsSelected).Kind;
-        string outcome = LocalizationService.Text(kind switch
+        List<string> segments =
+        [
+            LocalizationService.Text(kind switch
+            {
+                CaptureKind.Todo => LocalizationKeys.CaptureOutcomeTodo,
+                CaptureKind.Reminder => LocalizationKeys.CaptureOutcomeReminder,
+                CaptureKind.Expense => LocalizationKeys.CaptureOutcomeExpense,
+                CaptureKind.Payment => LocalizationKeys.CaptureOutcomePayment,
+                CaptureKind.Income => LocalizationKeys.CaptureOutcomeIncome,
+                _ => LocalizationKeys.CaptureOutcomeWish,
+            }),
+        ];
+
+        if (Bar.PickedAmount is decimal amount)
         {
-            CaptureKind.Todo => LocalizationKeys.CaptureOutcomeTodo,
-            CaptureKind.Reminder => LocalizationKeys.CaptureOutcomeReminder,
-            CaptureKind.Expense => LocalizationKeys.CaptureOutcomeExpense,
-            CaptureKind.Payment => LocalizationKeys.CaptureOutcomePayment,
-            CaptureKind.Income => LocalizationKeys.CaptureOutcomeIncome,
-            _ => LocalizationKeys.CaptureOutcomeWish,
-        });
+            segments.Add(MoneyFormat.Compact(new Money(amount, Bar.PickedCurrency ?? DefaultCurrency)));
+        }
 
         if (Bar.PickedDate is DateOnly date)
         {
-            string due = LocalizationService.Text(
+            segments.Add(LocalizationService.Text(
                 LocalizationKeys.CaptureOutcomeDue,
-                date.ToString("ddd, d MMM", LocalizationService.Current.Culture));
-            outcome = outcome + " · " + due;
+                date.ToString("ddd, d MMM", LocalizationService.Current.Culture)));
         }
 
-        CommitLine.Text = outcome;
+        if (Bar.PickedTime is TimeOnly time)
+        {
+            segments.Add(time.ToString("HH:mm", CultureInfo.InvariantCulture));
+        }
+
+        if (Bar.PickedBrandSlug is string slug && BrandCatalog.Find(slug) is Brand brand)
+        {
+            segments.Add(brand.Name);
+        }
+
+        CommitLine.Text = string.Join("  ·  ", segments);
         CommitLine.SetResourceReference(TextBlock.ForegroundProperty, "TextSecondary");
     }
 
@@ -275,7 +204,8 @@ public partial class CaptureOverlay : UserControl
             Bar.PickedDate,
             Bar.PickedTime,
             Bar.PickedAmount,
-            Bar.PickedBrandSlug));
+            Bar.PickedBrandSlug,
+            Bar.PickedCurrency ?? DefaultCurrency));
 
         Close();
     }

@@ -87,9 +87,7 @@
 
         <controls:QuickBar x:Name="Bar" Submitted="OnSubmitted" />
 
-        <WrapPanel x:Name="Chips" Margin="3,0,0,0" />
-
-        <Grid Margin="4,12,2,0">
+        <Grid Margin="4,12,2,2">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
