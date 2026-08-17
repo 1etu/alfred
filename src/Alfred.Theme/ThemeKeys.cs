@@ -38,7 +38,6 @@ public static class ThemeKeys
 
     public const string CardBackground = nameof(CardBackground);
     public const string ChromeGlyph = nameof(ChromeGlyph);
-    public const string ToolbarBackground = nameof(ToolbarBackground);
     public const string Accent = nameof(Accent);
     public const string AccentSoft = nameof(AccentSoft);
     public const string TrashTint = nameof(TrashTint);

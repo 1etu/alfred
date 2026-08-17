@@ -47,7 +47,6 @@ public static partial class DefaultThemes
 
             [ThemeKeys.CardBackground] = Rgb(0xFFFFFF),
             [ThemeKeys.ChromeGlyph] = Rgb(0x6B7178),
-            [ThemeKeys.ToolbarBackground] = Rgb(0xF4F4F3),
             [ThemeKeys.Accent] = Rgb(0x3574F0),
             [ThemeKeys.AccentSoft] = Argb(0x243574F0),
             [ThemeKeys.TrashTint] = Rgb(0x8A9099),
