@@ -112,6 +112,12 @@
     "Loc.Plans.Notes": "Notlar…",
 
     "Loc.Board.Add": "Kart ekle…",
+    "Loc.Board.Backlog": "Birikenler",
+    "Loc.Board.Doing": "Yapılıyor",
+    "Loc.Board.Done": "Bitti",
+
+    "Loc.Calendar.Caption": "Tarihi olan her şey, tek yerde",
+    "Loc.Calendar.EmptyDay": "Bu günde bir şey yok.",
 
     "Loc.Trash.CaptionEmpty": "Silinenler burada 30 gün bekler",
     "Loc.Trash.Caption": "{0} geri alınabilir · 30 gün saklanır",

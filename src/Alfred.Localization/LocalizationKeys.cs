@@ -113,6 +113,12 @@ public static class LocalizationKeys
     public const string PlansNotes = "Loc.Plans.Notes";
 
     public const string BoardAdd = "Loc.Board.Add";
+    public const string BoardBacklog = "Loc.Board.Backlog";
+    public const string BoardDoing = "Loc.Board.Doing";
+    public const string BoardDone = "Loc.Board.Done";
+
+    public const string CalendarCaption = "Loc.Calendar.Caption";
+    public const string CalendarEmptyDay = "Loc.Calendar.EmptyDay";
 
     public const string TrashCaptionEmpty = "Loc.Trash.CaptionEmpty";
     public const string TrashCaption = "Loc.Trash.Caption";

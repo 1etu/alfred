@@ -112,6 +112,12 @@
     "Loc.Plans.Notes": "Notes…",
 
     "Loc.Board.Add": "Add a card…",
+    "Loc.Board.Backlog": "Backlog",
+    "Loc.Board.Doing": "Doing",
+    "Loc.Board.Done": "Done",
+
+    "Loc.Calendar.Caption": "Everything with a date, in one place",
+    "Loc.Calendar.EmptyDay": "Nothing on this day.",
 
     "Loc.Trash.CaptionEmpty": "Deleted things wait here for 30 days",
     "Loc.Trash.Caption": "{0} recoverable · kept for 30 days",
