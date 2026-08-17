@@ -1,0 +1,117 @@
+<UserControl x:Class="Alfred.App.Views.CalendarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Alfred.UIKit.Controls;assembly=Alfred.UIKit">
+  <ScrollViewer Style="{StaticResource PageRoot}">
+    <StackPanel Style="{StaticResource PageBody}">
+
+      <StackPanel Orientation="Horizontal" Margin="0,44,0,4">
+        <Image Source="{Binding Icon}" Width="24" Height="24" Margin="0,3,10,0" VerticalAlignment="Center" />
+        <TextBlock Text="{Binding Title}" Style="{StaticResource BigTitle}" />
+      </StackPanel>
+      <TextBlock Text="{DynamicResource Loc.Calendar.Caption}" Style="{StaticResource PageSubtitle}" Margin="34,0,0,20" />
+
+      <Grid Margin="0,0,0,12">
+        <TextBlock Text="{Binding MonthTitle}"
+                   FontFamily="{StaticResource AppFontDisplay}"
+                   FontSize="19"
+                   FontWeight="SemiBold"
+                   Foreground="{DynamicResource TextPrimary}"
+                   VerticalAlignment="Center" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+          <Button Style="{StaticResource IconButton}" Click="OnPrevious">
+            <Viewbox Width="13" Height="13">
+              <Canvas Width="24" Height="24">
+                <Path Data="{StaticResource ChevronLeftGlyph}" Fill="{DynamicResource TextSecondary}" />
+              </Canvas>
+            </Viewbox>
+          </Button>
+          <Button Style="{StaticResource IconButton}" Margin="4,0,0,0" Click="OnNext">
+            <Viewbox Width="13" Height="13">
+              <Canvas Width="24" Height="24">
+                <Path Data="{StaticResource ChevronRightGlyph}" Fill="{DynamicResource TextSecondary}" />
+              </Canvas>
+            </Viewbox>
+          </Button>
+        </StackPanel>
+      </Grid>
+
+      <ItemsControl ItemsSource="{Binding WeekdayNames}" Margin="0,0,0,4">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <UniformGrid Rows="1" Columns="7" />
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding}" HorizontalAlignment="Center"
+                       FontFamily="{StaticResource AppFontSmall}" FontSize="10.5" FontWeight="SemiBold"
+                       Foreground="{DynamicResource TextSecondary}" Opacity="0.7" />
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+
+      <ItemsControl ItemsSource="{Binding Cells}" Margin="0,0,0,14">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <UniformGrid Rows="6" Columns="7" />
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <RadioButton GroupName="CalendarDay" IsChecked="{Binding IsSelected, Mode=TwoWay}" Focusable="True" Cursor="Hand"
+                         AutomationProperties.Name="{Binding Day}">
+              <RadioButton.Template>
+                <ControlTemplate TargetType="RadioButton">
+                  <Border x:Name="Cell" CornerRadius="8" Height="52" Margin="1" Background="Transparent">
+                    <StackPanel VerticalAlignment="Center">
+                      <Grid HorizontalAlignment="Center">
+                        <Ellipse x:Name="TodayRing" Width="26" Height="26"
+                                 Fill="{DynamicResource Accent}" Opacity="0" />
+                        <TextBlock x:Name="Number" Text="{Binding Number}"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   FontFamily="{StaticResource AppFont}" FontSize="13" FontWeight="Medium"
+                                   Foreground="{DynamicResource TextPrimary}" />
+                      </Grid>
+                      <Ellipse x:Name="Dot" Width="4" Height="4" Margin="0,3,0,0"
+                               Fill="{DynamicResource TextSecondary}" Opacity="0" />
+                    </StackPanel>
+                  </Border>
+                  <ControlTemplate.Triggers>
+                    <DataTrigger Binding="{Binding IsInMonth}" Value="False">
+                      <Setter TargetName="Number" Property="Opacity" Value="0.3" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsBusy}" Value="True">
+                      <Setter TargetName="Dot" Property="Opacity" Value="0.8" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsToday}" Value="True">
+                      <Setter TargetName="TodayRing" Property="Opacity" Value="1" />
+                      <Setter TargetName="Number" Property="Foreground" Value="{DynamicResource SwitchKnob}" />
+                      <Setter TargetName="Number" Property="FontWeight" Value="Bold" />
+                    </DataTrigger>
+                    <Trigger Property="IsMouseOver" Value="True">
+                      <Setter TargetName="Cell" Property="Background" Value="{DynamicResource SidebarRowHover}" />
+                    </Trigger>
+                    <Trigger Property="IsKeyboardFocused" Value="True">
+                      <Setter TargetName="Cell" Property="Background" Value="{DynamicResource SidebarRowHover}" />
+                    </Trigger>
+                    <Trigger Property="IsChecked" Value="True">
+                      <Setter TargetName="Cell" Property="Background" Value="{DynamicResource SidebarRowSelected}" />
+                    </Trigger>
+                  </ControlTemplate.Triggers>
+                </ControlTemplate>
+              </RadioButton.Template>
+            </RadioButton>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+
+      <controls:SectionHeader Title="{Binding SelectedTitle}" />
+      <ItemsControl ItemsSource="{Binding DayItems}" />
+      <TextBlock Text="{DynamicResource Loc.Calendar.EmptyDay}"
+                 Style="{StaticResource RowMeta}"
+                 Margin="12,4,0,0"
+                 Visibility="{Binding DayIsEmpty, Converter={StaticResource BoolToVisibility}}" />
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>
