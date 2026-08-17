@@ -58,9 +58,12 @@ dotnet publish src/Alfred.App -c Release -r win-x64 --self-contained
 ## layout
 
 ```
-src/Alfred.App     the wpf app
-src/Alfred.Core    domain, rules, storage
-tests/             unit tests
+src/Alfred.App       the wpf app — pages and view models
+src/Alfred.Core      domain, rules, storage
+src/Alfred.Theme     theme framework and the built-in light/dark themes
+src/Alfred.UIKit     the component library every page is built from
+src/Alfred.Widgets   windows 11 widget provider
+tests/               unit tests
 ```
 
 ## releasing
@@ -75,4 +78,6 @@ git push origin v0.1.0
 
 ## status
 
-early. things will move around.
+under active development. every page is being redesigned by hand, one at a
+time, on top of the new theme and uikit foundation — a page in flight may look
+better than its neighbours for a while.
