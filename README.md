@@ -78,6 +78,4 @@ git push origin v0.1.0
 
 ## status
 
-under active development. every page is being redesigned by hand, one at a
-time, on top of the new theme and uikit foundation — a page in flight may look
-better than its neighbours for a while.
+under active development.
