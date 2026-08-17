@@ -45,7 +45,17 @@ public sealed class ShellViewModel : Observable
         Add("life", "meals", LocalizationKeys.NavMeals, "MealsIcon");
         Register("trash", LocalizationKeys.NavTrash, "TrashIcon");
 
+        _factories["today"] = () => new AgendaViewModel(vault, AgendaMode.Today, preferences);
+        _factories["upcoming"] = () => new AgendaViewModel(vault, AgendaMode.Upcoming, preferences);
+        _factories["plans"] = () => new PlansViewModel(vault);
+        _factories["todos"] = () => new TodosViewModel(vault);
+        _factories["board"] = () => new BoardViewModel(vault);
+        _factories["calendar"] = () => new CalendarViewModel(vault);
+        _factories["reminders"] = () => new RemindersViewModel(vault);
+        _factories["payments"] = () => new PaymentsViewModel(vault, preferences);
+        _factories["wishes"] = () => new WishesViewModel(vault, preferences);
         _factories["meals"] = () => new MealsViewModel(vault);
+        _factories["trash"] = () => new TrashViewModel(vault);
 
         Items = CollectionViewSource.GetDefaultView(_items);
         Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(SidebarItem.Group)));
