@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>Alfred.Theme</RootNamespace>
+    <AssemblyName>Alfred.Theme</AssemblyName>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Alfred.Theme.Tests" />
+  </ItemGroup>
+
+</Project>
