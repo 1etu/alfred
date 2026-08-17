@@ -1,6 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
-using Alfred.App.Updates;
+using Alfred.Update;
 using Alfred.App.ViewModels;
 
 namespace Alfred.App.Views;

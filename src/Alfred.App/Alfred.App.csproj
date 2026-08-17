@@ -26,6 +26,7 @@
     <ProjectReference Include="..\Alfred.Localization\Alfred.Localization.csproj" />
     <ProjectReference Include="..\Alfred.Theme\Alfred.Theme.csproj" />
     <ProjectReference Include="..\Alfred.UIKit\Alfred.UIKit.csproj" />
+    <ProjectReference Include="..\Alfred.Update\Alfred.Update.csproj" />
   </ItemGroup>
 
 </Project>

@@ -2,7 +2,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using Alfred.App.Preferences;
 using Alfred.App.Sync;
-using Alfred.App.Updates;
+using Alfred.Update;
 using Alfred.Core.Ledger;
 using Alfred.Core.Storage;
 using Alfred.Theme;
