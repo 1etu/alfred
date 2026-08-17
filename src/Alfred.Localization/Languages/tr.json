@@ -1,0 +1,57 @@
+{
+  "name": "Türkçe",
+  "strings": {
+    "Loc.Nav.Today": "Bugün",
+    "Loc.Nav.Upcoming": "Yaklaşan",
+    "Loc.Nav.Plans": "Planlar",
+    "Loc.Nav.Todos": "Yapılacaklar",
+    "Loc.Nav.FreeBoard": "Serbest Pano",
+    "Loc.Nav.Calendar": "Takvim",
+    "Loc.Nav.Reminders": "Hatırlatıcılar",
+    "Loc.Nav.Payments": "Ödemeler",
+    "Loc.Nav.WishList": "İstek Listesi",
+    "Loc.Nav.Meals": "Öğünler",
+    "Loc.Nav.Trash": "Çöp",
+    "Loc.Nav.Settings": "Ayarlar",
+
+    "Loc.EmptyState.Message": "Şey, o daha hazır değil :(",
+
+    "Loc.Capture.Kind.Todo": "Yapılacak",
+    "Loc.Capture.Kind.Reminder": "Hatırlatıcı",
+    "Loc.Capture.Kind.Expense": "Harcama",
+    "Loc.Capture.Kind.Payment": "Ödeme",
+    "Loc.Capture.Kind.Income": "Gelir",
+    "Loc.Capture.Kind.Wish": "İstek",
+
+    "Loc.Capture.Placeholder.Todo": "Ne yapılacak?",
+    "Loc.Capture.Placeholder.Reminder": "Bana hatırlat…",
+    "Loc.Capture.Placeholder.Expense": "Neye harcadın?",
+    "Loc.Capture.Placeholder.Payment": "Ne borcun var?",
+    "Loc.Capture.Placeholder.Income": "Ne geliyor?",
+    "Loc.Capture.Placeholder.Wish": "Ne istiyorsun?",
+
+    "Loc.Capture.Outcome.Todo": "Enter bir yapılacak ekler",
+    "Loc.Capture.Outcome.Reminder": "Enter bir hatırlatıcı ekler",
+    "Loc.Capture.Outcome.Expense": "Enter bir harcama ekler",
+    "Loc.Capture.Outcome.Payment": "Enter bir ödeme ekler",
+    "Loc.Capture.Outcome.Income": "Enter bir gelir ekler",
+    "Loc.Capture.Outcome.Wish": "Enter bir istek ekler",
+    "Loc.Capture.Outcome.Due": "son gün {0}",
+    "Loc.Capture.NeedsTitle": "önce bir isim ver",
+
+    "Loc.Capture.Hint.Saves": "kaydeder",
+    "Loc.Capture.Hint.Closes": "kapatır",
+    "Loc.Capture.Hint.Completes": "tamamlar",
+
+    "Loc.Chip.Amount": "Tutar",
+    "Loc.Chip.Date": "Tarih",
+    "Loc.Chip.Time": "Saat",
+    "Loc.Chip.Brand": "Marka",
+    "Loc.Chip.Remove": "kaldır",
+
+    "Loc.Shortcut.Prompt": "Tuşlara bas",
+    "Loc.Shortcut.UsedBy": "{0} kullanıyor",
+    "Loc.Shortcut.Reserved": "Windows'a ayrılmış",
+    "Loc.Shortcut.NeedsModifier": "Ctrl veya Alt ekle"
+  }
+}

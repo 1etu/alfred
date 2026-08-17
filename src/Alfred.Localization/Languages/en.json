@@ -1,0 +1,57 @@
+{
+  "name": "English",
+  "strings": {
+    "Loc.Nav.Today": "Today",
+    "Loc.Nav.Upcoming": "Upcoming",
+    "Loc.Nav.Plans": "Plans",
+    "Loc.Nav.Todos": "TODOs",
+    "Loc.Nav.FreeBoard": "Free Board",
+    "Loc.Nav.Calendar": "Calendar",
+    "Loc.Nav.Reminders": "Reminders",
+    "Loc.Nav.Payments": "Payments",
+    "Loc.Nav.WishList": "Wish List",
+    "Loc.Nav.Meals": "Meals",
+    "Loc.Nav.Trash": "Trash",
+    "Loc.Nav.Settings": "Settings",
+
+    "Loc.EmptyState.Message": "Erm, we don't have it yet :(",
+
+    "Loc.Capture.Kind.Todo": "Todo",
+    "Loc.Capture.Kind.Reminder": "Reminder",
+    "Loc.Capture.Kind.Expense": "Expense",
+    "Loc.Capture.Kind.Payment": "Payment",
+    "Loc.Capture.Kind.Income": "Income",
+    "Loc.Capture.Kind.Wish": "Wish",
+
+    "Loc.Capture.Placeholder.Todo": "What needs doing?",
+    "Loc.Capture.Placeholder.Reminder": "Remind me to…",
+    "Loc.Capture.Placeholder.Expense": "What did you spend on?",
+    "Loc.Capture.Placeholder.Payment": "What do you owe?",
+    "Loc.Capture.Placeholder.Income": "What's coming in?",
+    "Loc.Capture.Placeholder.Wish": "What do you want?",
+
+    "Loc.Capture.Outcome.Todo": "Enter adds a todo",
+    "Loc.Capture.Outcome.Reminder": "Enter adds a reminder",
+    "Loc.Capture.Outcome.Expense": "Enter adds an expense",
+    "Loc.Capture.Outcome.Payment": "Enter adds a payment",
+    "Loc.Capture.Outcome.Income": "Enter adds an income",
+    "Loc.Capture.Outcome.Wish": "Enter adds a wish",
+    "Loc.Capture.Outcome.Due": "due {0}",
+    "Loc.Capture.NeedsTitle": "give it a name first",
+
+    "Loc.Capture.Hint.Saves": "saves",
+    "Loc.Capture.Hint.Closes": "closes",
+    "Loc.Capture.Hint.Completes": "completes",
+
+    "Loc.Chip.Amount": "Amount",
+    "Loc.Chip.Date": "Date",
+    "Loc.Chip.Time": "Time",
+    "Loc.Chip.Brand": "Brand",
+    "Loc.Chip.Remove": "remove",
+
+    "Loc.Shortcut.Prompt": "Press keys",
+    "Loc.Shortcut.UsedBy": "Already used by {0}",
+    "Loc.Shortcut.Reserved": "Reserved by Windows",
+    "Loc.Shortcut.NeedsModifier": "Add Ctrl or Alt"
+  }
+}

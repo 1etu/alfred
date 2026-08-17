@@ -1,0 +1,57 @@
+namespace Alfred.Localization;
+
+public static class LocalizationKeys
+{
+    public const string NavToday = "Loc.Nav.Today";
+    public const string NavUpcoming = "Loc.Nav.Upcoming";
+    public const string NavPlans = "Loc.Nav.Plans";
+    public const string NavTodos = "Loc.Nav.Todos";
+    public const string NavFreeBoard = "Loc.Nav.FreeBoard";
+    public const string NavCalendar = "Loc.Nav.Calendar";
+    public const string NavReminders = "Loc.Nav.Reminders";
+    public const string NavPayments = "Loc.Nav.Payments";
+    public const string NavWishList = "Loc.Nav.WishList";
+    public const string NavMeals = "Loc.Nav.Meals";
+    public const string NavTrash = "Loc.Nav.Trash";
+    public const string NavSettings = "Loc.Nav.Settings";
+
+    public const string EmptyStateMessage = "Loc.EmptyState.Message";
+
+    public const string CaptureKindTodo = "Loc.Capture.Kind.Todo";
+    public const string CaptureKindReminder = "Loc.Capture.Kind.Reminder";
+    public const string CaptureKindExpense = "Loc.Capture.Kind.Expense";
+    public const string CaptureKindPayment = "Loc.Capture.Kind.Payment";
+    public const string CaptureKindIncome = "Loc.Capture.Kind.Income";
+    public const string CaptureKindWish = "Loc.Capture.Kind.Wish";
+
+    public const string CapturePlaceholderTodo = "Loc.Capture.Placeholder.Todo";
+    public const string CapturePlaceholderReminder = "Loc.Capture.Placeholder.Reminder";
+    public const string CapturePlaceholderExpense = "Loc.Capture.Placeholder.Expense";
+    public const string CapturePlaceholderPayment = "Loc.Capture.Placeholder.Payment";
+    public const string CapturePlaceholderIncome = "Loc.Capture.Placeholder.Income";
+    public const string CapturePlaceholderWish = "Loc.Capture.Placeholder.Wish";
+
+    public const string CaptureOutcomeTodo = "Loc.Capture.Outcome.Todo";
+    public const string CaptureOutcomeReminder = "Loc.Capture.Outcome.Reminder";
+    public const string CaptureOutcomeExpense = "Loc.Capture.Outcome.Expense";
+    public const string CaptureOutcomePayment = "Loc.Capture.Outcome.Payment";
+    public const string CaptureOutcomeIncome = "Loc.Capture.Outcome.Income";
+    public const string CaptureOutcomeWish = "Loc.Capture.Outcome.Wish";
+    public const string CaptureOutcomeDue = "Loc.Capture.Outcome.Due";
+    public const string CaptureNeedsTitle = "Loc.Capture.NeedsTitle";
+
+    public const string CaptureHintSaves = "Loc.Capture.Hint.Saves";
+    public const string CaptureHintCloses = "Loc.Capture.Hint.Closes";
+    public const string CaptureHintCompletes = "Loc.Capture.Hint.Completes";
+
+    public const string ChipAmount = "Loc.Chip.Amount";
+    public const string ChipDate = "Loc.Chip.Date";
+    public const string ChipTime = "Loc.Chip.Time";
+    public const string ChipBrand = "Loc.Chip.Brand";
+    public const string ChipRemove = "Loc.Chip.Remove";
+
+    public const string ShortcutPrompt = "Loc.Shortcut.Prompt";
+    public const string ShortcutUsedBy = "Loc.Shortcut.UsedBy";
+    public const string ShortcutReserved = "Loc.Shortcut.Reserved";
+    public const string ShortcutNeedsModifier = "Loc.Shortcut.NeedsModifier";
+}
