@@ -17,12 +17,12 @@ public static partial class DefaultThemes
             [ThemeKeys.Hairline] = Rgb(0xEFEFF1),
 
             [ThemeKeys.TextPrimary] = Rgb(0x1D1D1F),
-            [ThemeKeys.TextSecondary] = Rgb(0x86868B),
+            [ThemeKeys.TextSecondary] = Rgb(0x66686E),
 
             [ThemeKeys.SidebarBackground] = Rgb(0xF1F1F3),
             [ThemeKeys.SidebarText] = Rgb(0x3A4048),
-            [ThemeKeys.SidebarBadge] = Rgb(0xA0A5AC),
-            [ThemeKeys.SidebarBadgeSelected] = Rgb(0x767C85),
+            [ThemeKeys.SidebarBadge] = Rgb(0x66686E),
+            [ThemeKeys.SidebarBadgeSelected] = Rgb(0x5D636D),
             [ThemeKeys.SidebarRowHover] = Argb(0x0A000000),
             [ThemeKeys.SidebarRowSelected] = Rgb(0xFFFFFF),
             [ThemeKeys.SidebarBackgroundGlass] = Argb(0x4DF2F2F1),

@@ -21,7 +21,7 @@ public static partial class DefaultThemes
 
             [ThemeKeys.SidebarBackground] = Rgb(0x171614),
             [ThemeKeys.SidebarText] = Rgb(0xC9C5BF),
-            [ThemeKeys.SidebarBadge] = Rgb(0x7C776F),
+            [ThemeKeys.SidebarBadge] = Rgb(0x8A857D),
             [ThemeKeys.SidebarBadgeSelected] = Rgb(0xA8A29A),
             [ThemeKeys.SidebarRowHover] = Argb(0x0DFFFFFF),
             [ThemeKeys.SidebarRowSelected] = Rgb(0x2B2927),
