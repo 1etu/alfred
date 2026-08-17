@@ -43,6 +43,9 @@
     "Loc.Capture.Hint.Closes": "kapatır",
     "Loc.Capture.Hint.Completes": "tamamlar",
 
+    "Loc.Action.New": "Yeni",
+    "Loc.Action.Search": "Ara",
+
     "Loc.Color.Red": "Kırmızı",
     "Loc.Color.Orange": "Turuncu",
     "Loc.Color.Yellow": "Sarı",

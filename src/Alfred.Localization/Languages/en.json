@@ -43,6 +43,9 @@
     "Loc.Capture.Hint.Closes": "closes",
     "Loc.Capture.Hint.Completes": "completes",
 
+    "Loc.Action.New": "New",
+    "Loc.Action.Search": "Search",
+
     "Loc.Color.Red": "Red",
     "Loc.Color.Orange": "Orange",
     "Loc.Color.Yellow": "Yellow",

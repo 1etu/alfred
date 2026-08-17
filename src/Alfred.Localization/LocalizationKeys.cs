@@ -44,6 +44,9 @@ public static class LocalizationKeys
     public const string CaptureHintCloses = "Loc.Capture.Hint.Closes";
     public const string CaptureHintCompletes = "Loc.Capture.Hint.Completes";
 
+    public const string ActionNew = "Loc.Action.New";
+    public const string ActionSearch = "Loc.Action.Search";
+
     public const string ColorRed = "Loc.Color.Red";
     public const string ColorOrange = "Loc.Color.Orange";
     public const string ColorYellow = "Loc.Color.Yellow";
