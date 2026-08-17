@@ -106,12 +106,8 @@ public static class DateHints
         return hints;
     }
 
-    public static bool TryExtract(string text, DateOnly today, out string cleaned, out DateOnly date, out string label)
+    public static DateMatch? Match(string text, DateOnly today)
     {
-        cleaned = text;
-        date = default;
-        label = string.Empty;
-
         foreach ((string phrase, DateOnly hit, string hitLabel) in Phrases(text, today))
         {
             int index = text.LastIndexOf(phrase, StringComparison.OrdinalIgnoreCase);
@@ -120,13 +116,34 @@ public static class DateHints
                 continue;
             }
 
-            cleaned = (text.Remove(index, phrase.Length)).Trim().TrimEnd(',', '-', '·').Trim();
-            date = hit;
-            label = hitLabel;
-            return cleaned.Length > 0;
+            string cleaned = text.Remove(index, phrase.Length).Trim().TrimEnd(',', '-', '·').Trim();
+
+            if (cleaned.Length == 0)
+            {
+                return null;
+            }
+
+            return new DateMatch(hit, hitLabel, index, phrase.Length, cleaned);
         }
 
-        return false;
+        return null;
+    }
+
+    public static bool TryExtract(string text, DateOnly today, out string cleaned, out DateOnly date, out string label)
+    {
+        cleaned = text;
+        date = default;
+        label = string.Empty;
+
+        if (Match(text, today) is not DateMatch match)
+        {
+            return false;
+        }
+
+        cleaned = match.Cleaned;
+        date = match.Date;
+        label = match.Label;
+        return true;
     }
 
     private static IEnumerable<(string Phrase, DateOnly Date, string Label)> Phrases(string text, DateOnly today)
