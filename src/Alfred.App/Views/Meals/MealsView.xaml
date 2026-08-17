@@ -2,21 +2,91 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="clr-namespace:Alfred.UIKit.Controls;assembly=Alfred.UIKit">
-  <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="*" />
-    </Grid.RowDefinitions>
+  <ScrollViewer Style="{StaticResource PageRoot}">
+    <StackPanel Style="{StaticResource PageBody}">
 
-    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="44,54,44,0">
-      <Image Source="{Binding Icon}"
-             Width="24"
-             Height="24"
-             Margin="0,3,10,0"
-             VerticalAlignment="Center" />
-      <TextBlock Text="{Binding Title}" Style="{StaticResource BigTitle}" />
+      <StackPanel Orientation="Horizontal" Margin="0,44,0,4">
+        <Image Source="{Binding Icon}" Width="24" Height="24" Margin="0,3,10,0" VerticalAlignment="Center" />
+        <TextBlock Text="{Binding Title}" Style="{StaticResource BigTitle}" />
+      </StackPanel>
+      <TextBlock Text="{Binding SelectedDayLabel}" Style="{StaticResource PageSubtitle}" Margin="34,0,0,22" />
+
+      <controls:DayStrip SelectedDay="{Binding SelectedDay, Mode=TwoWay}" Margin="0,0,0,20" />
+
+      <ItemsControl ItemsSource="{Binding Slots}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <StackPanel Margin="0,0,0,18">
+              <controls:SectionHeader Title="{Binding Title}" />
+
+              <ItemsControl ItemsSource="{Binding Meals}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <Border x:Name="Row" Style="{StaticResource ItemRow}" MinHeight="36">
+                      <Grid>
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="28" />
+                          <ColumnDefinition Width="*" />
+                          <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <ToggleButton Width="17" Height="17"
+                                      HorizontalAlignment="Left"
+                                      IsChecked="{Binding IsEaten, Mode=TwoWay}"
+                                      IsEnabled="{Binding CanMarkEaten}">
+                          <ToggleButton.Style>
+                            <Style TargetType="ToggleButton" BasedOn="{StaticResource CheckCircle}">
+                              <Style.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                  <Setter Property="Opacity" Value="0.3" />
+                                </Trigger>
+                              </Style.Triggers>
+                            </Style>
+                          </ToggleButton.Style>
+                        </ToggleButton>
+
+                        <TextBlock Grid.Column="1" Text="{Binding Title}">
+                          <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource RowTitle}">
+                              <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsEaten}" Value="True">
+                                  <Setter Property="Opacity" Value="0.45" />
+                                </DataTrigger>
+                              </Style.Triggers>
+                            </Style>
+                          </TextBlock.Style>
+                        </TextBlock>
+
+                        <Button Grid.Column="2" Click="OnRemoveRow" AutomationProperties.Name="{DynamicResource Loc.Trash.Forget}">
+                          <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource RowActionButton}">
+                              <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsMouseOver, ElementName=Row}" Value="True">
+                                  <Setter Property="Opacity" Value="1" />
+                                </DataTrigger>
+                              </Style.Triggers>
+                            </Style>
+                          </Button.Style>
+                          <Viewbox Width="12" Height="12">
+                            <Canvas Width="24" Height="24">
+                              <Path Data="{StaticResource TrashGlyph}" Fill="{DynamicResource TextSecondary}" />
+                            </Canvas>
+                          </Viewbox>
+                        </Button>
+                      </Grid>
+                    </Border>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+
+              <controls:SmartInput Placeholder="{DynamicResource Loc.Meals.Add}"
+                                   Source="{Binding DataContext.Suggestions, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                   Submitted="OnAddMeal"
+                                   Margin="0,4,0,0" />
+            </StackPanel>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
     </StackPanel>
-
-    <controls:EmptyState Grid.Row="1" Label="{Binding Title}" />
-  </Grid>
+  </ScrollViewer>
 </UserControl>
