@@ -70,6 +70,49 @@ public sealed class SettingsViewModel : Observable
         }
     }
 
+    public string DefaultCurrency => _preferences.DefaultCurrency;
+
+    public bool IsLiraDefault
+    {
+        get => _preferences.DefaultCurrency == Currencies.Lira.Code;
+        set => SelectCurrency(Currencies.Lira.Code, value);
+    }
+
+    public bool IsDollarDefault
+    {
+        get => _preferences.DefaultCurrency == Currencies.Dollar.Code;
+        set => SelectCurrency(Currencies.Dollar.Code, value);
+    }
+
+    public bool IsEuroDefault
+    {
+        get => _preferences.DefaultCurrency == Currencies.Euro.Code;
+        set => SelectCurrency(Currencies.Euro.Code, value);
+    }
+
+    public bool IsPoundDefault
+    {
+        get => _preferences.DefaultCurrency == Currencies.Pound.Code;
+        set => SelectCurrency(Currencies.Pound.Code, value);
+    }
+
+    private void SelectCurrency(string code, bool isSelected)
+    {
+        if (!isSelected || _preferences.DefaultCurrency == code)
+        {
+            return;
+        }
+
+        _preferences.DefaultCurrency = code;
+        PreferencesStore.Save(_preferences);
+
+        Raise(nameof(DefaultCurrency));
+        Raise(nameof(IsLiraDefault));
+        Raise(nameof(IsDollarDefault));
+        Raise(nameof(IsEuroDefault));
+        Raise(nameof(IsPoundDefault));
+    }
+
     public bool ShowCounts
     {
         get => _preferences.ShowCounts;

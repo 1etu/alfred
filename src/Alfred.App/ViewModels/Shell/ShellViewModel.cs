@@ -173,7 +173,7 @@ public sealed class ShellViewModel : Observable
                 Vault.Data.Wishes.Add(new Core.Items.WishItem
                 {
                     Title = request.Title,
-                    Price = request.Amount is { } price ? Money.Lira(price) : null,
+                    Price = request.Amount is { } price ? new Money(price, Currency(request)) : null,
                     BrandSlug = request.BrandSlug,
                 });
                 break;
@@ -182,7 +182,7 @@ public sealed class ShellViewModel : Observable
                 Vault.Data.Entries.Add(new LedgerEntry
                 {
                     Title = request.Title,
-                    Money = Money.Lira(request.Amount ?? 0),
+                    Money = new Money(request.Amount ?? 0, Currency(request)),
                     Kind = request.Kind switch
                     {
                         CaptureKind.Payment => EntryKind.Payment,
@@ -197,6 +197,9 @@ public sealed class ShellViewModel : Observable
 
         Vault.Save();
     }
+
+    private string Currency(CaptureRequest request) =>
+        request.Currency ?? _preferences.DefaultCurrency;
 
     public void Navigate(int index)
     {

@@ -6,6 +6,8 @@ public sealed class UserPreferences
 
     public string Language { get; set; } = "en";
 
+    public string DefaultCurrency { get; set; } = "TRY";
+
     public bool IsGlassEnabled { get; set; }
 
     public bool ShowCounts { get; set; } = true;

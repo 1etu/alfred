@@ -49,6 +49,32 @@
         </StackPanel>
       </Border>
 
+      <TextBlock Text="{DynamicResource Loc.Settings.Currency}" Style="{StaticResource SettingsSectionTitle}" Margin="4,30,0,10" />
+      <Border Style="{StaticResource SettingsCard}">
+        <Grid Style="{StaticResource SettingsRow}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,12,24,12">
+            <TextBlock Text="{DynamicResource Loc.Settings.Currency}" Style="{StaticResource SettingsRowLabel}" />
+            <TextBlock Text="{DynamicResource Loc.Settings.CurrencyCaption}" Style="{StaticResource SettingsRowCaption}" />
+          </StackPanel>
+          <Border Grid.Column="1" Style="{StaticResource SegmentGroup}" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+              <RadioButton Style="{StaticResource Segment}" MinWidth="52" Content="₺ TRY" GroupName="Currency"
+                           IsChecked="{Binding IsLiraDefault, Mode=TwoWay}" />
+              <RadioButton Style="{StaticResource Segment}" MinWidth="52" Content="$ USD" GroupName="Currency"
+                           IsChecked="{Binding IsDollarDefault, Mode=TwoWay}" />
+              <RadioButton Style="{StaticResource Segment}" MinWidth="52" Content="€ EUR" GroupName="Currency"
+                           IsChecked="{Binding IsEuroDefault, Mode=TwoWay}" />
+              <RadioButton Style="{StaticResource Segment}" MinWidth="52" Content="£ GBP" GroupName="Currency"
+                           IsChecked="{Binding IsPoundDefault, Mode=TwoWay}" />
+            </StackPanel>
+          </Border>
+        </Grid>
+      </Border>
+
       <TextBlock Text="Sidebar" Style="{StaticResource SettingsSectionTitle}" Margin="4,30,0,10" />
       <Border Style="{StaticResource SettingsCard}">
         <Grid Style="{StaticResource SettingsRow}">
