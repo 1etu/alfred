@@ -156,5 +156,17 @@ dotnet_diagnostic.IDE0058.severity = none
 [tests/**/*.cs]
 dotnet_diagnostic.CA1515.severity = none
 
-[**/ViewModels/*.cs]
+[src/Alfred.UIKit/UIKitResources.cs]
+dotnet_diagnostic.CA1010.severity = none
+
+[src/Alfred.UIKit/Controls/**.cs]
+dotnet_style_namespace_match_folder = false
+
+[src/Alfred.App/Views/**.cs]
+dotnet_style_namespace_match_folder = false
+
+[src/Alfred.App/ViewModels/**.cs]
+dotnet_style_namespace_match_folder = false
+
+[**/ViewModels/**.cs]
 dotnet_diagnostic.CA1822.severity = none

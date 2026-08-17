@@ -1,15 +1,15 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
-using Alfred.App.Input;
 using Alfred.App.Preferences;
-using Alfred.App.Suggest;
 using Alfred.App.Sync;
 using Alfred.App.ViewModels;
 using Alfred.App.Views;
 using Alfred.Core.Storage;
 using Alfred.Theme;
 using Alfred.Theme.Catalog;
+using Alfred.UIKit.Input;
+using Alfred.UIKit.Suggest;
 
 namespace Alfred.App;
 
@@ -31,7 +31,7 @@ public partial class App : Application
         ThemeService.Apply(ThemeCatalog.Resolve(preferences.Theme));
 
         Vault vault = new(Path.Combine(PreferencesStore.Folder, "alfred.json"));
-        ShortcutRegistry registry = new(preferences);
+        ShortcutRegistry registry = new(preferences.Shortcuts, () => PreferencesStore.Save(preferences));
         ShellViewModel model = new(preferences, registry, vault);
 
         registry.Register("shell.settings", "Open settings", "General",

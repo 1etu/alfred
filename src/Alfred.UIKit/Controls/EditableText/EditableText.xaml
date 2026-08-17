@@ -1,0 +1,25 @@
+<UserControl x:Class="Alfred.UIKit.Controls.EditableText"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Name="Root">
+  <Grid>
+    <TextBlock x:Name="Display"
+               Text="{Binding Text, ElementName=Root}"
+               Style="{StaticResource RowTitle}"
+               MouseLeftButtonDown="OnDisplayClick" />
+    <TextBox x:Name="Editor"
+             Visibility="Collapsed"
+             Background="Transparent"
+             BorderThickness="0"
+             Padding="0"
+             Margin="-1,0,0,0"
+             FontFamily="{StaticResource AppFont}"
+             FontSize="{StaticResource RowFontSize}"
+             FontWeight="Medium"
+             Foreground="{DynamicResource TextPrimary}"
+             CaretBrush="{DynamicResource Accent}"
+             VerticalContentAlignment="Center"
+             PreviewKeyDown="OnEditorKeyDown"
+             LostKeyboardFocus="OnEditorLostFocus" />
+  </Grid>
+</UserControl>

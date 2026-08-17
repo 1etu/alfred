@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <Resource Include="Resources\Alfred.ico" />
-    <EmbeddedResource Include="Resources\Brands\brands.json*" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(RuntimeIdentifier)' != ''">
@@ -25,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Alfred.Core\Alfred.Core.csproj" />
     <ProjectReference Include="..\Alfred.Theme\Alfred.Theme.csproj" />
+    <ProjectReference Include="..\Alfred.UIKit\Alfred.UIKit.csproj" />
   </ItemGroup>
 
 </Project>

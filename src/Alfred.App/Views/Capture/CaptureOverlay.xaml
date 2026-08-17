@@ -1,0 +1,92 @@
+<UserControl x:Class="Alfred.App.Views.CaptureOverlay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Alfred.UIKit.Controls;assembly=Alfred.UIKit"
+             Visibility="Collapsed">
+  <Grid>
+    <Border Background="#59000000" MouseLeftButtonDown="OnScrimClick" />
+
+    <Border x:Name="Card"
+            Width="620"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,0,0,120"
+            CornerRadius="18"
+            Background="{DynamicResource SheetBackground}"
+            BorderBrush="{DynamicResource Hairline}"
+            BorderThickness="1"
+            RenderTransformOrigin="0.5,0.4"
+            Padding="16,14,16,14">
+      <Border.RenderTransform>
+        <ScaleTransform x:Name="CardScale" ScaleX="0.95" ScaleY="0.95" />
+      </Border.RenderTransform>
+      <StackPanel>
+        <controls:QuickBar x:Name="Bar" TitlePlaceholder="What is it?" Submitted="OnSubmitted" />
+
+        <ItemsControl x:Name="TypeChips" Margin="2,12,0,2">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <StackPanel Orientation="Horizontal" />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <RadioButton GroupName="CaptureType"
+                           IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                           Focusable="False" Cursor="Hand"
+                           AutomationProperties.Name="{Binding Name}">
+                <RadioButton.Template>
+                  <ControlTemplate TargetType="RadioButton">
+                    <Border x:Name="Chip" CornerRadius="10" Padding="11,6,12,7" Margin="0,0,7,0"
+                            Background="Transparent"
+                            RenderTransformOrigin="0.5,0.5">
+                      <Border.RenderTransform>
+                        <ScaleTransform x:Name="ChipScale" ScaleX="1" ScaleY="1" />
+                      </Border.RenderTransform>
+                      <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding Icon}" Width="15" Height="15" Margin="0,1,7,0" VerticalAlignment="Center" />
+                        <TextBlock x:Name="Label" Text="{Binding Name}"
+                                   FontFamily="{StaticResource AppFont}" FontSize="12.5" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextSecondary}" VerticalAlignment="Center" />
+                      </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                      <Trigger Property="IsMouseOver" Value="True">
+                        <Setter TargetName="Chip" Property="Background" Value="{DynamicResource SheetHover}" />
+                      </Trigger>
+                      <Trigger Property="IsChecked" Value="True">
+                        <Setter TargetName="Chip" Property="Background"
+                                Value="{Binding ChipFamily, Converter={StaticResource SourceChip}}" />
+                        <Setter TargetName="Label" Property="Foreground"
+                                Value="{Binding ChipFamily, Converter={StaticResource SourceChip}, ConverterParameter=text}" />
+                        <Trigger.EnterActions>
+                          <BeginStoryboard>
+                            <Storyboard>
+                              <DoubleAnimation Storyboard.TargetName="ChipScale" Storyboard.TargetProperty="ScaleX"
+                                               From="0.92" To="1" Duration="0:0:0.18">
+                                <DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.6" /></DoubleAnimation.EasingFunction>
+                              </DoubleAnimation>
+                              <DoubleAnimation Storyboard.TargetName="ChipScale" Storyboard.TargetProperty="ScaleY"
+                                               From="0.92" To="1" Duration="0:0:0.18">
+                                <DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.6" /></DoubleAnimation.EasingFunction>
+                              </DoubleAnimation>
+                            </Storyboard>
+                          </BeginStoryboard>
+                        </Trigger.EnterActions>
+                      </Trigger>
+                    </ControlTemplate.Triggers>
+                  </ControlTemplate>
+                </RadioButton.Template>
+              </RadioButton>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <TextBlock Margin="4,8,0,0"
+                   FontFamily="{StaticResource AppFontSmall}" FontSize="11.5"
+                   Foreground="{DynamicResource TextSecondary}"
+                   Text="Type it naturally — 'rent 42.000 in 3 days' · Enter saves · Esc closes" />
+      </StackPanel>
+    </Border>
+  </Grid>
+</UserControl>

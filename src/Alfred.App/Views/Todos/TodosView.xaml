@@ -1,0 +1,95 @@
+<UserControl x:Class="Alfred.App.Views.TodosView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Alfred.UIKit.Controls;assembly=Alfred.UIKit">
+  <UserControl.Resources>
+    <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+
+    <DataTemplate x:Key="TodoRowTemplate">
+      <Border x:Name="Row" Style="{StaticResource ItemRow}">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="26" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+
+          <ToggleButton Grid.Column="0" Style="{StaticResource CheckCircle}" HorizontalAlignment="Left"
+                        IsChecked="{Binding IsDone, Mode=TwoWay}" />
+
+          <TextBlock Grid.Column="1" Text="{Binding Title}">
+            <TextBlock.Style>
+              <Style TargetType="TextBlock" BasedOn="{StaticResource RowTitle}">
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding IsDone}" Value="True">
+                    <Setter Property="Opacity" Value="0.45" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </TextBlock.Style>
+          </TextBlock>
+
+          <TextBlock Grid.Column="2" Margin="12,0,0,0" Text="{Binding Meta}">
+            <TextBlock.Style>
+              <Style TargetType="TextBlock" BasedOn="{StaticResource RowMeta}">
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding IsOverdue}" Value="True">
+                    <Setter Property="Foreground" Value="{DynamicResource Overdue}" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </TextBlock.Style>
+          </TextBlock>
+
+          <Button Grid.Column="3" Margin="8,0,0,0" Click="OnRemoveRow">
+            <Button.Style>
+              <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
+                <Setter Property="Opacity" Value="0" />
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding IsMouseOver, ElementName=Row}" Value="True">
+                    <Setter Property="Opacity" Value="1" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </Button.Style>
+            <Viewbox Width="13" Height="13">
+              <Canvas Width="24" Height="24">
+                <Path Data="{StaticResource TrashGlyph}" Fill="{DynamicResource TextSecondary}" />
+              </Canvas>
+            </Viewbox>
+          </Button>
+        </Grid>
+      </Border>
+    </DataTemplate>
+  </UserControl.Resources>
+
+  <ScrollViewer Style="{StaticResource PageRoot}">
+    <StackPanel Style="{StaticResource PageBody}">
+      <StackPanel Orientation="Horizontal" Margin="0,44,0,14">
+        <Image Source="{StaticResource TodosIcon}" Width="24" Height="24" Margin="0,3,10,0" VerticalAlignment="Center" />
+        <TextBlock Text="TODOs" Style="{StaticResource BigTitle}" />
+      </StackPanel>
+
+      <controls:QuickBar x:Name="Bar"
+                         Margin="0,0,0,22"
+                         TitlePlaceholder="Add a todo…"
+                         Submitted="OnQuickAdd" />
+
+      <ItemsControl ItemsSource="{Binding Open}" ItemTemplate="{StaticResource TodoRowTemplate}" />
+
+      <StackPanel Visibility="{Binding HasLogbook, Converter={StaticResource BoolToVisibility}}">
+        <TextBlock Text="{Binding LogbookHeader}" Style="{StaticResource DayHeader}" />
+        <ItemsControl ItemsSource="{Binding Logbook}" ItemTemplate="{StaticResource TodoRowTemplate}" Opacity="0.8" />
+      </StackPanel>
+
+      <StackPanel HorizontalAlignment="Center" Margin="0,120,0,0" Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVisibility}}">
+        <Image Source="{StaticResource AlfredCryingIcon}" Width="80" Height="80" Opacity="0.4" />
+        <TextBlock Text="Nothing to do. Suspiciously nothing."
+                   Margin="0,14,0,0" HorizontalAlignment="Center"
+                   FontFamily="{StaticResource AppFont}" FontSize="14"
+                   Foreground="{DynamicResource TextSecondary}" />
+      </StackPanel>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

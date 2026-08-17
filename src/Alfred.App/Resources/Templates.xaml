@@ -1,13 +1,6 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:vm="clr-namespace:Alfred.App.ViewModels"
-                    xmlns:suggest="clr-namespace:Alfred.App.Suggest">
-
-  <suggest:BrandTileImageConverter x:Key="BrandTileImage" />
-  <suggest:IsNotNullConverter x:Key="IsNotNull" />
-  <suggest:GlyphLookupConverter x:Key="GlyphLookup" />
-  <suggest:SourceChipConverter x:Key="SourceChip" />
-  <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+                    xmlns:vm="clr-namespace:Alfred.App.ViewModels">
 
   <DataTemplate DataType="{x:Type vm:AgendaViewModel+DayHeaderRow}">
     <StackPanel>

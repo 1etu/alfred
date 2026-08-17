@@ -1,0 +1,11 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:Alfred.UIKit.Converters">
+
+  <converters:BrandTileImageConverter x:Key="BrandTileImage" />
+  <converters:IsNotNullConverter x:Key="IsNotNull" />
+  <converters:GlyphLookupConverter x:Key="GlyphLookup" />
+  <converters:SourceChipConverter x:Key="SourceChip" />
+  <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+
+</ResourceDictionary>

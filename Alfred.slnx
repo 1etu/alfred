@@ -3,6 +3,7 @@
     <Project Path="src/Alfred.App/Alfred.App.csproj" />
     <Project Path="src/Alfred.Core/Alfred.Core.csproj" />
     <Project Path="src/Alfred.Theme/Alfred.Theme.csproj" />
+    <Project Path="src/Alfred.UIKit/Alfred.UIKit.csproj" />
     <Project Path="src/Alfred.Widgets/Alfred.Widgets.csproj" />
   </Folder>
   <Folder Name="/tests/">

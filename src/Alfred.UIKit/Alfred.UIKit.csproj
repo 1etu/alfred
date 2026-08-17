@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>Alfred.UIKit</RootNamespace>
+    <AssemblyName>Alfred.UIKit</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Suggest\brands.json*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Alfred.Core\Alfred.Core.csproj" />
+    <ProjectReference Include="..\Alfred.Theme\Alfred.Theme.csproj" />
+  </ItemGroup>
+
+</Project>
