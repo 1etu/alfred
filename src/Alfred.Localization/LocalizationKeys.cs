@@ -50,6 +50,21 @@ public static class LocalizationKeys
     public const string ChipBrand = "Loc.Chip.Brand";
     public const string ChipRemove = "Loc.Chip.Remove";
 
+    public const string UpdateChecking = "Loc.Update.Checking";
+    public const string UpdateUpToDate = "Loc.Update.UpToDate";
+    public const string UpdateAvailable = "Loc.Update.Available";
+    public const string UpdateDownloading = "Loc.Update.Downloading";
+    public const string UpdateReady = "Loc.Update.Ready";
+    public const string UpdateRestarting = "Loc.Update.Restarting";
+    public const string UpdateCancelled = "Loc.Update.Cancelled";
+    public const string UpdateNothingToDownload = "Loc.Update.NothingToDownload";
+    public const string UpdateNotDownloaded = "Loc.Update.NotDownloaded";
+    public const string UpdateGitHubStatus = "Loc.Update.GitHubStatus";
+    public const string UpdateTimedOut = "Loc.Update.TimedOut";
+    public const string UpdateBadListing = "Loc.Update.BadListing";
+    public const string UpdateBadArchive = "Loc.Update.BadArchive";
+    public const string UpdateNotWritable = "Loc.Update.NotWritable";
+
     public const string ShortcutPrompt = "Loc.Shortcut.Prompt";
     public const string ShortcutUsedBy = "Loc.Shortcut.UsedBy";
     public const string ShortcutReserved = "Loc.Shortcut.Reserved";

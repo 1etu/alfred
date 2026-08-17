@@ -5,11 +5,13 @@
     <Project Path="src/Alfred.Localization/Alfred.Localization.csproj" />
     <Project Path="src/Alfred.Theme/Alfred.Theme.csproj" />
     <Project Path="src/Alfred.UIKit/Alfred.UIKit.csproj" />
+    <Project Path="src/Alfred.Update/Alfred.Update.csproj" />
     <Project Path="src/Alfred.Widgets/Alfred.Widgets.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Alfred.Core.Tests/Alfred.Core.Tests.csproj" />
     <Project Path="tests/Alfred.Localization.Tests/Alfred.Localization.Tests.csproj" />
     <Project Path="tests/Alfred.Theme.Tests/Alfred.Theme.Tests.csproj" />
+    <Project Path="tests/Alfred.Update.Tests/Alfred.Update.Tests.csproj" />
   </Folder>
 </Solution>
