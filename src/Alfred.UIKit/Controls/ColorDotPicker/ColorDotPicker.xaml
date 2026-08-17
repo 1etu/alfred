@@ -1,0 +1,74 @@
+<UserControl x:Class="Alfred.UIKit.Controls.ColorDotPicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Alfred.UIKit.Controls">
+  <ListBox x:Name="Dots"
+           Background="Transparent"
+           BorderThickness="0"
+           Padding="0"
+           SelectionChanged="OnSelectionChanged"
+           ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+           ScrollViewer.VerticalScrollBarVisibility="Disabled"
+           KeyboardNavigation.DirectionalNavigation="Cycle">
+    <ListBox.ItemsPanel>
+      <ItemsPanelTemplate>
+        <StackPanel Orientation="Horizontal" />
+      </ItemsPanelTemplate>
+    </ListBox.ItemsPanel>
+    <ListBox.ItemContainerStyle>
+      <Style TargetType="ListBoxItem">
+        <Setter Property="AutomationProperties.Name" Value="{Binding NameKey, Converter={StaticResource LocalizedText}}" />
+        <Setter Property="ToolTip" Value="{Binding NameKey, Converter={StaticResource LocalizedText}}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Margin" Value="0,0,4,0" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="ListBoxItem">
+              <Grid Width="26" Height="26" Background="Transparent">
+                <Ellipse x:Name="Ring"
+                         Width="24"
+                         Height="24"
+                         StrokeThickness="2"
+                         Stroke="{Binding BrushKey, Converter={StaticResource BrushLookup}}"
+                         Opacity="0" />
+                <Ellipse x:Name="Dot"
+                         Width="16"
+                         Height="16"
+                         Fill="{Binding BrushKey, Converter={StaticResource BrushLookup}}"
+                         RenderTransformOrigin="0.5,0.5">
+                  <Ellipse.RenderTransform>
+                    <ScaleTransform x:Name="DotScale" ScaleX="1" ScaleY="1" />
+                  </Ellipse.RenderTransform>
+                </Ellipse>
+              </Grid>
+              <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                  <Setter TargetName="Ring" Property="Opacity" Value="0.35" />
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                  <Setter TargetName="Ring" Property="Opacity" Value="1" />
+                  <Trigger.EnterActions>
+                    <BeginStoryboard>
+                      <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="DotScale" Storyboard.TargetProperty="ScaleX" From="0.8" To="1" Duration="0:0:0.18">
+                          <DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.6" /></DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="DotScale" Storyboard.TargetProperty="ScaleY" From="0.8" To="1" Duration="0:0:0.18">
+                          <DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.6" /></DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                      </Storyboard>
+                    </BeginStoryboard>
+                  </Trigger.EnterActions>
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                  <Setter TargetName="Ring" Property="Opacity" Value="1" />
+                  <Setter TargetName="Ring" Property="StrokeDashArray" Value="2 1.2" />
+                </Trigger>
+              </ControlTemplate.Triggers>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+    </ListBox.ItemContainerStyle>
+  </ListBox>
+</UserControl>

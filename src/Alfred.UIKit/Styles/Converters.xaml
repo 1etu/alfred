@@ -3,8 +3,10 @@
                     xmlns:converters="clr-namespace:Alfred.UIKit.Converters">
 
   <converters:BrandTileImageConverter x:Key="BrandTileImage" />
+  <converters:BrushLookupConverter x:Key="BrushLookup" />
   <converters:IsNotNullConverter x:Key="IsNotNull" />
   <converters:GlyphLookupConverter x:Key="GlyphLookup" />
+  <converters:LocalizedTextConverter x:Key="LocalizedText" />
   <converters:SourceChipConverter x:Key="SourceChip" />
   <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
 
