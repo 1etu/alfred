@@ -43,6 +43,15 @@
     "Loc.Capture.Hint.Closes": "kapatır",
     "Loc.Capture.Hint.Completes": "tamamlar",
 
+    "Loc.Color.Red": "Kırmızı",
+    "Loc.Color.Orange": "Turuncu",
+    "Loc.Color.Yellow": "Sarı",
+    "Loc.Color.Green": "Yeşil",
+    "Loc.Color.Teal": "Turkuaz",
+    "Loc.Color.Blue": "Mavi",
+    "Loc.Color.Purple": "Mor",
+    "Loc.Color.Pink": "Pembe",
+
     "Loc.Chip.Amount": "Tutar",
     "Loc.Chip.Date": "Tarih",
     "Loc.Chip.Time": "Saat",

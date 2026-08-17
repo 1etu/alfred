@@ -43,6 +43,15 @@
     "Loc.Capture.Hint.Closes": "closes",
     "Loc.Capture.Hint.Completes": "completes",
 
+    "Loc.Color.Red": "Red",
+    "Loc.Color.Orange": "Orange",
+    "Loc.Color.Yellow": "Yellow",
+    "Loc.Color.Green": "Green",
+    "Loc.Color.Teal": "Teal",
+    "Loc.Color.Blue": "Blue",
+    "Loc.Color.Purple": "Purple",
+    "Loc.Color.Pink": "Pink",
+
     "Loc.Chip.Amount": "Amount",
     "Loc.Chip.Date": "Date",
     "Loc.Chip.Time": "Time",

@@ -44,6 +44,15 @@ public static class LocalizationKeys
     public const string CaptureHintCloses = "Loc.Capture.Hint.Closes";
     public const string CaptureHintCompletes = "Loc.Capture.Hint.Completes";
 
+    public const string ColorRed = "Loc.Color.Red";
+    public const string ColorOrange = "Loc.Color.Orange";
+    public const string ColorYellow = "Loc.Color.Yellow";
+    public const string ColorGreen = "Loc.Color.Green";
+    public const string ColorTeal = "Loc.Color.Teal";
+    public const string ColorBlue = "Loc.Color.Blue";
+    public const string ColorPurple = "Loc.Color.Purple";
+    public const string ColorPink = "Loc.Color.Pink";
+
     public const string ChipAmount = "Loc.Chip.Amount";
     public const string ChipDate = "Loc.Chip.Date";
     public const string ChipTime = "Loc.Chip.Time";
