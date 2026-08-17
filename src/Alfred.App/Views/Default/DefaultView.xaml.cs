@@ -2,9 +2,9 @@ using System.Windows.Controls;
 
 namespace Alfred.App.Views;
 
-public partial class MealsView : UserControl
+public partial class DefaultView : UserControl
 {
-    public MealsView()
+    public DefaultView()
     {
         InitializeComponent();
     }

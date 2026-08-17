@@ -1,14 +1,13 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Windows;
 using System.Windows.Data;
-using System.Windows.Media;
 using Alfred.App.Preferences;
 using Alfred.Core.Agenda;
 using Alfred.Core.Ledger;
 using Alfred.Core.Storage;
 using Alfred.UIKit;
 using Alfred.UIKit.Controls;
+using Alfred.UIKit.Icons;
 using Alfred.UIKit.Input;
 
 namespace Alfred.App.ViewModels;
@@ -16,12 +15,12 @@ namespace Alfred.App.ViewModels;
 public sealed class ShellViewModel : Observable
 {
     private readonly ObservableCollection<SidebarItem> _items = [];
-    private readonly Dictionary<string, Func<object>> _factories;
-    private readonly Dictionary<string, object> _pages = [];
+    private readonly Dictionary<string, Func<PageViewModel>> _factories = [];
+    private readonly Dictionary<string, PageViewModel> _pages = [];
     private readonly UserPreferences _preferences;
     private SidebarItem _selectedItem;
     private bool _isSettingsOpen;
-    private object _currentContent = null!;
+    private object _currentContent;
 
     public ShellViewModel(UserPreferences preferences, ShortcutRegistry shortcuts, Vault vault)
     {
@@ -29,21 +28,6 @@ public sealed class ShellViewModel : Observable
         Vault = vault;
         Shortcuts = shortcuts;
         Settings = new SettingsViewModel(preferences, shortcuts, vault);
-
-        _factories = new Dictionary<string, Func<object>>
-        {
-            ["Today"] = () => new AgendaViewModel(vault, AgendaMode.Today),
-            ["Upcoming"] = () => new AgendaViewModel(vault, AgendaMode.Upcoming),
-            ["Plans"] = () => new PlansViewModel(vault),
-            ["TODOs"] = () => new TodosViewModel(vault),
-            ["Free Board"] = () => new BoardViewModel(vault),
-            ["Calendar"] = () => new CalendarViewModel(vault),
-            ["Reminders"] = () => new RemindersViewModel(vault),
-            ["Payments"] = () => new PaymentsViewModel(vault),
-            ["Wish List"] = () => new WishesViewModel(vault),
-            ["Meals"] = () => new MealsViewModel(vault),
-            ["Trash"] = () => new TrashViewModel(vault),
-        };
 
         Add("overview", "Today", "TodayIcon");
         Add("overview", "Upcoming", "UpcomingIcon");
@@ -55,12 +39,15 @@ public sealed class ShellViewModel : Observable
         Add("money", "Payments", "PaymentsIcon");
         Add("money", "Wish List", "WishListIcon");
         Add("life", "Meals", "MealsIcon");
+        Register("Trash", "TrashIcon");
+
+        _factories["Meals"] = () => new MealsViewModel(vault);
 
         Items = CollectionViewSource.GetDefaultView(_items);
         Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(SidebarItem.Group)));
 
         _selectedItem = _items[0];
-        _currentContent = Resolve("Today");
+        _currentContent = Resolve(_selectedItem.Title);
 
         vault.Changed += (_, _) => RefreshCounts();
         RefreshCounts();
@@ -77,28 +64,8 @@ public sealed class ShellViewModel : Observable
     public object CurrentContent
     {
         get => _currentContent;
-        private set
-        {
-            if (Set(ref _currentContent, value))
-            {
-                Raise(nameof(ToolbarActions));
-                Raise(nameof(HasToolbar));
-                Raise(nameof(HasPrimaryAction));
-                Raise(nameof(PrimaryActionName));
-            }
-        }
+        private set => Set(ref _currentContent, value);
     }
-
-    public IReadOnlyList<ToolbarAction>? ToolbarActions =>
-        (_currentContent as IToolbarHost)?.Actions;
-
-    public bool HasToolbar => ToolbarActions is { Count: > 0 };
-
-    public string? PrimaryActionName => (_currentContent as IToolbarHost)?.PrimaryActionName;
-
-    public bool HasPrimaryAction => PrimaryActionName is not null;
-
-    public void InvokePrimary() => (_currentContent as IToolbarHost)?.InvokePrimary();
 
     public SidebarItem SelectedItem
     {
@@ -202,9 +169,9 @@ public sealed class ShellViewModel : Observable
         }
     }
 
-    private object Resolve(string title)
+    private PageViewModel Resolve(string title)
     {
-        if (!_pages.TryGetValue(title, out object? page))
+        if (!_pages.TryGetValue(title, out PageViewModel? page))
         {
             page = _factories[title]();
             _pages[title] = page;
@@ -232,7 +199,10 @@ public sealed class ShellViewModel : Observable
 
     private void Add(string group, string title, string iconKey)
     {
-        ImageSource icon = (ImageSource)Application.Current.Resources[iconKey];
-        _items.Add(new SidebarItem(group, title, icon));
+        _items.Add(new SidebarItem(group, title, IconLibrary.Resolve(iconKey)));
+        Register(title, iconKey);
     }
+
+    private void Register(string title, string iconKey) =>
+        _factories[title] = () => new DefaultViewModel(title, iconKey);
 }

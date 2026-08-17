@@ -31,38 +31,14 @@
   </shell:WindowChrome.WindowChrome>
 
   <Window.Resources>
-    <DataTemplate DataType="{x:Type vm:AgendaViewModel}">
-      <views:AgendaView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type vm:PaymentsViewModel}">
-      <views:PaymentsView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type vm:TodosViewModel}">
-      <views:TodosView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type vm:RemindersViewModel}">
-      <views:RemindersView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type vm:PlansViewModel}">
-      <views:PlansView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type vm:BoardViewModel}">
-      <views:BoardView />
+    <DataTemplate DataType="{x:Type vm:DefaultViewModel}">
+      <views:DefaultView />
     </DataTemplate>
     <DataTemplate DataType="{x:Type vm:MealsViewModel}">
       <views:MealsView />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type vm:WishesViewModel}">
-      <views:WishesView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type vm:CalendarViewModel}">
-      <views:CalendarView />
-    </DataTemplate>
     <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
       <views:SettingsView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type vm:TrashViewModel}">
-      <views:TrashView />
     </DataTemplate>
   </Window.Resources>
 

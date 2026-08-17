@@ -9,6 +9,14 @@ public static class IconLibrary
     private static readonly Dictionary<string, DrawingImage> Authored = [];
     private static bool _isTracking;
 
+    public static ImageSource Resolve(string key)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(key);
+
+        return Application.Current.Resources[key] as ImageSource
+            ?? throw new InvalidOperationException($"Icon '{key}' is not registered.");
+    }
+
     public static void Track(ResourceDictionary root)
     {
         ArgumentNullException.ThrowIfNull(root);

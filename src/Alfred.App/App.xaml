@@ -6,7 +6,6 @@
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <uikit:UIKitResources />
-        <ResourceDictionary Source="Resources/Templates.xaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>

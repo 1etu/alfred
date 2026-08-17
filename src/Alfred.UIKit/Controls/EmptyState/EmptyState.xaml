@@ -1,0 +1,29 @@
+<UserControl x:Class="Alfred.UIKit.Controls.EmptyState"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Name="Root">
+  <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+
+    <Image Source="{DynamicResource AlfredCryingIcon}"
+           Width="76"
+           Height="76"
+           HorizontalAlignment="Center" />
+
+    <TextBlock Text="{Binding Message, ElementName=Root}"
+               Margin="0,20,0,0"
+               HorizontalAlignment="Center"
+               FontFamily="{StaticResource AppFontDisplay}"
+               FontSize="15"
+               FontWeight="SemiBold"
+               Foreground="{DynamicResource TextPrimary}" />
+
+    <TextBlock Text="{Binding Label, ElementName=Root}"
+               Margin="0,6,0,0"
+               HorizontalAlignment="Center"
+               Opacity="0.6"
+               FontFamily="{StaticResource AppFont}"
+               FontSize="13"
+               Foreground="{DynamicResource TextSecondary}" />
+
+  </StackPanel>
+</UserControl>

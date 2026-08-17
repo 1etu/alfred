@@ -14,7 +14,7 @@ using Alfred.UIKit.Input;
 
 namespace Alfred.App.ViewModels;
 
-public sealed class SettingsViewModel : Observable, IToolbarHost
+public sealed class SettingsViewModel : Observable
 {
     private const string PortalUrl = "https://entra.microsoft.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade";
 
@@ -28,11 +28,6 @@ public sealed class SettingsViewModel : Observable, IToolbarHost
         Shortcuts = shortcuts;
         Account = new MicrosoftAccount();
         Updates = new UpdateService();
-
-        Actions =
-        [
-            new ToolbarAction("Open Azure portal", "SyncGlyph", OpenPortal),
-        ];
     }
 
     public ShortcutRegistry Shortcuts { get; }
@@ -40,14 +35,6 @@ public sealed class SettingsViewModel : Observable, IToolbarHost
     internal MicrosoftAccount Account { get; }
 
     public UpdateService Updates { get; }
-
-    public IReadOnlyList<ToolbarAction> Actions { get; }
-
-    public string? PrimaryActionName => null;
-
-    public void InvokePrimary()
-    {
-    }
 
     public bool IsSystemTheme
     {

@@ -2,9 +2,11 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using Alfred.App.ViewModels;
 using Alfred.UIKit;
+using Alfred.UIKit.Icons;
 using Alfred.UIKit.Suggest;
 
 namespace Alfred.App.Views;
@@ -21,7 +23,7 @@ public partial class CaptureOverlay : UserControl
             Kind = kind;
             Name = name;
             ChipFamily = chipFamily;
-            Icon = Application.Current.Resources[iconKey] as System.Windows.Media.ImageSource;
+            Icon = IconLibrary.Resolve(iconKey);
             _owner = owner;
             _isSelected = selected;
         }
@@ -32,7 +34,7 @@ public partial class CaptureOverlay : UserControl
 
         public string ChipFamily { get; }
 
-        public System.Windows.Media.ImageSource? Icon { get; }
+        public ImageSource Icon { get; }
 
         public bool IsSelected
         {
@@ -78,8 +80,8 @@ public partial class CaptureOverlay : UserControl
             EasingFunction = new BackEase { EasingMode = EasingMode.EaseOut, Amplitude = 0.55 },
         };
 
-        CardScale.BeginAnimation(System.Windows.Media.ScaleTransform.ScaleXProperty, pop);
-        CardScale.BeginAnimation(System.Windows.Media.ScaleTransform.ScaleYProperty, pop);
+        CardScale.BeginAnimation(ScaleTransform.ScaleXProperty, pop);
+        CardScale.BeginAnimation(ScaleTransform.ScaleYProperty, pop);
     }
 
     public void Close() => Visibility = Visibility.Collapsed;
